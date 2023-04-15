@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Bicicletas</title>
+</head>
+<body>
+<h1>Listado de Bicicletas</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Cliente</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="bicicleta : ${bicicletas}">
+            <td th:text="${bicicleta.id}"></td>
+            <td th:text="${bicicleta.marca}"></td>
+            <td th:text="${bicicleta.modelo}"></td>
+            <td th:text="${bicicleta.cliente.nombre}"></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
