@@ -1,24 +1,35 @@
 package com.springweb.taller.Modelo;
 
-import org.springframework.data.annotation.Id;
+import javax.persistence.Id;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
+@Table(name = "clientes")
 @Entity
 public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
+    @Column(name = "nombre")
     private String nombre;
+
+    @Column(name = "apellidos")
     private String apellidos;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "telefono")
     private String telefono;
 
     @OneToMany(mappedBy = "cliente")
@@ -83,8 +94,6 @@ public class Cliente {
 
     public void setBicicletas(List<Bicicleta> bicicletas) {
         this.bicicletas = bicicletas;
-    }
-
-    
+    }   
     
 }

@@ -13,7 +13,7 @@ import java.util.Optional;
 public class ReparacionService {
 
     @Autowired
-    private Reparacion reparacionRepository;
+    private ReparacionRepository reparacionRepository;
 
     public List<Reparacion> findAll() {
         return reparacionRepository.findAll();

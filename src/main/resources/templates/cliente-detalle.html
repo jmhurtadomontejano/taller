@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Detalle del Cliente</title>
+    <!-- Agregar Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="my-4">Detalle del Cliente</h1>
+      <table class="table table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo electrónico</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td th:text="${cliente.id}"></td>
+            <td th:text="${cliente.nombre}"></td>
+            <td th:text="${cliente.email}"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Agregar scripts de jQuery y Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

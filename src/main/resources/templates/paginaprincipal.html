@@ -1,0 +1,24 @@
+<!-- Voy a escribir la página web principal de mi "tienda de Bicicletas" con botones de acceso para registrar clientes y bicicletas que deben llevar a las rutas: http://localhost:8081/clientes y http://localhost:8081/bicicletas/bicicletas-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mi Tienda de bicicletas</title>
+</head>
+<body>
+    <h1>Bienvenido a mi taller de Bicicletas, <span th:text="${nombre}"></span>!</h1>
+<!-- Botón para ir a la página de clientes con bootstrap y responsive -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <a href="http://localhost:8081/clientes" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Clientes</a>
+            </div>
+<!-- Botón para ir a la página de bicicletas con bootstrap y responsive -->
+            <div class="col-sm-4">
+                <a href="http://localhost:8081/bicicletas/listado-bicicletas" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Bicicletas</a>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

@@ -5,6 +5,7 @@ import com.springweb.taller.Services.BicicletaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RestController
+@Controller //se utiliza para construir aplicaciones web y devuelve vistas.
+//@RestController // es una versión especializada de @Controller que se utiliza para construir servicios RESTful y devuelve directamente objetos JSON. incompatible con @Controller
 @RequestMapping("/bicicletas")
 public class BicicletaController {
 
@@ -35,11 +36,24 @@ public class BicicletaController {
     }
 
     // Crear una nueva bicicleta (POST)
-    @PostMapping
-    public ResponseEntity<Bicicleta> createBicicleta(@RequestBody Bicicleta bicicleta) {
+  /*   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Bicicleta> createBicicleta(@ModelAttribute Bicicleta bicicleta) {
         Bicicleta newBicicleta = bicicletaService.save(bicicleta);
         return new ResponseEntity<>(newBicicleta, HttpStatus.CREATED);
     }
+  @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+public String createBicicleta(@ModelAttribute Bicicleta bicicleta, Model model) {
+    Bicicleta newBicicleta = bicicletaService.save(bicicleta);
+    model.addAttribute("newBicicleta", newBicicleta);
+    return "redirect:/bicicletas/listado-bicicletas?success=true";*/
+    //POSTMapping con retorno de datos
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+public ResponseEntity<Bicicleta> createBicicleta(@ModelAttribute Bicicleta bicicleta) {
+    Bicicleta newBicicleta = bicicletaService.save(bicicleta);
+    return new ResponseEntity<>(newBicicleta, HttpStatus.CREATED);
+
+
+}  
 
     // Actualizar una bicicleta existente (PUT)
     @PutMapping("/{id}")
@@ -55,15 +69,25 @@ public class BicicletaController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    //Creando la interfaz web
+    // Creando la interfaz web
     public BicicletaController(BicicletaService bicicletaService) {
         this.bicicletaService = bicicletaService;
     }
 
-    @GetMapping("/bicicletas")
+    @GetMapping("/listado-bicicletas")
     public String listarBicicletas(Model model) {
         List<Bicicleta> bicicletas = bicicletaService.findAll();
         model.addAttribute("bicicletas", bicicletas);
+        model.addAttribute("bicicleta", new Bicicleta()); // Añade esta línea
         return "listado-bicicletas";
     }
+
+    /*
+     * @GetMapping("/bicicletas")
+     * public String listarBicicletas(Model model) {
+     * List<Bicicleta> bicicletas = bicicletaService.findAll();
+     * model.addAttribute("bicicletas", bicicletas);
+     * return "listado-bicicletas";
+     * }
+     */
 }

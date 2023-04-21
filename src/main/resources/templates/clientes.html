@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+    <html lang="es" xmlns:th="http://www.thymeleaf.org">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Clientes</title>
+        <link
+          rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      </head>
+      <title>Mi página CLIENTES</title>
+      <body>
+        <h1>
+          Bienvenido a mi página, CLIENTES <span th:text="${nombre}"></span>!
+        </h1>
+
+        <div class="container mt-5">
+          <h1>Clientes</h1>
+          <button
+            type="button"
+            class="btn btn-primary mb-3"
+            data-toggle="modal"
+            data-target="#addClienteModal"
+          >
+            Añadir cliente
+          </button>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr th:each="cliente : ${clientes}">
+                    <td th:text="${cliente.nombre}"></td>
+                    <td th:text="${cliente.apellidos}"></td>
+                    <td th:text="${cliente.email}"></td>
+                    <td th:text="${cliente.telefono}"></td>
+                    <!-- Aquí puedes agregar más celdas para mostrar otros campos del cliente -->
+                </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Modal para añadir cliente -->
+        <div
+          class="modal fade"
+          id="addClienteModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Añadir cliente</h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="addClienteForm">
+                  <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="nombre"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="apellidos">Apellidos</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="apellidos"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="telefono"
+                      required
+                    />
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Cerrar
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="saveClienteButton"
+                >
+                  Guardar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal de confirmación para eliminar cliente -->
+        <div
+          class="modal fade"
+          id="deleteClienteModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="deleteModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">
+                  Eliminar cliente
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                ¿Está seguro de que desea eliminar este cliente?
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  id="confirmDeleteButton"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </body>
+    </html>
+    <script>/*Este código JavaScript hace lo siguiente:
+        Escucha el evento click del botón "Guardar" en el modal.
+        Obtiene los valores de los campos del formulario.
+        Crea un objeto JSON llamado clienteData con los valores del formulario.
+        Realiza una solicitud AJAX de tipo POST a la URL /clientes/api, enviando el objeto clienteData como el cuerpo de la solicitud.
+        Si la solicitud se realiza con éxito, cierra el modal, muestra una alerta y recarga la página.
+        Si ocurre un error, muestra una alerta y registra el error en la consola.*/
+        $(document).ready(function () {
+          $("#saveClienteButton").click(function () {
+            const nombre = $("#nombre").val();
+            const apellidos = $("#apellidos").val();
+            const email = $("#email").val();
+            const telefono = $("#telefono").val();
+      
+            const clienteData = {
+              nombre: nombre,
+              apellidos: apellidos,
+              email: email,
+              telefono: telefono,
+            };
+      
+            $.ajax({
+              url: "/clientes/api",
+              type: "POST",
+              contentType: "application/json",
+              data: JSON.stringify(clienteData),
+              success: function (response) {
+                $("#addClienteModal").modal("hide");
+                alert("Cliente añadido exitosamente.");
+                location.reload();
+              },
+              error: function (error) {
+                alert("Error al añadir el cliente. Por favor, verifica los datos e intenta de nuevo.");
+                console.error("Error al añadir cliente:", error);
+              },
+            });
+          });
+        });
+      </script>
+      
+  </body>
+</html>

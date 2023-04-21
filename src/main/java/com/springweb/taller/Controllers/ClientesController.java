@@ -1,20 +1,24 @@
 package com.springweb.taller.Controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.springweb.taller.Modelo.Cliente;
 import com.springweb.taller.Services.ClienteService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 import java.util.List;
 
-@RestController
+@Controller // se utiliza para construir aplicaciones web y devuelve vistas.
+// @RestController // es una versión especializada de @Controller que se utiliza
+// para construir servicios RESTful y devuelve directamente objetos JSON.
+// incompatible con @Controller
 @RequestMapping("/clientes")
 public class ClientesController {
 
@@ -23,6 +27,14 @@ public class ClientesController {
 
     // Obtener todos los clientes
     @GetMapping
+    public String getAllClientes(Model model) {
+        List<Cliente> clientes = clienteService.findAll();
+        model.addAttribute("clientes", clientes);
+        return "clientes";
+    }
+
+    // obtener todos los clientes api
+    @GetMapping("/api")
     public ResponseEntity<List<Cliente>> getAllClientes() {
         List<Cliente> clientes = clienteService.findAll();
         return new ResponseEntity<>(clientes, HttpStatus.OK);
@@ -30,13 +42,14 @@ public class ClientesController {
 
     // Obtener un cliente por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> getClienteById(@PathVariable Long id) {
+    public String getClienteById(@PathVariable Long id, Model model) {
         Cliente cliente = clienteService.findById(id);
-        return new ResponseEntity<>(cliente, HttpStatus.OK);
+        model.addAttribute("cliente", cliente);
+        return "cliente-detalle";
     }
 
     // Crear un nuevo cliente
-    @PostMapping
+    @PostMapping(path = "/api", consumes = MediaType.APPLICATION_JSON_VALUE) //con path especificamos explícitamente que el método POST se aplica a la ruta /clientes/api.
     public ResponseEntity<Cliente> createCliente(@Valid @RequestBody Cliente cliente) {
         Cliente newCliente = clienteService.save(cliente);
         return new ResponseEntity<>(newCliente, HttpStatus.CREATED);
@@ -55,5 +68,5 @@ public class ClientesController {
         clienteService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-}
 
+}

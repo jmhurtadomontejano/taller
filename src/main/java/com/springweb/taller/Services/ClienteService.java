@@ -5,11 +5,10 @@ import org.springframework.stereotype.Service;
 import com.springweb.taller.Modelo.Cliente;
 import com.springweb.taller.Repositorios.ClienteRepository;
 
-import jakarta.persistence.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ClienteService {
