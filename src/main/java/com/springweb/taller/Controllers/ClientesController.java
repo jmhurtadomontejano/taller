@@ -11,7 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpHeaders;
+
 import javax.validation.Valid;
+
 
 import java.util.List;
 
@@ -49,11 +52,43 @@ public class ClientesController {
     }
 
     // Crear un nuevo cliente
-    @PostMapping(path = "/api", consumes = MediaType.APPLICATION_JSON_VALUE) //con path especificamos explícitamente que el método POST se aplica a la ruta /clientes/api.
-    public ResponseEntity<Cliente> createCliente(@Valid @RequestBody Cliente cliente) {
-        Cliente newCliente = clienteService.save(cliente);
-        return new ResponseEntity<>(newCliente, HttpStatus.CREATED);
+    
+ /*     @PostMapping(path = "/api", consumes = MediaType.APPLICATION_JSON_VALUE)
+      /*con path especificamos explícitamente que el método POST se aplica a la
+      ruta /clientes/api.*/
+   /*   public ResponseEntity<Cliente> createCliente(@Valid @RequestBody Cliente
+      cliente) {
+      Cliente newCliente = clienteService.save(cliente);
+      return new ResponseEntity<>(newCliente, HttpStatus.CREATED);
+      }
+      */  
+
+    // Crear un nuevo cliente comprobando email
+ /*     @PostMapping(path = "/api", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createCliente(@Valid @RequestBody Cliente cliente) {
+        if (clienteService.existsByEmail(cliente.getEmail())) {
+            return new ResponseEntity<>("Ya existe un cliente con el correo electrónico proporcionado.",
+                    HttpStatus.CONFLICT);
+        } else {
+            Cliente newCliente = clienteService.save(cliente);
+            return new ResponseEntity<>(newCliente, HttpStatus.CREATED);
+        }
+     }
+*/
+
+    //Crear un nuevo cliente comprobando email, devolviendo mensaje por JSON
+    @PostMapping(path = "/api", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createCliente(@Valid @RequestBody Cliente cliente) {
+        HttpHeaders responseHeaders = new HttpHeaders();
+        if (clienteService.existsByEmail(cliente.getEmail())) {
+            responseHeaders.set("X-Error-Message", "Ya existe un cliente con el correo electrónico proporcionado.");
+            return new ResponseEntity<>(null, responseHeaders, HttpStatus.CONFLICT);
+        } else {
+            Cliente newCliente = clienteService.save(cliente);
+            return new ResponseEntity<>(newCliente, responseHeaders, HttpStatus.CREATED);
+        }
     }
+    
 
     // Actualizar un cliente existente
     @PutMapping("/{id}")

@@ -46,4 +46,9 @@ public class ClienteService {
         Cliente cliente = findById(id);
         clienteRepository.delete(cliente);
     }
+
+    // Controlar si un cliente existe por su email
+    public boolean existsByEmail(String email) {
+        return clienteRepository.existsByEmail(email);
+    }
 }
