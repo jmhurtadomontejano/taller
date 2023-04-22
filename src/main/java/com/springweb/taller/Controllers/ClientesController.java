@@ -51,8 +51,21 @@ public class ClientesController {
         return "cliente-detalle";
     }
 
-    // Crear un nuevo cliente
+    // Obtener un cliente por ID con ruta /api y @ResponseBody
+    @GetMapping("/{id}/api")
+    @ResponseBody
+    public ResponseEntity<Cliente> getClienteByIdApi(@PathVariable Long id) {
+        System.out.println("Buscando cliente con ID: " + id); // Agregar esta línea
+        Cliente cliente = clienteService.findById(id);
+        if (cliente == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(cliente, HttpStatus.OK);
+    }
     
+
+
+    // Crear un nuevo cliente
  /*     @PostMapping(path = "/api", consumes = MediaType.APPLICATION_JSON_VALUE)
       /*con path especificamos explícitamente que el método POST se aplica a la
       ruta /clientes/api.*/

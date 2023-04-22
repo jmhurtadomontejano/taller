@@ -35,6 +35,13 @@ public class BicicletaController {
         return new ResponseEntity<>(bicicleta, HttpStatus.OK);
     }
 
+    // Obtener bicicletas por marca (GET)
+    @GetMapping("/marca")
+    public ResponseEntity<List<Bicicleta>> getBicicletasPorMarca(@RequestParam String marca) {
+        List<Bicicleta> bicicletas = bicicletaService.findByMarca(marca);
+        return new ResponseEntity<>(bicicletas, HttpStatus.OK);
+    }
+
     // Crear una nueva bicicleta (POST)
   /*   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Bicicleta> createBicicleta(@ModelAttribute Bicicleta bicicleta) {

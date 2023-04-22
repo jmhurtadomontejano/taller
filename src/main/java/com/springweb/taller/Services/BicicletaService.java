@@ -31,6 +31,13 @@ public class BicicletaService {
         }
     }
 
+    // Encontrar una bicicleta por marca
+    public List<Bicicleta> findByMarca(String marca) {
+        // Aquí puedes implementar la lógica para filtrar las bicicletas por marca
+        // Ejemplo: Utilizar un repositorio para buscar las bicicletas con la marca especificada
+        return bicicletaRepository.findByMarca(marca);
+    }
+
     // Guardar una bicicleta
     public Bicicleta save(Bicicleta bicicleta) {
         return bicicletaRepository.save(bicicleta);
