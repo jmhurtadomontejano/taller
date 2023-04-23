@@ -28,6 +28,7 @@ public class ClienteService {
 
     // Guardar un nuevo cliente
     public Cliente save(Cliente cliente) {
+        System.out.println("Guardando cliente: " + cliente.toString());
         return clienteRepository.save(cliente);
     }
 

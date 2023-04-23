@@ -24,7 +24,21 @@
         data-target="#addBikeModal"
         >Agregar bicicleta</a
       >
-
+      <button type="button" class="btn btn-primary my-3" onclick="location.href='/hello'">
+        volver a Home
+        <!--icono home bootstrap-->
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-house-fill"
+            viewBox="0 0 16 16"
+        >
+            <path fill-rule="evenodd" d="M8 3.293l5.5 5.5a.5.5 0 0 1-.707.707L8 4.707 2.707 10.5a.5.5 0 1 1-.707-.707L8 3.293z"/>
+            <path fill-rule="evenodd" d="M7.5 10.5V14h1v-3.5a.5.5 0 0 1 1 0V14h1v-3.5a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2V14h1v-3.5a.5.5 0 0 1 1 0z"/>
+        </svg>
+    </button>
       <table class="table table-striped">
         <thead class="thead-dark">
           <tr>
@@ -32,6 +46,7 @@
             <th>Marca</th>
             <th>Modelo</th>
             <th>Cliente</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -42,6 +57,9 @@
             <td
               th:text="${bicicleta.cliente != null ? bicicleta.cliente.nombre : 'Sin cliente'}"
             ></td>
+            <td>
+              <button><a th:href="@{/bicicletas/detalle/{id}(id=${bicicleta.id})}" class="btn btn-warning">Editar</a></button>
+            </td>            
           </tr>
         </tbody>
       </table>
@@ -162,13 +180,42 @@
         </div>
       </div>
     </div>
+    
+    <!--Modal de edición de Bicicleta para $(".btn-editar").on("click", function (event) {event.preventDefault();-->
+    <div class="modal fade" id="editarBicicletaModal" tabindex="-1" aria-labelledby="editarBicicletaModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editarBicicletaModalLabel">Editar bicicleta</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="editarBicicletaForm">
+              <input type="hidden" id="bicicletaId" />
+              <!-- Añade los campos del formulario aquí, por ejemplo: -->
+              <div class="mb-3">
+                <label for="marca" class="form-label">Marca</label>
+                <input type="text" class="form-control" id="marca" />
+              </div>
+              <!-- Añade más campos según sea necesario -->
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" onclick="actualizarBicicleta()">Guardar cambios</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      
   </body>
   <script>
     $(document).ready(function () {
+      // Agregar bicicleta
       $("form").on("submit", function (event) {
         event.preventDefault();
-
-        // Envía los datos del formulario a tu servidor utilizando AJAX
+  
         var formData = new FormData($(this)[0]);
         $.ajax({
           url: "/bicicletas",
@@ -177,21 +224,67 @@
           processData: false,
           contentType: false,
           success: function (response) {
-            // Rellena los detalles de la bicicleta en el modal de información
             $("#addedBikeId").text(response.id);
             $("#addedBikeMarca").text(response.marca);
             $("#addedBikeModelo").text(response.modelo);
-
-            // Muestra el modal de información
+  
             $("#addBikeModal").modal("hide");
             $("#infoModal").modal("show");
           },
           error: function (xhr, status, error) {
-            // Maneja los errores aquí, por ejemplo, muestra un mensaje de error en el modal
             console.log("Error: " + error);
           },
         });
       });
-    });
+  
+      // Mostrar formulario de edición en la ventana modal
+      $(".btn-editar").on("click", function (event) {
+    event.preventDefault();
+    const idBicicleta = $(this).data("id");
+    mostrarFormularioEdicion(idBicicleta);
+  });
+});
+
+function mostrarFormularioEdicion(idBicicleta) {
+  $.ajax({
+    url: "/bicicletas/" + idBicicleta,
+    type: "GET",
+    success: function (bicicleta) {
+      $("#bicicletaId").val(bicicleta.id);
+      $("#marca").val(bicicleta.marca);
+      $("#modelo").val(bicicleta.modelo);
+      $("#editarBicicletaModal").modal("show");
+    },
+    error: function (xhr, status, error) {
+      console.log("Error: " + error);
+    },
+  });
+}
+
+function actualizarBicicleta() {
+  const idBicicleta = $("#bicicletaId").val();
+  const marca = $("#marca").val();
+  const modelo = $("#modelo").val();
+
+  const datosActualizados = {
+    marca: marca,
+    modelo: modelo,
+  };
+
+  $.ajax({
+    url: "/bicicletas/" + idBicicleta,
+    type: "PUT",
+    data: JSON.stringify(datosActualizados),
+    contentType: "application/json",
+    success: function (response) {
+      $("#editarBicicletaModal").modal("hide");
+      location.reload();
+    },
+    error: function (xhr, status, error) {
+      alert("Error al actualizar la bicicleta");
+    },
+  });
+}
   </script>
+  
 </html>

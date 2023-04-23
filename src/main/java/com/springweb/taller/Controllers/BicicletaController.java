@@ -42,6 +42,15 @@ public class BicicletaController {
         return new ResponseEntity<>(bicicletas, HttpStatus.OK);
     }
 
+    //Obtener bicicleta para editar en html
+    @GetMapping("/detalle/{id}")
+    public String verBicicletaDetalle(@PathVariable Long id, Model model) {
+        Bicicleta bicicleta = bicicletaService.findById(id);
+        model.addAttribute("bicicleta", bicicleta);
+        return "bicicleta-detalle";
+    }
+    
+
     // Crear una nueva bicicleta (POST)
   /*   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Bicicleta> createBicicleta(@ModelAttribute Bicicleta bicicleta) {
