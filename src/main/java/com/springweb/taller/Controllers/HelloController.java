@@ -11,6 +11,6 @@ public class HelloController {
     public String hello() {
         //return "Hello, world! cambiado 16 Abril 2023";
      
-        return "paginaprincipal";
+        return "main";
     }
 }

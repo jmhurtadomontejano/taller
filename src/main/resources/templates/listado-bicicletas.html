@@ -15,8 +15,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </head>
   <body>
+    <h1>Listado de Bicicletas <span th:text="${nombre}"></span>!</h1>
+    <!-- Fragmento de la barra de navegación -->
+    <div th:replace="navbar :: navbar"></div>
+    
     <div class="container">
-      <h1 class="my-4">Listado de Bicicletas</h1>
       <a
         href="#"
         class="btn btn-primary my-3"
