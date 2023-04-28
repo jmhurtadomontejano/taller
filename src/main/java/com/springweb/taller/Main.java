@@ -14,9 +14,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan(basePackages = {"com.springweb.taller"})
 @EntityScan("com.springweb.taller.Modelo")
 @EnableJpaRepositories(basePackages = {"com.springweb.taller.Repositorios"})
-public class TallerApplication {
+public class Main {
     public static void main(String[] args) {
-        SpringApplication.run(TallerApplication.class, args);
+        SpringApplication.run(Main.class, args);
 
         
     }

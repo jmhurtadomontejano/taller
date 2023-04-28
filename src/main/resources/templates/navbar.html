@@ -2,6 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <style>
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+    </style>
 </head>
 <body>
     <!-- Fragmento de la barra de navegación -->
@@ -23,19 +30,27 @@
                 <ul class="navbar-nav">
                     <!-- Elemento de navegación individual (Inicio) -->
                     <li class="nav-item active">
-                        <a class="nav-link" href="http://localhost:8081/hello">Inicio</a>
+                        <a class="nav-link" href="http://localhost:8081/hello">
+                            <i class="bi bi-house-fill"></i> Inicio
+                        </a>
                     </li>
                     <!-- Elemento de navegación individual (Productos) -->
                     <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:8081/bicicletas/listado-bicicletas">Bicicletas</a>
+                        <a class="nav-link" href="http://localhost:8081/bicicletas/listado-bicicletas">
+                            <i class="bi bi-bicycle"></i> Bicicletas
+                        </a>
                     </li>
-                    <!-- Elemento de navegación individual (Servicios) -->
+                    <!-- Elemento de navegación individual (Clientes) -->
                     <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:8081/clientes">Clientes</a>
+                        <a class="nav-link" href="http://localhost:8081/clientes">
+                            <i class="bi bi-people-fill"></i> Clientes
+                        </a>
                     </li>
                     <!-- Elemento de navegación individual (Contacto) -->
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contacto</a>
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-envelope-fill"></i> Contacto
+                        </a>
                     </li>
                 </ul>
                 <!-- Aquí puedes añadir más elementos a la barra de navegación, como un formulario de búsqueda o enlaces adicionales -->

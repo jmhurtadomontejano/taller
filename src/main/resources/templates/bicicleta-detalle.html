@@ -1,18 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <title>Detalle de Bicicleta</title>
-        <!-- Agregar Bootstrap CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <!-- Agregar scripts de jQuery y Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    </head>
-    <body>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+  <head th:replace="fragments/common-head :: common-head">
+  </head>
+  <body>
+    <h1>Detalle de Bicicleta <span th:text="${nombre}"></span>!</h1>
+    <!-- Fragmento de la barra de navegación -->
+    <div th:replace="navbar :: navbar"></div>
         <div class="container">
-            <h1 class="my-4">Detalle de Bicicleta</h1>
             <button
                 type="button"
                 class="btn btn-warning"

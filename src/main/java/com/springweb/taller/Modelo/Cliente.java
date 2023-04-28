@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,28 @@ public class Cliente {
     private String email;
 
     @Column(name = "telefono")
-    private String telefono;
+    private int telefono;
+
+    @Column(name = "dni")
+    private String dni;
+
+    @Column(name = "sexo")
+    private String sexo;
+
+    @Column(name = "fecha_nacimiento")
+    private Date fecha_nacimiento;
+
+    @Column(name = "estatura")
+    private double estatura;
+
+    @Column(name = "peso")
+    private double peso;
+
+    @Column(name = "consentimiento")
+    private boolean consentimiento;
+
+    @Column(name = "fecha_consentimiento")
+    private Date fecha_consentimiento;
 
     @OneToMany(mappedBy = "cliente")
     private List<Bicicleta> bicicletas = new ArrayList<>();
@@ -38,13 +60,21 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(Long id, String nombre, String apellidos, String email, String telefono,
+    public Cliente(Long id, String nombre, String apellidos, String email, int telefono, String dni, String sexo,
+            Date fecha_nacimiento, double estatura, double peso, boolean consentimiento, Date fecha_consentimiento,
             List<Bicicleta> bicicletas) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.email = email;
         this.telefono = telefono;
+        this.dni = dni;
+        this.sexo = sexo;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.estatura = estatura;
+        this.peso = peso;
+        this.consentimiento = consentimiento;
+        this.fecha_consentimiento = fecha_consentimiento;
         this.bicicletas = bicicletas;
     }
 
@@ -80,12 +110,68 @@ public class Cliente {
         this.email = email;
     }
 
-    public String getTelefono() {
+    public int getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(String telefono) {
+    public void setTelefono(int telefono) {
         this.telefono = telefono;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public Date getFecha_nacimiento() {
+        return fecha_nacimiento;
+    }
+
+    public void setFecha_nacimiento(Date fecha_nacimiento) {
+        this.fecha_nacimiento = fecha_nacimiento;
+    }
+
+    public double getEstatura() {
+        return estatura;
+    }
+
+    public void setEstatura(double estatura) {
+        this.estatura = estatura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+    }
+
+    public boolean isConsentimiento() {
+        return consentimiento;
+    }
+
+    public void setConsentimiento(boolean consentimiento) {
+        this.consentimiento = consentimiento;
+    }
+
+    public Date getFecha_consentimiento() {
+        return fecha_consentimiento;
+    }
+
+    public void setFecha_consentimiento(Date fecha_consentimiento) {
+        this.fecha_consentimiento = fecha_consentimiento;
     }
 
     public List<Bicicleta> getBicicletas() {
@@ -94,6 +180,8 @@ public class Cliente {
 
     public void setBicicletas(List<Bicicleta> bicicletas) {
         this.bicicletas = bicicletas;
-    }   
+    }
+
+ 
     
 }

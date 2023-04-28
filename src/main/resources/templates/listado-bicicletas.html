@@ -1,70 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Listado de Bicicletas</title>
-    <!-- Agregar Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
-
-    <!-- Agregar scripts de jQuery y Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+  <head th:replace="fragments/common-head :: common-head">
   </head>
   <body>
     <h1>Listado de Bicicletas <span th:text="${nombre}"></span>!</h1>
-    <!-- Fragmento de la barra de navegación -->
     <div th:replace="navbar :: navbar"></div>
-    
     <div class="container">
-      <a
-        href="#"
-        class="btn btn-primary my-3"
-        data-toggle="modal"
-        data-target="#addBikeModal"
-        >Agregar bicicleta</a
-      >
-      <button type="button" class="btn btn-primary my-3" onclick="location.href='/hello'">
-        volver a Home
-        <!--icono home bootstrap-->
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            class="bi bi-house-fill"
-            viewBox="0 0 16 16"
-        >
-            <path fill-rule="evenodd" d="M8 3.293l5.5 5.5a.5.5 0 0 1-.707.707L8 4.707 2.707 10.5a.5.5 0 1 1-.707-.707L8 3.293z"/>
-            <path fill-rule="evenodd" d="M7.5 10.5V14h1v-3.5a.5.5 0 0 1 1 0V14h1v-3.5a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2V14h1v-3.5a.5.5 0 0 1 1 0z"/>
-        </svg>
-    </button>
+      <a href="#" class="btn btn-primary my-3" data-toggle="modal" data-target="#addBikeModal">Agregar bicicleta</a>
+      <button type="button" class="btn btn-primary my-3" onclick="location.href='/hello'">volver a Home<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 3.293l5.5 5.5a.5.5 0 0 1-.707.707L8 4.707 2.707 10.5a.5.5 0 1 1-.707-.707L8 3.293z"/><path fill-rule="evenodd" d="M7.5 10.5V14h1v-3.5a.5.5 0 0 1 1 0V14h1v-3.5a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2V14h1v-3.5a.5.5 0 0 1 1 0z"/></svg></button>
       <table class="table table-striped">
-        <thead class="thead-dark">
-          <tr>
-            <th>ID</th>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>Cliente</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr th:each="bicicleta : ${bicicletas}">
-            <td th:text="${bicicleta.id}"></td>
-            <td th:text="${bicicleta.marca}"></td>
-            <td th:text="${bicicleta.modelo}"></td>
-            <td
-              th:text="${bicicleta.cliente != null ? bicicleta.cliente.nombre : 'Sin cliente'}"
-            ></td>
-            <td>
-              <button><a th:href="@{/bicicletas/detalle/{id}(id=${bicicleta.id})}" class="btn btn-warning">Editar</a></button>
-            </td>            
-          </tr>
-        </tbody>
+        <thead class="thead-dark"><tr><th>ID</th><th>Marca</th><th>Modelo</th><th>Cliente</th><th>Acciones</th></tr></thead>
+        <tbody><tr th:each="bicicleta : ${bicicletas}"><td th:text="${bicicleta.id}"></td><td th:text="${bicicleta.marca}"></td><td th:text="${bicicleta.modelo}"></td><td th:text="${bicicleta.cliente != null ? bicicleta.cliente.nombre : 'Sin cliente'}"></td><td><button><a th:href="@{/bicicletas/detalle/{id}(id=${bicicleta.id})}" class="btn btn-warning">Editar</a></button></td></tr></tbody>
       </table>
     </div>
 
@@ -138,51 +84,24 @@
         </div>
       </div>
     </div>
+
     <!-- Modal de información -->
-    <div
-      class="modal fade"
-      id="infoModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="infoModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="infoModalLabel">Información</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>
-              La bicicleta ha sido agregada correctamente con los siguientes
-              detalles:
-            </p>
-            <ul>
-              <li>ID: <span id="addedBikeId"></span></li>
-              <li>Marca: <span id="addedBikeMarca"></span></li>
-              <li>Modelo: <span id="addedBikeModelo"></span></li>
-            </ul>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
+<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title" id="infoModalLabel">Información</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+      <div class="modal-body">
+        <p>La bicicleta ha sido agregada correctamente con los siguientes detalles:</p>
+        <ul>
+          <li>ID: <span id="addedBikeId"></span></li>
+          <li>Marca: <span id="addedBikeMarca"></span></li>
+          <li>Modelo: <span id="addedBikeModelo"></span></li>
+        </ul>
       </div>
+      <div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button></div>
     </div>
+  </div>
+</div>
     
     <!--Modal de edición de Bicicleta para $(".btn-editar").on("click", function (event) {event.preventDefault();-->
     <div class="modal fade" id="editarBicicletaModal" tabindex="-1" aria-labelledby="editarBicicletaModalLabel" aria-hidden="true">

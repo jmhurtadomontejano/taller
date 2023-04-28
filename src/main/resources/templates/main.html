@@ -1,47 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda de Bicicletas</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <style>
-        body {
-            background-image: url('imagen_de_fondo.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-        }
-        .navbar-brand img {
-            height: 40px;
-        }
-        .jumbotron {
-            background-image: url('imagen_bicicleta_random.jpg');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-            padding: 100px 0;
-            margin-bottom: 0;
-        }
-        .container h1 {
-            font-size: 3rem;
-            font-weight: bold;
-        }
-        .container p {
-            font-size: 1.5rem;
-        }
-    </style>
-</head>
+    <head th:replace="fragments/common-head :: common-head">
+    </head>
 <body>
     <!-- Fragmento de la barra de navegación -->
     <div th:replace="navbar :: navbar"></div>
-    
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <h1 class="text-center">Bienvenido a nuestra tienda de bicicletas</h1>

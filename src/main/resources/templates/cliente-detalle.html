@@ -1,36 +1,236 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Detalle del Cliente</title>
-    <!-- SCRIPTS -->
-    <!-- Incluir el archivo CSS de Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Agregar scripts de jQuery y Popper.js -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-</head>
+  <head th:replace="fragments/common-head :: common-head">
+  </head>
   <body>
+    <h1 class="my-4">Detalle del Cliente</h1>
+    <!-- Incluir la barra de navegación -->
+    <div th:replace="navbar :: navbar"></div>
     <div class="container">
-      <h1 class="my-4">Detalle del Cliente</h1>
-        <!-- Incluir la barra de navegación -->
-        <div th:replace="navbar :: navbar"></div>
-      <table class="table table-striped">
-        <thead class="thead-dark">
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Correo electrónico</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td th:text="${cliente.id}"></td>
-            <td th:text="${cliente.nombre}"></td>
-            <td th:text="${cliente.email}"></td>
-          </tr>
-        </tbody>
-      </table>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Información del cliente</h5>
+                    <dl class="row">
+                        <dt class="col-sm-3">ID:</dt>
+                        <dd class="col-sm-9" th:text="${cliente.id}"></dd>
+        
+                        <dt class="col-sm-3">Nombre:</dt>
+                        <dd class="col-sm-9" th:text="${cliente.nombre}"></dd>
+        
+                        <dt class="col-sm-3">Apellidos:</dt>
+                        <dd class="col-sm-9" th:text="${cliente.apellidos}"></dd>
+
+                        <dt class="col-sm-3">Correo electrónico:</dt>
+                        <dd class="col-sm-9" th:text="${cliente.email}"></dd>
+
+                        <dt class="col-sm-3">Teléfono:</dt>
+                        <dd class="col-sm-9" th:text="${cliente.telefono}"></dd>
+
+                        <dt class="col-sm-3">DNI:</dt>
+                        <dd class="col-sm-9" th:text="${cliente.dni}"></dd>
+
+                        <dt class="col-sm-3">Sexo:</dt>
+                        <dd class="col-sm-9" th:text="${cliente.sexo}"></dd>
+
+                        <dt class="col-sm-3">Fecha de nacimiento:</dt>
+                        <dd class="col-sm-9" th:text="${cliente.fecha_nacimiento}"></dd>
+
+                        <dt class="col-sm-3">Estatura:</dt>
+                        <dd class="col-sm-9" th:text="${cliente.estatura}"></dd>
+
+                        <dt class="col-sm-3">Peso:</dt>
+                        <dd class="col-sm-9" th:text="${cliente.peso}"></dd>
+
+                        <dt class="col-sm-3">Consentimiento:</dt>
+                        <dd class="col-sm-9" th:text="${cliente.consentimiento}"></dd>
+
+                        <dt class="col-sm-3">Fecha de consentimiento:</dt>
+                        <dd class="col-sm-9" th:text="${cliente.fecha_consentimiento}"></dd>
+
+                        <!-- Agrega más elementos dl aquí para mostrar los otros campos del cliente -->
+              </dl>
+              <button type="button" class="btn btn-primary edit-btn" data-cliente-id="${cliente.id}">Editar</button>
+              <button type="button" class="btn btn-danger">Eliminar</button>
+              <a href="lista-clientes.html" class="btn btn-secondary">Volver al listado</a>
+          </div>
+        </div>
+        </div>        
     </div>
-  </body>
+    <!-- Modal para editar cliente -->
+<div class="modal fade" id="editClienteModal" tabindex="-1" role="dialog" aria-labelledby="editClienteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">Editar cliente</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form id="editClienteForm">
+                  <!-- Aquí irían los campos del formulario para editar los datos del cliente -->
+                  <div class="form-group">
+                    <label for="id">id</label>
+                    <input type="text" class="form-control" id="id" required>
+                </div>
+                  <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="apellidos">Apellidos</label>
+                    <input type="text" class="form-control" id="apellidos" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="text" class="form-control" id="telefono" required>
+                </div>
+                <div class="form-group">
+                    <label for="dni">DNI</label>
+                    <input type="text" class="form-control" id="dni" required>
+                </div>
+                <div class="form-group">
+                    <label for="sexo">Sexo</label>
+                    <input type="text" class="form-control" id="sexo" required>
+                </div>
+                <div class="form-group">
+                    <label for="fecha_nacimiento">Fecha de nacimiento</label>
+                    <input type="date" class="form-control" id="fecha_nacimiento" required>
+                </div>
+                <div class="form-group">
+                    <label for="estatura">Estatura</label>
+                    <input type="number" class="form-control" id="estatura" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="peso">Peso</label>
+                    <input type="number" class="form-control" id="peso" step="0.01" required>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="consentimiento" required>
+                    <label class="form-check-label" for="consentimiento">Consentimiento</label>
+                </div>
+                <div class="form-group" style="display:none">
+                    <label for="fecha_consentimiento">Fecha de consentimiento</label>
+                    <input type="date" class="form-control" id="fecha_consentimiento" required>
+                </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary" id="updateClienteButton">Guardar</button>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Modal para mensaje informativo -->
+<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="infoModalLabel">Información</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body" id="infoModalContent">
+              <!-- Aquí se mostrará el contenido del mensaje informativo -->
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          </div>
+      </div>
+  </div>
+</div>
+</body>
+  <script>
+$(document).ready(function () {
+    $(".edit-btn").click(function () {
+        const clienteId = $(this).data("cliente-id");
+        setClienteData(clienteId);
+        $("#editClienteModal").modal("show");
+    });
+});
+
+// Editar cliente
+$("#updateClienteButton").click(function () {
+    // Obtener los datos actualizados del formulario
+    const updatedData = {
+        id: clienteId,
+        nombre: $("#nombre").val(),
+        apellidos: $("#apellidos").val(),
+        email: $("#email").val(),
+        telefono: $("#telefono").val(),
+        dni: $("#dni").val(),
+        sexo: $("#sexo").val(),
+        fecha_nacimiento: $("#fecha_nacimiento").val(),
+        estatura: $("#estatura").val(),
+        peso: $("#peso").val(),
+        consentimiento: $("#consentimiento").is(":checked"),
+        fecha_consentimiento: $("#fecha_consentimiento").val()
+    };
+
+    // Enviar los datos actualizados al servidor
+    $.ajax({
+        url: "/api/clientes/update", // URL del controlador que maneja la actualización del cliente
+        type: "POST",
+        data: JSON.stringify(updatedData),
+        contentType: "application/json",
+        success: function () {
+            // Mostrar el modal informativo con el resultado de la operación
+            $("#editClienteModal").modal("hide");
+            $("#infoModalContent").html("<p>Los cambios en el cliente han sido guardados con éxito.</p>");
+            $("#infoModal").modal("show");
+        },
+        error: function (error) {
+            // Mostrar el modal informativo con el mensaje de error
+            $("#editClienteModal").modal("hide");
+            $("#infoModalContent").html("<p>Ocurrió un error al guardar los cambios del cliente.</p>");
+            $("#infoModal").modal("show");
+        }
+    });
+});
+
+//poner datos cliente en ventana modal
+function setClienteData(clienteId) {
+    // Obtiene los datos del cliente desde la página
+    const clienteData = $('#' + clienteId);
+
+    const nombre = clienteData.find(".nombre").text();
+    const apellidos = clienteData.find(".apellidos").text();
+    const email = clienteData.find(".email").text();
+    const telefono = clienteData.find(".telefono").text();
+    const dni = clienteData.find(".dni").text();
+    const sexo = clienteData.find(".sexo").text();
+    const fecha_nacimiento = clienteData.find(".fecha_nacimiento").text();
+    const estatura = parseFloat(clienteData.find(".estatura").text());
+    const peso = parseFloat(clienteData.find(".peso").text());
+    const consentimiento = clienteData.find(".consentimiento").text() === 'true';
+    const fecha_consentimiento = clienteData.find(".fecha_consentimiento").text();
+
+    // Asigna los datos del cliente a los campos del formulario
+    $("#id").val(clienteId);
+    $("#nombre").val(nombre);
+    $("#apellidos").val(apellidos);
+    $("#email").val(email);
+    $("#telefono").val(telefono);
+    $("#dni").val(dni);
+    $("#sexo").val(sexo);
+    $("#fecha_nacimiento").val(fecha_nacimiento);
+    $("#estatura").val(estatura);
+    $("#peso").val(peso);
+    $("#consentimiento").prop("checked", consentimiento);
+
+    if (consentimiento) {
+        $("#fecha_consentimiento").val(fecha_consentimiento);
+    }
+
+    // Actualiza la ventana modal
+    $("#editClienteModal").modal("handleUpdate");
+}
+
+</script>
 </html>
