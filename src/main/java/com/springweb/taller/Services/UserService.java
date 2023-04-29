@@ -8,11 +8,12 @@ import com.springweb.taller.Repositorios.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
 public class UserService {
-
+    
     @Autowired
     private UserRepository userRepository;
 
@@ -74,7 +75,9 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public List<User> findByuserName(String name) {
-        return null;
+     // Encontrar un usuario por UUID
+     public Optional<User> findByUuid(UUID uuid) {
+        return userRepository.findByUuid(uuid);
     }
+
 }

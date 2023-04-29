@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+import java.util.UUID;
 import java.util.List;
 
 @Controller //se utiliza para construir aplicaciones web y devuelve vistas.
@@ -35,12 +37,14 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    // Obtener user por userName (GET)
-    @GetMapping("/name")
-    public ResponseEntity<List<User>> getUsersPorNombreUser(@RequestParam String name) {
-        List<User> users = userService.findByuserName(name);
-        return new ResponseEntity<>(users, HttpStatus.OK);
+    // Obtener un user por UUID (GET)
+    @GetMapping("/uuid/{uuid}")
+    public ResponseEntity<User> getUserByUUID(@PathVariable UUID uuid) {
+        Optional<User> user = userService.findByUuid(uuid);
+        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
 
     //Obtener user para editar en html
     @GetMapping("/detalle/{id}")

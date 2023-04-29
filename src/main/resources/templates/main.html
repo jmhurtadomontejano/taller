@@ -2,6 +2,13 @@
 <html lang="es">
     <head th:replace="fragments/common-head :: common-head">
     </head>
+    <style>
+        .jumbotron {
+            background-image: url('/images/imagen_bicicleta_random.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
 <body>
     <!-- Fragmento de la barra de navegación -->
     <div th:replace="fragments/navbar :: navbar"></div>
@@ -20,6 +27,9 @@
             </div>
         </div>
     </div>
+    
+    <!-- Incluir el fragmento del footer -->
+    <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
 

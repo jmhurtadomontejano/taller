@@ -4,6 +4,7 @@ import javax.persistence.Id;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +23,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(unique = true, name="uuid")
+    private UUID uuid;
 
     @Column(name = "name")
     private String userName;
@@ -83,13 +87,15 @@ public class User {
 
     //Constructors
     public User() {
-    }
+        this.uuid = UUID.randomUUID();
+    }    
 
-    public User(Long id, String userName, String userSurname, String userDni, LocalDate userBirthDate,
+    public User(Long id, UUID uuid, String userName, String userSurname, String userDni, LocalDate userBirthDate,
             @Email String emailUser, String userPassword, int userPhone, String userAddress, String userCity,
             String userCountry, int userPostalCode, String userRole, double userWeigth, double userHeight,
             boolean userConsent, Date userDateConsent, boolean userActive, Date userCreatedAt) {
         this.id = id;
+        this.uuid = UUID.randomUUID();
         this.userName = userName;
         this.userSurname = userSurname;
         this.userDni = userDni;

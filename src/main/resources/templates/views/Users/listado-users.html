@@ -32,32 +32,32 @@
       <div class="alert alert-danger" role="alert" th:if="${errorAdd}">
         <span th:text="${errorAdd}"></span>
       </div>
-      </div>
-
+    </div>
+  
 <!-- tabla de Usuarios-->
     <div class="table-responsive">
       <table class="table table-striped">
         <thead class="thead-dark">
           <tr>
             <th>ID</th>
-            <th>userName</th>
-            <th>userSurname</th>
-            <th>userDni</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>UserDni</th>
             <th>Fecha Nacimiento</th>
-            <th>emailUser</th>
-            <th>userPassword</th>
-            <th>userPhone</th>
-            <th>userAddress</th>
-            <th>userCity</th>
-            <th>userCountry</th>
-            <th>userPostalCode</th>
-            <th>userRole</th>
-            <th>userWeigth</th>
-            <th>userHeight</th>
-            <th>userConsent</th>
-            <th>userDateConsent</th>
-            <th>userActive</th>
-            <th>userCreatedAt</th>            
+            <th>Email</th>
+            <th>Password</th>
+            <th>Telefono</th>
+            <th>Direccion</th>
+            <th>Ciudad</th>
+            <th class="d-none d-md-table-cell">País</th>
+            <th class="d-none d-md-table-cell">Código postal</th>
+            <th>Género</th>
+            <th>Peso</th>
+            <th>Altura</th>
+            <th>Consiente Datos</th>
+            <th class="d-none d-md-table-cell">Fecha Consentimiento</th>
+            <th class="d-none d-md-table-cell">userActive</th>
+            <th class="d-none d-md-table-cell">Fecha Creación Usuario</th>            
             <th>Acciones</th></tr></thead>
         <tbody>
           <tr th:each="user : ${users}"><td th:text="${user.id}"></td>
@@ -70,15 +70,15 @@
             <td th:text="${user.userPhone}"></td>
             <td th:text="${user.userAddress}"></td>
             <td th:text="${user.userCity}"></td>
-            <td th:text="${user.userCountry}"></td>
-            <td th:text="${user.userPostalCode}"></td>
+            <td class="d-none d-md-table-cell" th:text="${user.userCountry}"></td>
+            <td class="d-none d-md-table-cell" th:text="${user.userPostalCode}"></td>
             <td th:text="${user.userRole}"></td>
             <td th:text="${user.userWeigth}"></td>
             <td th:text="${user.userHeight}"></td>
             <td th:text="${user.userConsent}"></td>
-            <td th:text="${user.userDateConsent}"></td>
-            <td th:text="${user.userActive}"></td>
-            <td th:text="${user.userCreatedAt}"></td>
+            <td class="d-none d-md-table-cell" th:text="${user.userDateConsent}"></td>
+            <td class="d-none d-md-table-cell" th:text="${user.userActive}"></td>
+            <td class="d-none d-md-table-cell" th:text="${user.userCreatedAt}"></td>
           <td><button><a th:href="@{/users/detalle/{id}(id=${user.id})}" class="btn btn-warning">Editar</a></button></td></tr>
         </tbody>
       </table>
@@ -116,6 +116,11 @@
             console.log("Error: " + error);
           },
         });
+      });
+
+        // Recargar la página cuando se cierre la ventana modal #infoModal
+      $("#infoModal").on("hidden.bs.modal", function () {
+        location.reload();
       });
   
       // Mostrar formulario de edición en la ventana modal
