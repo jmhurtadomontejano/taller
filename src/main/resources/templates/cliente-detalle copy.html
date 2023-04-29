@@ -25,6 +25,28 @@
 
                         <dt class="col-sm-3">Teléfono:</dt>
                         <dd class="col-sm-9" id="telefono" th:text="${cliente.telefono}"></dd>
+
+                        <dt class="col-sm-3">DNI:</dt>
+                        <dd class="col-sm-9" id="dni" th:text="${cliente.dni}"></dd>
+
+                        <dt class="col-sm-3">Sexo:</dt>
+                        <dd class="col-sm-9" id="sexo" th:text="${cliente.sexo}"></dd>
+
+                        <dt class="col-sm-3">Fecha de nacimiento:</dt>
+                        <dd class="col-sm-9" id="fecha_nacimiento" th:text="${cliente.fecha_nacimiento}"></dd>
+
+                        <dt class="col-sm-3">Estatura:</dt>
+                        <dd class="col-sm-9" id="estatura" th:text="${cliente.estatura}"></dd>
+
+                        <dt class="col-sm-3">Peso:</dt>
+                        <dd class="col-sm-9" id="peso" th:text="${cliente.peso}"></dd>
+
+                        <dt class="col-sm-3">Consentimiento:</dt>
+                        <dd class="col-sm-9" id="consentimiento" th:text="${cliente.consentimiento}"></dd>
+
+                        <dt class="col-sm-3">Fecha de consentimiento:</dt>
+                        <dd class="col-sm-9" id="fecha_consentimiento" th:text="${cliente.fecha_consentimiento}"></dd>
+
                         <!-- Agrega más elementos dl aquí para mostrar los otros campos del cliente -->
               </dl>
               <button class="edit-btn" th:data-cliente-id="${cliente.id}">Editar</button>
@@ -68,6 +90,34 @@
                     <label for="modalTelefono">Teléfono</label>
                     <input type="text" class="form-control" id="modalTelefono" name="telefono">
                 </div>
+                <div class="form-group">
+                    <label for="modalDni">DNI</label>
+                    <input type="text" class="form-control" id="modalDni" name="dni">
+                </div>
+                <div class="form-group">
+                    <label for="modalSexo">Sexo</label>
+                    <input type="text" class="form-control" id="modalSexo" name="sexo">
+                </div>
+                <div class="form-group">
+                    <label for="modalFechaNacimiento">Fecha de nacimiento</label>
+                    <input type="text" class="form-control" id="modalFechaNacimiento" name="fecha_nacimiento">
+                </div>
+                <div class="form-group">
+                    <label for="modalEstatura">Estatura</label>
+                    <input type="text" class="form-control" id="modalEstatura" name="estatura">
+                </div>
+                <div class="form-group">
+                    <label for="modalPeso">Peso</label>
+                    <input type="text" class="form-control" id="modalPeso" name="peso">
+                </div>
+                <div class="form-group">
+                    <label for="modalConsentimiento">Consentimiento</label>
+                    <input type="text" class="form-control" id="modalConsentimiento" name="consentimiento">
+                </div>
+                <div class="form-group">
+                    <label for="modalFechaConsentimiento">Fecha de consentimiento</label>
+                    <input type="text" class="form-control" id="modalFechaConsentimiento" name="fecha_consentimiento">
+                </div>
             </form>
           </div>
           <div class="modal-footer">
@@ -85,13 +135,22 @@
           $('#editClienteModal input[name="nombre"]').val($('#nombre').text());
           $('#editClienteModal input[name="apellidos"]').val($('#apellidos').text());
           $('#editClienteModal input[name="email"]').val($('#email').text());
+          $('#editClienteModal input[name="telefono"]').val($('#telefono').text());
+          $('#editClienteModal input[name="dni"]').val($('#dni').text());
+          $('#editClienteModal input[name="sexo"]').val($('#sexo').text());
+          $('#editClienteModal input[name="fecha_nacimiento"]').val($('#fecha_nacimiento').text());
+          $('#editClienteModal input[name="estatura"]').val($('#estatura').text());
+          $('#editClienteModal input[name="peso"]').val($('#peso').text());
+          $('#editClienteModal input[name="consentimiento"]').val($('#consentimiento').text());
+          $('#editClienteModal input[name="fecha_consentimiento"]').val($('#fecha_consentimiento').text());
+          $('#editClienteModal input[name="id"]').val($(this).attr("data-cliente-id"));
           // Muestra la ventana modal
           $("#editClienteModal").modal("show");
       });
            //solicitud de cambio de datos de cliente en la base de datos
     function updateCliente(cliente) {
     return $.ajax({
-      url: "/clientes/api/" + cliente.id,
+      url: "/api/" + cliente.id,
         method: "PUT",
         contentType: "application/json",
         data: JSON.stringify(cliente)
@@ -105,6 +164,13 @@ $("#saveChangesBtn").on("click", function () {
         apellidos: $('#modalApellidos').val(),
         email: $('#modalEmail').val(),
         telefono: $('#modalTelefono').val(),
+        dni: $('#modalDni').val(),
+        sexo: $('#modalSexo').val(),
+        fecha_nacimiento: $('#modalFechaNacimiento').val(),
+        estatura: $('#modalEstatura').val(),
+        peso: $('#modalPeso').val(),
+        consentimiento: $('#modalConsentimiento').val(),
+        fecha_consentimiento: $('#modalFechaConsentimiento').val()
     };
 
     // Llama a la función para actualizar el cliente y manejar la respuesta
@@ -116,6 +182,14 @@ $("#saveChangesBtn").on("click", function () {
             $('#apellidos').text(response.apellidos);
             $('#email').text(response.email);
             $('#telefono').text(response.telefono);
+            $('#dni').text(response.dni);
+            $('#sexo').text(response.sexo);
+            $('#fecha_nacimiento').text(response.fecha_nacimiento);
+            $('#estatura').text(response.estatura);
+            $('#peso').text(response.peso);
+            $('#consentimiento').text(response.consentimiento);
+            $('#fecha_consentimiento').text(response.fecha_consentimiento);
+
             // Cierra la ventana modal
             $("#editClienteModal").modal("hide");
         })

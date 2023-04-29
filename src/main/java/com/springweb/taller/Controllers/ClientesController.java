@@ -45,8 +45,7 @@ public class ClientesController {
     public ResponseEntity<List<Cliente>> getAllClientesJson() {
     List<Cliente> clientes = clienteService.findAll();
     return new ResponseEntity<>(clientes, HttpStatus.OK);
-}
-
+    }
 
     // Obtener un cliente por ID
     @GetMapping("/{id}")
@@ -70,35 +69,6 @@ public class ClientesController {
         return new ResponseEntity<>(cliente, HttpStatus.OK);
     }
 
-    // Crear un nuevo cliente
-    /*
-     * @PostMapping(path = "/api", consumes = MediaType.APPLICATION_JSON_VALUE)
-     * /*con path especificamos explícitamente que el método POST se aplica a la
-     * ruta /clientes/api.
-     */
-    /*
-     * public ResponseEntity<Cliente> createCliente(@Valid @RequestBody Cliente
-     * cliente) {
-     * Cliente newCliente = clienteService.save(cliente);
-     * return new ResponseEntity<>(newCliente, HttpStatus.CREATED);
-     * }
-     */
-
-    // Crear un nuevo cliente comprobando email
-    /*
-     * @PostMapping(path = "/api", consumes = MediaType.APPLICATION_JSON_VALUE)
-     * public ResponseEntity<?> createCliente(@Valid @RequestBody Cliente cliente) {
-     * if (clienteService.existsByEmail(cliente.getEmail())) {
-     * return new ResponseEntity<>
-     * ("Ya existe un cliente con el correo electrónico proporcionado.",
-     * HttpStatus.CONFLICT);
-     * } else {
-     * Cliente newCliente = clienteService.save(cliente);
-     * return new ResponseEntity<>(newCliente, HttpStatus.CREATED);
-     * }
-     * }
-     */
-
     // Crear un nuevo cliente comprobando email, devolviendo mensaje por JSON
     @PostMapping(path = "/api", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createCliente(@Valid @RequestBody Cliente cliente) {
@@ -113,16 +83,7 @@ public class ClientesController {
     }
 
     // Actualizar un cliente existente
-    /*
-     * @PutMapping("/{id}")
-     * public ResponseEntity<Cliente> updateCliente(@PathVariable Long
-     * id, @Valid @RequestBody Cliente clienteDetails) {
-     * Cliente updatedCliente = clienteService.update(id, clienteDetails);
-     * return new ResponseEntity<>(updatedCliente, HttpStatus.OK);
-     * }
-     */
-    // Actualizar un cliente
-    @PutMapping("/{id}/api")
+    @PutMapping("/api/{id}")
     public ResponseEntity<?> updateCliente(@PathVariable Long id, @Valid @RequestBody Cliente updatedCliente) {
         System.out.println("Actualizando cliente con ID: " + id); // Agregar esta línea
         Cliente currentCliente = clienteService.findById(id);
@@ -134,20 +95,14 @@ public class ClientesController {
         currentCliente.setEmail(updatedCliente.getEmail());
         currentCliente.setTelefono(updatedCliente.getTelefono());
         
-        System.out.println("Cliente actualizado: " + updatedCliente.toString()); // Agregar esta línea
-     
         Cliente savedCliente = clienteService.save(currentCliente);
         
-        System.out.println("Cliente guardado: " + savedCliente.toString()); // Agregar esta línea
-       
         if (savedCliente == null) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-       
         return new ResponseEntity<>(savedCliente, HttpStatus.OK);
     }
     
-
     // Eliminar un cliente por ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCliente(@PathVariable Long id) {
@@ -166,6 +121,4 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
           new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 }
-
-
 }
