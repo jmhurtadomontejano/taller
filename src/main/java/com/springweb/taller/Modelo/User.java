@@ -2,6 +2,7 @@ package com.springweb.taller.Modelo;
 
 import javax.persistence.Id;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -33,7 +34,7 @@ public class User {
 
     @Column(name = "birth_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date userBirthDate;
+    private LocalDate userBirthDate;//solo fecha
 
     @Email
     @Column(name = "email")
@@ -71,20 +72,20 @@ public class User {
 
     @Column(name = "date_consent")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date userDateConsent;
+    private Date userDateConsent;//fecha y Hora
 
     @Column(name = "active")
     private boolean userActive;
 
     @Column(name = "created_at")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date userCreatedAt;
+    private Date userCreatedAt;//fecha y Hora
 
     //Constructors
     public User() {
     }
 
-    public User(Long id, String userName, String userSurname, String userDni, Date userBirthDate,
+    public User(Long id, String userName, String userSurname, String userDni, LocalDate userBirthDate,
             @Email String emailUser, String userPassword, int userPhone, String userAddress, String userCity,
             String userCountry, int userPostalCode, String userRole, double userWeigth, double userHeight,
             boolean userConsent, Date userDateConsent, boolean userActive, Date userCreatedAt) {
@@ -142,11 +143,11 @@ public class User {
         this.userDni = userDni;
     }
 
-    public Date getUserBirthDate() {
+    public LocalDate getUserBirthDate() {
         return userBirthDate;
     }
 
-    public void setUserBirthDate(Date userBirthDate) {
+    public void setUserBirthDate(LocalDate userBirthDate) {
         this.userBirthDate = userBirthDate;
     }
 

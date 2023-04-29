@@ -19,20 +19,27 @@
                     <div class="col-md-6 col-12 mb-3"><label for="userName" class="form-label">Nombre</label><input type="text" class="form-control" id="userName" th:value="${user.userName}"></div>
                     <div class="col-md-6 col-12 mb-3"><label for="userSurname" class="form-label">Apellidos</label><input type="text" class="form-control" id="userSurname" th:value="${user.userSurname}"></div>
                     <div class="col-md-6 col-12 mb-3"><label for="emailUser" class="form-label">Email</label><input type="text" class="form-control" id="emailUser" th:value="${user.emailUser}"></div>
-                    <div class="col-md-6 col-12 mb-3"><label for="userBirthDate" class="form-label">Fecha de nacimiento</label><input type="text" class="form-control" id="userBirthDate" th:value="${user.userBirthDate}"></div>
+                    <div class="col-md-6 col-12 mb-3"><label for="userBirthDate" class="form-label">Fecha de nacimiento</label><input type="date" class="form-control" id="userBirthDate" th:value="${user.userBirthDate}"></div>
                     <div class="col-md-6 col-12 mb-3"><label for="userPassword" class="form-label">Contraseña</label><input type="password" class="form-control" id="userPassword" th:value="${user.userPassword}"></div>
                     <div class="col-md-6 col-12 mb-3"><label for="userPostalCode" class="form-label">Código postal</label><input type="text" class="form-control" id="userPostalCode" th:value="${user.userPostalCode}"></div>
                     <div class="col-md-6 col-12 mb-3"><label for="userPhone" class="form-label">Teléfono</label><input type="number" class="form-control" id="userPhone" th:value="${user.userPhone}"></div>
                     <div class="col-md-6 col-12 mb-3"><label for="userAddress" class="form-label">Dirección</label><input type="text" class="form-control" id="userAddress" th:value="${user.userAddress}"></div>
                     <div class="col-md-6 col-12 mb-3"><label for="userCity" class="form-label">Ciudad</label><input type="text" class="form-control" id="userCity" th:value="${user.userCity}"></div>
                     <div class="col-md-6 col-12 mb-3"><label for="userCountry" class="form-label">País</label><input type="text" class="form-control" id="userCountry" th:value="${user.userCountry}"></div>
-                    <div class="col-md-6 col-12 mb-3"><label for="userRole" class="form-label">Rol</label><input type="text" class="form-control" id="userRole" th:value="${user.userRole}"></div>
+                    <div class="col-md-6 col-12 mb-3">
+                        <label for="userRole" class="form-label">Rol</label>
+                        <select class="form-control" id="userRole" name="userRole" th:field="*{userRole}">
+                          <option value="Hombre">Hombre</option>
+                          <option value="Mujer">Mujer</option>
+                          <option value="Otro">Otro</option>
+                        </select>
+                      </div>                      
                     <div class="col-md-6 col-12 mb-3"><label for="userWeigth" class="form-label">Peso</label><input type="number" class="form-control" id="userWeigth" th:value="${user.userWeigth}"></div>
-                    <div class="col-md-6 col-12 mb-3"><label for="userHeight" class="form-label">Altura</label><input type="text" class="form-control" id="userHeight" th:value="${user.userHeight}"></div>
+                    <div class="col-md-6 col-12 mb-3"><label for="userHeight" class="form-label">Altura</label><input type="number" class="form-control" id="userHeight" th:value="${user.userHeight}"></div>
                     <div class="col-md-6 col-12 mb-3"><label for="userConsent" class="form-label">Consentimiento</label><input type="checkbox" class="form-control" id="userConsent" th:value="${user.userConsent}"></div>
-                    <div class="col-md-6 col-12 mb-3"><label for="userDateConsent" class="form-label">Fecha de consentimiento</label><input type="text" class="form-control" id="userDateConsent" th:value="${user.userDateConsent}" readonly></div>
+                    <div class="col-md-6 col-12 mb-3"><label for="userDateConsent" class="form-label">Fecha de consentimiento</label><input type="datetime-local" class="form-control" id="userDateConsent" th:value="${user.userDateConsent}" readonly></div>
                     <div class="col-md-6 col-12 mb-3"><label for="userActive" class="form-label">Activo</label><input type="text" class="form-control" id="userActive" th:value="${user.userActive}"></div>
-                    <div class="col-md-6 col-12 mb-3"><label for="userCreatedAt" class="form-label">Fecha de creación</label><input type="text" class="form-control" id="userCreatedAt" th:value="${user.userCreatedAt}"></div>
+                    <div class="col-md-6 col-12 mb-3"><label for="userCreatedAt" class="form-label">Fecha de creación</label><input type="datetime-local" class="form-control" id="userCreatedAt" th:value="${user.userCreatedAt}"></div>
                 </div>
               </form>
             </div>

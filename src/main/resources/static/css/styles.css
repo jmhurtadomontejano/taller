@@ -15,3 +15,13 @@
         word-break: break-word; /* Permite que los textos largos se dividan en varias líneas */
         max-width: 150px; /* Establece un ancho máximo para la celda de correo electrónico */
     }
+
+
+  .is-valid {
+    border-color: #28a745;
+  }
+
+  .is-invalid {
+    border-color: #dc3545;
+  }
+
