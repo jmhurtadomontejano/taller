@@ -8,9 +8,79 @@
     <div class="container">
       <a href="#" class="btn btn-primary my-3" data-toggle="modal" data-target="#addUserModal">Agregar Usuario</a>
       <button type="button" class="btn btn-primary my-3" onclick="location.href='/hello'">volver a Home<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 3.293l5.5 5.5a.5.5 0 0 1-.707.707L8 4.707 2.707 10.5a.5.5 0 1 1-.707-.707L8 3.293z"/><path fill-rule="evenodd" d="M7.5 10.5V14h1v-3.5a.5.5 0 0 1 1 0V14h1v-3.5a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2V14h1v-3.5a.5.5 0 0 1 1 0z"/></svg></button>
+      <div class="alert alert-success" role="alert" th:if="${message}">
+        <span th:text="${message}"></span>
+      </div>
+      <div class="alert alert-danger" role="alert" th:if="${error}">
+        <span th:text="${error}"></span>
+      </div>
+      <div class="alert alert-danger" role="alert" th:if="${errorDelete}">
+        <span th:text="${errorDelete}"></span>
+      </div>
+      <div class="alert alert-success" role="alert" th:if="${messageDelete}">
+        <span th:text="${messageDelete}"></span>
+      </div>
+      <div class="alert alert-success" role="alert" th:if="${messageUpdate}">
+        <span th:text="${messageUpdate}"></span>
+      </div>
+      <div class="alert alert-danger" role="alert" th:if="${errorUpdate}">
+        <span th:text="${errorUpdate}"></span>
+      </div>
+      <div class="alert alert-success" role="alert" th:if="${messageAdd}">
+        <span th:text="${messageAdd}"></span>
+      </div>
+      <div class="alert alert-danger" role="alert" th:if="${errorAdd}">
+        <span th:text="${errorAdd}"></span>
+      </div>
+      </div>
+
+<!-- tabla de Usuarios-->
+    <div class="table-responsive">
       <table class="table table-striped">
-        <thead class="thead-dark"><tr><th>ID</th><th>nameUser</th><th>emailUser</th><th>Cliente</th><th>Acciones</th></tr></thead>
-        <tbody><tr th:each="user : ${users}"><td th:text="${user.id}"></td><td th:text="${user.nameUser}"></td><td th:text="${user.emailUser}"></td><td></td><td><button><a th:href="@{/users/detalle/{id}(id=${user.id})}" class="btn btn-warning">Editar</a></button></td></tr></tbody>
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>userName</th>
+            <th>userSurname</th>
+            <th>userDni</th>
+            <th>userBirthDate</th>
+            <th>emailUser</th>
+            <th>userPassword</th>
+            <th>userPhone</th>
+            <th>userAddress</th>
+            <th>userCity</th>
+            <th>userCountry</th>
+            <th>userPostalCode</th>
+            <th>userRole</th>
+            <th>userWeigth</th>
+            <th>userHeight</th>
+            <th>userConsent</th>
+            <th>userDateConsent</th>
+            <th>userActive</th>
+            <th>userCreatedAt</th>            
+            <th>Acciones</th></tr></thead>
+        <tbody>
+          <tr th:each="user : ${users}"><td th:text="${user.id}"></td>
+            <td th:text="${user.userName}"></td>
+            <td th:text="${user.userSurname}"></td>
+            <td th:text="${user.userDni}"></td>
+            <td th:text="${user.userBirthDate}"></td>
+            <td th:text="${user.emailUser}"></td>
+            <td th:text="${user.userPassword}"></td>
+            <td th:text="${user.userPhone}"></td>
+            <td th:text="${user.userAddress}"></td>
+            <td th:text="${user.userCity}"></td>
+            <td th:text="${user.userCountry}"></td>
+            <td th:text="${user.userPostalCode}"></td>
+            <td th:text="${user.userRole}"></td>
+            <td th:text="${user.userWeigth}"></td>
+            <td th:text="${user.userHeight}"></td>
+            <td th:text="${user.userConsent}"></td>
+            <td th:text="${user.userDateConsent}"></td>
+            <td th:text="${user.userActive}"></td>
+            <td th:text="${user.userCreatedAt}"></td>
+          <td><button><a th:href="@{/users/detalle/{id}(id=${user.id})}" class="btn btn-warning">Editar</a></button></td></tr>
+        </tbody>
       </table>
     </div>
 
@@ -38,6 +108,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
+          
           <form
             action="#"
             th:action="@{/users}"
@@ -46,29 +117,30 @@
             enctype="multipart/form-data"
           >
             <div class="modal-body">
-              <div class="form-group">
-                <label for="nameUser">nameUser</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="nameUser"
-                  name="nameUser"
-                  th:field="*{nameUser}"
-                  required
-                />
+              <div class="text-nowrap text-truncate">
+                <label for="userName">userName</label>
+                <input type="text" class="form-control" id="userNam" name="userName" th:field="*{userName}" required />
               </div>
-              <div class="form-group">
+              <div class="text-nowrap text-truncate">
                 <label for="emailUser">emailUser</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="emailUser"
-                  name="emailUser"
-                  th:field="*{emailUser}"
-                  required
-                />
+                <input type="text" class="form-control" id="emailUser" name="emailUser" th:field="*{emailUser}" required />
               </div>
-              <!-- Puedes agregar un campo para seleccionar el cliente asociado a la bicicleta aquí -->
+              <div class="text-nowrap text-truncate"><label for="userSurname">userSurname</label><input type="text" class="form-control" id="userSurname" name="userSurname" th:field="*{userSurname}" /></div>
+              <div class="text-nowrap text-truncate"><label for="userDni">userDni</label><input type="text" class="form-control" id="userDni" name="userDni" th:field="*{userDni}" /></div>
+              <div class="text-nowrap text-truncate"><label for="userBirthDate">userBirthDate</label><input type="date" class="form-control" id="userBirthDate" name="userBirthDate" th:field="*{userBirthDate}" /></div>
+              <div class="text-nowrap text-truncate"><label for="userPassword">userPassword</label><input type="password" class="form-control" id="userPassword" name="userPassword" th:field="*{userPassword}" /></div>
+              <div class="text-nowrap text-truncate"><label for="userPhone">userPhone</label><input type="number" class="form-control" id="userPhone" name="userPhone" th:field="*{userPhone}" /></div>
+              <div class="text-nowrap text-truncate"><label for="userAddress">userAddress</label><input type="text" class="form-control" id="userAddress" name="userAddress" th:field="*{userAddress}" /></div>
+              <div class="text-nowrap text-truncate"><label for="userCity">userCity</label><input type="text" class="form-control" id="userCity" name="userCity" th:field="*{userCity}" /></div>
+              <div class="text-nowrap text-truncate"><label for="userCountry">userCountry</label><input type="text" class="form-control" id="userCountry" name="userCountry" th:field="*{userCountry}" /></div>
+              <div class="text-nowrap text-truncate"><label for="userPostalCode">userPostalCode</label><input type="number" class="form-control" id="userPostalCode" name="userPostalCode" th:field="*{userPostalCode}" /></div>
+              <div class="text-nowrap text-truncate"><label for="userRole">userRole</label><input type="text" class="form-control" id="userRole" name="userRole" th:field="*{userRole}" /></div>
+              <div class="text-nowrap text-truncate"><label for="userWeigth">userWeigth</label><input type="number" step="any" class="form-control" id="userWeigth" name="userWeigth" th:field="*{userWeigth}" /></div>
+              <div class="text-nowrap text-truncate"><label for="userHeight">userHeight</label><input type="number" step="any" class="form-control" id="userHeight" name="userHeight" th:field="*{userHeight}" /></div>
+              <div class="text-nowrap text-truncate"><label for="userConsent">userConsent</label><input type="checkbox" class="form-check" id="userConsent" name="userConsent" th:field="*{userConsent}" /></div>
+              <div class="text-nowrap text-truncate"><label for="userDateConsent">userDateConsent</label><input type="date" class="form-control" id="userDateConsent" name="userDateConsent" th:field="*{userDateConsent}" /></div>
+              <div class="text-nowrap text-truncate"><label for="userActive">userActive</label><input type="checkbox" class="form-check" id="userActive" name="userActive" th:field="*{userActive}" /></div>
+              <div class="text-nowrap text-truncate"><label for="userCreatedAt">userCreatedAt</label><input type="date" class="form-control" id="userCreatedAt" name="userCreatedAt" th:field="*{userCreatedAt}" readonly /></div>
             </div>
             <div class="modal-footer">
               <button
@@ -94,7 +166,7 @@
         <p>El Usuario ha sido agregada correctamente con los siguientes detalles:</p>
         <ul>
           <li>ID: <span id="addedUserId"></span></li>
-          <li>nameUser: <span id="aaddedUserName"></span></li>
+          <li>userName: <span id="addedUserName"></span></li>
           <li>emailUser: <span id="addedUserEmail"></span></li>
         </ul>
       </div>
@@ -116,8 +188,8 @@
               <input type="hidden" id="userId" />
               <!-- Añade los campos del formulario aquí, por ejemplo: -->
               <div class="mb-3">
-                <label for="nameUser" class="form-label">nameUser</label>
-                <input type="text" class="form-control" id="nameUser" />
+                <label for="userName" class="form-label">userName</label>
+                <input type="text" class="form-control" id="userName" />
               </div>
               <!-- Añade más campos según sea necesario -->
             </form>
@@ -147,7 +219,7 @@
           contentType: false,
           success: function (response) {
             $("#addedUserId").text(response.id);
-            $("#aaddedUserName").text(response.nameUser);
+            $("#addedUserName").text(response.userName);
             $("#addedUserEmail").text(response.emailUser);
   
             $("#addUserModal").modal("hide");
@@ -173,7 +245,7 @@ function mostrarFormularioEdicion(idUser) {
     type: "GET",
     success: function (user) {
       $("#userId").val(user.id);
-      $("#nameUser").val(user.nameUser);
+      $("#userName").val(user.userName);
       $("#emailUser").val(user.emailUser);
       $("#editarUserModal").modal("show");
     },
@@ -185,11 +257,11 @@ function mostrarFormularioEdicion(idUser) {
 
 function actualizarUser() {
   const idUser = $("#userId").val();
-  const nameUser = $("#nameUser").val();
+  const userName = $("#userName").val();
   const emailUser = $("#emailUser").val();
 
   const datosActualizados = {
-    nameUser: nameUser,
+    userName: userName,
     emailUser: emailUser,
   };
 

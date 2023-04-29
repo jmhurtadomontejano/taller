@@ -35,10 +35,10 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    // Obtener user por nameUser (GET)
+    // Obtener user por userName (GET)
     @GetMapping("/name")
     public ResponseEntity<List<User>> getUsersPorNombreUser(@RequestParam String name) {
-        List<User> users = userService.findByNameUser(name);
+        List<User> users = userService.findByuserName(name);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 

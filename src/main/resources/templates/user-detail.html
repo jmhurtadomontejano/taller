@@ -14,23 +14,139 @@
                 data-target="#editarUserModal"
             >Editar</button>
             <table class="table">
+                <!-- Mi modelo completo de Users para no olvidar ningún campo 
+@Table(name = "users")
+@Entity
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "name")
+    private String userName;
+
+    @Column(name = "surname")
+    private String userSurname;
+
+    @Column(name = "dni")
+    private String userDni;
+
+    @Column(name = "birth_date")
+    private Date userBirthDate;
+
+    @Email
+    @Column(name = "email")
+    private String emailUser;
+
+    @Column(name = "password")
+    private String userPassword;
+
+    @Column(name = "phone")
+    private int userPhone;
+
+    @Column(name = "address")
+    private String userAddress;
+
+    @Column(name = "city")
+    private String userCity;
+
+    @Column(name = "country")
+    private String userCountry;
+
+    @Column(name = "postal_code")
+    private int userPostalCode;
+
+    @Column(name = "role")
+    private String userRole;
+
+    @Column(name = "weigth")
+    private double userWeigth;
+
+    @Column(name = "height")
+    private double userHeight;
+
+    @Column(name = "consent")
+    private boolean userConsent;
+
+    @Column(name = "date_consent")
+    private Date userDateConsent;
+
+    @Column(name = "active")
+    private boolean userActive;
+
+    @Column(name = "created_at")
+    private Date userCreatedAt;-->
                 <tr>
                     <th>ID</th>
                     <td th:text="${user.id}"></td>
                 </tr>
                 <tr>
                     <th>Name</th>
-                    <td th:text="${user.nameUser}"></td>
+                    <td th:text="${user.userName}"></td>
                 </tr>
                 <tr>
                     <th>Email</th>
                     <td th:text="${user.emailUser}"></td>
                 </tr>
-            <!--    <tr>
-                    <th>Cliente</th>
-                    <td th:text="${bicicleta.cliente != null ? bicicleta.cliente.nombre : 'Sin cliente'}"></td>
+                <tr>
+                    <th>Fecha de nacimiento</th>
+                    <td th:text="${user.userBirthDate}"></td>
                 </tr>
-            -->
+                <tr>
+                    <th>Contraseña</th>
+                    <td th:text="${user.userPassword}"></td>
+                </tr>
+                <tr>
+                    <th>Teléfono</th>
+                    <td th:text="${user.userPhone}"></td>
+                </tr>
+                <tr>
+                    <th>Dirección</th>
+                    <td th:text="${user.userAddress}"></td>
+                </tr>
+                <tr>
+                    <th>Ciudad</th>
+                    <td th:text="${user.userCity}"></td>
+                </tr>
+                <tr>
+                    <th>País</th>
+                    <td th:text="${user.userCountry}"></td>
+                </tr>
+                <tr>
+                    <th>Código postal</th>
+                    <td th:text="${user.userPostalCode}"></td>
+                </tr>
+                <tr>
+                    <th>Rol</th>
+                    <td th:text="${user.userRole}"></td>
+                </tr>
+                <tr>
+                    <th>Peso</th>
+                    <td th:text="${user.userWeigth}"></td>
+                </tr>
+                <tr>
+                    <th>Altura</th>
+                    <td th:text="${user.userHeight}"></td>
+                </tr>
+                <tr>
+                    <th>Consentimiento</th>
+                    <td th:text="${user.userConsent}"></td>
+                </tr>
+                <tr>
+                    <th>Fecha de consentimiento</th>
+                    <td th:text="${user.userDateConsent}"></td>
+                </tr>
+                <tr>
+                    <th>Activo</th>
+                    <td th:text="${user.userActive}"></td>
+                </tr>
+                <tr>
+                    <th>Fecha de creación</th>
+                    <td th:text="${user.userCreatedAt}"></td>
+                </tr>
+
             </table>
             <button type="button" class="btn btn-danger" onclick="mostrarModalEliminar()">Eliminar</button>
             <a href="/users/listado-users" class="btn btn-primary">Volver al listado</a>
@@ -59,12 +175,12 @@
                         <form id="editarUserForm">
                             <input type="hidden" id="userId" th:value="${user.id}">
                             <div class="mb-3">
-                                <label for="nameUser" class="form-label">Nombre</label>
+                                <label for="userName" class="form-label">Nombre</label>
                                 <input
                                     type="text"
                                     class="form-control"
-                                    id="nameUser"
-                                    th:value="${user.nameUser}"
+                                    id="userName"
+                                    th:value="${user.userName}"
                                 >
                             </div>
                             <div class="mb-3">
@@ -214,12 +330,12 @@
     <script>
     function actualizarUser() {
   const userId = document.getElementById('userId').value;
-  const nameUser = document.getElementById('nameUser').value;
+  const userName = document.getElementById('userName').value;
   const emailUser = document.getElementById('emailUser').value;
 
   const data = {
     id: userId,
-    nameUser: nameUser,
+    userName: userName,
     emailUser: emailUser,
   };
 
