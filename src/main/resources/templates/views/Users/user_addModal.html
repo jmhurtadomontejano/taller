@@ -15,59 +15,47 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="addUserModalLabel">
-              Agregar usuario
-            </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          
-          <form
-            action="#"
-            th:action="@{/users}"
-            th:object="${user}"
-            method="post"
-            enctype="multipart/form-data"
-          >
-            <div class="modal-body">
-              <div class="text-nowrap text-truncate">
-                <label for="userName">userName</label>
-                <input type="text" class="form-control" id="userNam" name="userName" th:field="*{userName}" required />
-              </div>
-              <div class="text-nowrap text-truncate">
-                <label for="emailUser">emailUser</label>
-                <input type="text" class="form-control" id="emailUser" name="emailUser" th:field="*{emailUser}" required />
-              </div>
-              <div class="text-nowrap text-truncate"><label for="userSurname">userSurname</label><input type="text" class="form-control" id="userSurname" name="userSurname" th:field="*{userSurname}" /></div>
-              <div class="text-nowrap text-truncate"><label for="userDni">userDni</label><input type="text" class="form-control" id="userDni" name="userDni" th:field="*{userDni}" /></div>
-              <div class="text-nowrap text-truncate"><label for="userBirthDate">userBirthDate</label><input type="date" class="form-control" id="userBirthDate" name="userBirthDate" th:field="*{userBirthDate}" /></div>
-              <div class="text-nowrap text-truncate"><label for="userPassword">userPassword</label><input type="password" class="form-control" id="userPassword" name="userPassword" th:field="*{userPassword}" /></div>
-              <div class="text-nowrap text-truncate"><label for="userPhone">userPhone</label><input type="number" class="form-control" id="userPhone" name="userPhone" th:field="*{userPhone}" /></div>
-              <div class="text-nowrap text-truncate"><label for="userAddress">userAddress</label><input type="text" class="form-control" id="userAddress" name="userAddress" th:field="*{userAddress}" /></div>
-              <div class="text-nowrap text-truncate"><label for="userCity">userCity</label><input type="text" class="form-control" id="userCity" name="userCity" th:field="*{userCity}" /></div>
-              <div class="text-nowrap text-truncate"><label for="userCountry">userCountry</label><input type="text" class="form-control" id="userCountry" name="userCountry" th:field="*{userCountry}" /></div>
-              <div class="text-nowrap text-truncate"><label for="userPostalCode">userPostalCode</label><input type="number" class="form-control" id="userPostalCode" name="userPostalCode" th:field="*{userPostalCode}" /></div>
-              <div class="col-md-6 col-12 mb-3">
-                <label for="userRole" class="form-label">Rol</label>
-                <select class="form-control" id="userRole" name="userRole" th:field="*{userRole}">
-                  <option value="Hombre">Hombre</option>
-                  <option value="Mujer">Mujer</option>
-                  <option value="Otro">Otro</option>
-                </select>
-              </div>              
-              <div class="text-nowrap text-truncate"><label for="userWeigth">userWeigth</label><input type="number" step="any" class="form-control" id="userWeigth" name="userWeigth" th:field="*{userWeigth}" /></div>
-              <div class="text-nowrap text-truncate"><label for="userHeight">userHeight</label><input type="number" step="any" class="form-control" id="userHeight" name="userHeight" th:field="*{userHeight}" /></div>
-              <div class="text-nowrap text-truncate"><label for="userConsent">userConsent</label><input type="checkbox" class="form-check" id="userConsent" name="userConsent" th:field="*{userConsent}" /></div>
-              <div class="text-nowrap text-truncate"><label for="userDateConsent">userDateConsent</label><input type="datetime-local" class="form-control" id="userDateConsent" name="userDateConsent" th:field="*{userDateConsent}" readonly/></div>
-              <div class="text-nowrap text-truncate"><label for="userActive">userActive</label><input type="checkbox" class="form-check" id="userActive" name="userActive" th:field="*{userActive}" /></div>
-              <div class="text-nowrap text-truncate"><label for="userCreatedAt">userCreatedAt</label><input type="datetime-local" class="form-control" id="userCreatedAt" name="userCreatedAt" th:field="*{userCreatedAt}" readonly /></div>
+            <h5 class="modal-title" id="addUserModalLabel">Agregar usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
             </div>
+
+            <form action="#" th:action="@{/users}" th:object="${user}" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6 mb-3">
+                            <label for="userName">userName</label>
+                            <input type="text" class="form-control" id="userNam" name="userName" th:field="*{userName}" required />
+                        </div>
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="userSurname">userSurname</label><input type="text" class="form-control" id="userSurname" name="userSurname" th:field="*{userSurname}" /></div>
+                        <div class="col-md-4 col-sm-6 mb-3">
+                          <label for="emailUser">emailUser</label>
+                          <input type="text" class="form-control" id="emailUser" name="emailUser" th:field="*{emailUser}" required />
+                        </div>
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="userDni">userDni</label><input type="text" class="form-control" id="userDni" name="userDni" th:field="*{userDni}" /></div>
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="userBirthDate">userBirthDate</label><input type="date" class="form-control" id="userBirthDate" name="userBirthDate" th:field="*{userBirthDate}" /></div>
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="userPassword">userPassword</label><input type="password" class="form-control" id="userPassword" name="userPassword" th:field="*{userPassword}" /></div>
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="userPhone">userPhone</label><input type="number" class="form-control" id="userPhone" name="userPhone" th:field="*{userPhone}" /></div>
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="userAddress">userAddress</label><input type="text" class="form-control" id="userAddress" name="userAddress" th:field="*{userAddress}" /></div>
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="userCity">userCity</label><input type="text" class="form-control" id="userCity" name="userCity" th:field="*{userCity}" /></div>
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="userCountry">userCountry</label><input type="text" class="form-control" id="userCountry" name="userCountry" th:field="*{userCountry}" /></div>
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="userPostalCode">userPostalCode</label><input type="number" class="form-control" id="userPostalCode" name="userPostalCode" th:field="*{userPostalCode}" /></div>
+                        <div class="col-md-6 col-12 mb-3">
+                          <label for="userRole" class="form-label">Rol</label>
+                          <select class="form-control" id="userRole" name="userRole" th:field="*{userRole}">
+                            <option value="Hombre">Hombre</option>
+                            <option value="Mujer">Mujer</option>
+                            <option value="Otro">Otro</option>
+                          </select>
+                        </div>              
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="userWeigth">userWeigth</label><input type="number" step="any" class="form-control" id="userWeigth" name="userWeigth" th:field="*{userWeigth}" /></div>
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="userHeight">userHeight</label><input type="number" step="any" class="form-control" id="userHeight" name="userHeight" th:field="*{userHeight}" /></div>
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="userConsent">userConsent</label><input type="checkbox" class="form-check" id="userConsent" name="userConsent" th:field="*{userConsent}" /></div>
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="userDateConsent">userDateConsent</label><input type="datetime-local" class="form-control" id="userDateConsent" name="userDateConsent" th:field="*{userDateConsent}" readonly/></div>
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="userActive">userActive</label><input type="checkbox" class="form-check" id="userActive" name="userActive" th:field="*{userActive}" /></div>
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="userCreatedAt">userCreatedAt</label><input type="datetime-local" class="form-control" id="userCreatedAt" name="userCreatedAt" th:field="*{userCreatedAt}" readonly /></div>
+                      </div>
             <div class="modal-footer">
               <button
                 type="button"
