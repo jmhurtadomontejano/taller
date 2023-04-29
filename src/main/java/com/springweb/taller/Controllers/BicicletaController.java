@@ -47,7 +47,7 @@ public class BicicletaController {
     public String verBicicletaDetalle(@PathVariable Long id, Model model) {
         Bicicleta bicicleta = bicicletaService.findById(id);
         model.addAttribute("bicicleta", bicicleta);
-        return "bicicleta-detalle";
+        return "/views/Bicicletas/bicicleta-detalle";
     }
     
 
@@ -95,7 +95,7 @@ public ResponseEntity<Bicicleta> createBicicleta(@ModelAttribute Bicicleta bicic
         List<Bicicleta> bicicletas = bicicletaService.findAll();
         model.addAttribute("bicicletas", bicicletas);
         model.addAttribute("bicicleta", new Bicicleta()); // Añade esta línea
-        return "listado-bicicletas";
+        return "/views/Bicicletas/listado-bicicletas";
     }
 
     /*

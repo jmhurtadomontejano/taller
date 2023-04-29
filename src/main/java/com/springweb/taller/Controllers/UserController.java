@@ -47,7 +47,7 @@ public class UserController {
     public String verUserDetalle(@PathVariable Long id, Model model) {
         User user = userService.findById(id);
         model.addAttribute("user", user);
-        return "user-detail";
+        return "/views/Users/user-detail";
     }
     
 
@@ -82,6 +82,6 @@ public class UserController {
         List<User> users = userService.findAll();
         model.addAttribute("users", users);
         model.addAttribute("user", new User()); // Añade esta línea
-        return "listado-users";
+        return "/views/Users/listado-users";
     }
 }
