@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 @Table(name = "users")
@@ -116,7 +117,18 @@ public class User {
         this.userCreatedAt = userCreatedAt;
     }
 
+    public boolean checkPassword(String rawPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.matches(rawPassword, this.userPassword);
+    }
+    
+
     // Getters y setters
+    public void setPassword(String password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.userPassword = passwordEncoder.encode(password);
+    }
+
     public Long getId() {
         return id;
     }
