@@ -140,8 +140,6 @@
                     </div>
                 </div>
                 
-
-                <!-- ... -->
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                     <div class="d-flex justify-content-between">
                         <strong>Dirección:</strong>
@@ -256,7 +254,9 @@
     const userWeigth = document.getElementById('userWeigth').value;
     const userHeight = document.getElementById('userHeight').value;
     const userConsent = document.getElementById('userConsent').value;
+    const userDateConsent = document.getElementById('userDateConsent').value;
     const userActive = document.getElementById('userActive').value;
+    const userCreatedAt = document.getElementById('userCreatedAt').value;    
 
 
   const data = {
@@ -275,8 +275,9 @@
     userWeigth: userWeigth,
     userHeight: userHeight,
     userConsent: userConsent,
+    userDateConsent: userDateConsent,
     userActive: userActive,
-
+    userCreatedAt: userCreatedAt,
   };
 
   fetch(`/users/${userId}`, {

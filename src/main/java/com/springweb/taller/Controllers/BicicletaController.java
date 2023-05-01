@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller //se utiliza para construir aplicaciones web y devuelve vistas.
-//@RestController // es una versión especializada de @Controller que se utiliza para construir servicios RESTful y devuelve directamente objetos JSON. incompatible con @Controller
+@Controller
 @RequestMapping("/bicicletas")
 public class BicicletaController {
 
@@ -50,19 +49,6 @@ public class BicicletaController {
         return "/views/Bicicletas/bicicleta-detalle";
     }
     
-
-    // Crear una nueva bicicleta (POST)
-  /*   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Bicicleta> createBicicleta(@ModelAttribute Bicicleta bicicleta) {
-        Bicicleta newBicicleta = bicicletaService.save(bicicleta);
-        return new ResponseEntity<>(newBicicleta, HttpStatus.CREATED);
-    }
-  @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-public String createBicicleta(@ModelAttribute Bicicleta bicicleta, Model model) {
-    Bicicleta newBicicleta = bicicletaService.save(bicicleta);
-    model.addAttribute("newBicicleta", newBicicleta);
-    return "redirect:/bicicletas/listado-bicicletas?success=true";*/
-    //POSTMapping con retorno de datos
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 public ResponseEntity<Bicicleta> createBicicleta(@ModelAttribute Bicicleta bicicleta) {
     Bicicleta newBicicleta = bicicletaService.save(bicicleta);

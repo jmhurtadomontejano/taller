@@ -63,9 +63,7 @@ public class ClientesController {
         System.out.println("Buscando cliente con ID: " + id); // Agregar esta línea
         Cliente cliente = clienteService.findById(id);
         Hibernate.initialize(cliente.getBicicletas());
-        if (cliente == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+
         return new ResponseEntity<>(cliente, HttpStatus.OK);
     }
 

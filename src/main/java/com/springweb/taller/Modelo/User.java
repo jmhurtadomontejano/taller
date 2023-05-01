@@ -3,7 +3,8 @@ package com.springweb.taller.Modelo;
 import javax.persistence.Id;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -14,6 +15,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
 
 @Table(name = "users")
@@ -25,7 +28,8 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column(unique = true, name="uuid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "uuid", updatable = false, nullable = false)
     private UUID uuid;
 
     @Column(name = "name")
@@ -76,15 +80,13 @@ public class User {
     private boolean userConsent;
 
     @Column(name = "date_consent")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date userDateConsent;//fecha y Hora
+    private LocalDateTime userDateConsent;
 
     @Column(name = "active")
     private boolean userActive;
 
     @Column(name = "created_at")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date userCreatedAt;//fecha y Hora
+    private LocalDateTime userCreatedAt;
 
     //Constructors
     public User() {
@@ -94,7 +96,7 @@ public class User {
     public User(Long id, UUID uuid, String userName, String userSurname, String userDni, LocalDate userBirthDate,
             @Email String emailUser, String userPassword, int userPhone, String userAddress, String userCity,
             String userCountry, int userPostalCode, String userRole, double userWeigth, double userHeight,
-            boolean userConsent, Date userDateConsent, boolean userActive, Date userCreatedAt) {
+            boolean userConsent, LocalDateTime userDateConsent, boolean userActive, LocalDateTime userCreatedAt) {
         this.id = id;
         this.uuid = UUID.randomUUID();
         this.userName = userName;
@@ -117,9 +119,22 @@ public class User {
         this.userCreatedAt = userCreatedAt;
     }
 
+    //methods
     public boolean checkPassword(String rawPassword) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(rawPassword, this.userPassword);
+    }
+
+    @Component
+    public class StringToLocalDateTimeConverter implements Converter<String, LocalDateTime> {
+    
+        private static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm";
+    
+        @Override
+        public LocalDateTime convert(String source) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
+            return LocalDateTime.parse(source, formatter);
+        }
     }
     
 
@@ -257,11 +272,11 @@ public class User {
         this.userConsent = userConsent;
     }
 
-    public Date getUserDateConsent() {
+    public LocalDateTime getUserDateConsent() {
         return userDateConsent;
     }
 
-    public void setUserDateConsent(Date userDateConsent) {
+    public void setUserDateConsent(LocalDateTime userDateConsent) {
         this.userDateConsent = userDateConsent;
     }
 
@@ -273,11 +288,11 @@ public class User {
         this.userActive = userActive;
     }
 
-    public Date getUserCreatedAt() {
+    public LocalDateTime getUserCreatedAt() {
         return userCreatedAt;
     }
 
-    public void setUserCreatedAt(Date userCreatedAt) {
+    public void setUserCreatedAt(LocalDateTime userCreatedAt) {
         this.userCreatedAt = userCreatedAt;
     }
 

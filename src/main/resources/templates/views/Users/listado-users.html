@@ -60,7 +60,9 @@
             <th class="d-none d-md-table-cell">Fecha Creación Usuario</th>            
             <th>Acciones</th></tr></thead>
         <tbody>
-          <tr th:each="user : ${users}"><td th:text="${user.id}"></td>
+          <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.userName}"></td>
             <td th:text="${user.userName}"></td>
             <td th:text="${user.userSurname}"></td>
             <td th:text="${user.userDni}"></td>
@@ -93,30 +95,31 @@
   </body>
   <script>
     $(document).ready(function () {
-      // Agregar usuario
-      $("form").on("submit", function (event) {
-        event.preventDefault();
-  
-        var formData = new FormData($(this)[0]);
-        $.ajax({
-          url: "/users",
-          type: "POST",
-          data: formData,
-          processData: false,
-          contentType: false,
-          success: function (response) {
+     // Agregar usuario
+$("form").on("submit", function (event) {
+    event.preventDefault();
+
+    var formData = new FormData($(this)[0]);
+    $.ajax({
+        url: "/users",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
             $("#addedUserId").text(response.id);
             $("#addedUserName").text(response.userName);
             $("#addedUserEmail").text(response.emailUser);
-  
+
             $("#addUserModal").modal("hide");
             $("#infoModal").modal("show");
-          },
-          error: function (xhr, status, error) {
+        },
+        error: function (xhr, status, error) {
             console.log("Error: " + error);
-          },
-        });
-      });
+        },
+    });
+});
+
 
         // Recargar la página cuando se cierre la ventana modal #infoModal
       $("#infoModal").on("hidden.bs.modal", function () {
