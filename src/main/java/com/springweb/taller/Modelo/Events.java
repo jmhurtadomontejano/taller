@@ -10,8 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -24,7 +24,10 @@ public class Events {
         name = "UUID",
         strategy = "org.hibernate.id.UUIDGenerator"
     )
+    @Type(type="org.hibernate.type.UUIDBinaryType")
+    @Column(name = "id", columnDefinition = "BINARY(16)", updatable = false, nullable = false, unique = true)
     private UUID id;
+
 
     @Column(name = "name")
     private String name;
@@ -98,7 +101,17 @@ public Events(String name, LocalDate date, LocalTime hour, String locationUrl) {
         return registryDate;
     }
 
-        // Getters y setters
+        public Events(UUID id, String name, LocalDate date, LocalTime hour, LocalDateTime registryDate,
+            String locationUrl) {
+        this.id = id;
+        this.name = name;
+        this.date = date;
+        this.hour = hour;
+        this.registryDate = registryDate;
+        this.locationUrl = locationUrl;
+    }
+
+    // Getters y setters
     public String getLocationUrl() {
         return locationUrl;
     }

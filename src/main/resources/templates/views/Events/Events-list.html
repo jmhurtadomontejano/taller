@@ -19,8 +19,7 @@
             <td th:text="${evento.hour}" th:data-hour="${evento.hour}"></td>
             <td th:text="${evento.locationUrl}" th:data-locationUrl="${evento.locationUrl}"></td>
             <td>
-                <a th:href="@{/events/event-details/{id}(id=${evento.id})}" class="btn btn-warning">Editar</a>
-            </td>                                
+                <a th:href="@{/events/edit/{id}(id=${evento.id})}">Editar</a>
         </tr>
         </tbody>
     </table>
@@ -34,7 +33,7 @@
                 <h5 class="modal-title" id="addEventModalLabel">Agregar evento</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
-            <form th:action="@{/events}" th:object="${newEvento}" method="post" enctype="multipart/form-data">
+            <form th:action="@{/events/create}" th:object="${newEvento}" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="name">Nombre</label>
@@ -65,12 +64,9 @@
 <div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="editEventModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editEventModalLabel">Editar evento</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <form action="#" th:action="@{/events/update}" th:object="${evento}" method="post">
-                <div class="modal-body">
+            <!-- Cambia la acción del formulario a /events/update y th:object a ${evento} -->
+            <form th:action="@{/events/update}" th:object="${evento}" method="post">
+             <div class="modal-body">
                     <input type="hidden" th:field="*{id}" id="id" />
                     <div class="form-group">
                         <label for="name">Nombre del evento:</label>
@@ -100,22 +96,25 @@
 
 <script>
     $(document).ready(function() {
-    $(".edit-btn").click(function() {
-        // Obtenemos los datos del evento seleccionado
-        let id = $(this).closest("tr").data("id");
-        let name = $(this).closest("tr").data("name");
-        let date = $(this).closest("tr").data("date");
-        let hour = $(this).closest("tr").data("hour");
-        let locationUrl = $(this).closest("tr").data("locationUrl");
+        $(".edit-btn").click(function() {
+            // Obtenemos los datos del evento seleccionado
+            let id = $(this).closest("tr").find("td[data-id]").data("id");
+            let name = $(this).closest("tr").find("td[data-name]").data("name");
+            let date = $(this).closest("tr").find("td[data-date]").data("date");
+            let hour = $(this).closest("tr").find("td[data-hour]").data("hour");
+            let locationUrl = $(this).closest("tr").find("td[data-locationUrl]").data("locationUrl");
 
-        // Rellena los campos del formulario en la ventana modal
-        $("#editEventModal #id").val(id);
-        $("#editEventModal #name").val(name);
-        $("#editEventModal #date").val(date);
-        $("#editEventModal #hour").val(hour);
-        $("#editEventModal #location").val(locationUrl);
+            // Rellena los campos del formulario en la ventana modal
+            $("#editEventModal #id").val(id);
+            $("#editEventModal #name").val(name);
+            $("#editEventModal #date").val(date);
+            $("#editEventModal #hour").val(hour);
+            $("#editEventModal #location").val(locationUrl);
+
+            // Abre la ventana modal de edición
+            $("#editEventModal").modal("show");
+        });
     });
-});
 </script>
 </body>
 </html>

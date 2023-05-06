@@ -22,17 +22,14 @@ import javax.validation.Valid;
 
 import java.util.List;
 
-@Controller // se utiliza para construir aplicaciones web y devuelve vistas.
-// @RestController // es una versión especializada de @Controller que se utiliza
-// para construir servicios RESTful y devuelve directamente objetos JSON.
-// incompatible con @Controller
+@Controller
 @RequestMapping("/clientes")
 public class ClientesController {
 
     @Autowired
     private ClienteService clienteService;
 
-    // Obtener todos los clientes
+// Obtener todos los clientes
     @GetMapping
     public String getAllClientes(Model model) {
         List<Cliente> clientes = clienteService.findAll();
@@ -40,14 +37,14 @@ public class ClientesController {
         return "clientes";
     }
 
-    // obtener todos los clientes api en JSON
+// obtener todos los clientes api en JSON
     @GetMapping("/clientes-json")
     public ResponseEntity<List<Cliente>> getAllClientesJson() {
     List<Cliente> clientes = clienteService.findAll();
     return new ResponseEntity<>(clientes, HttpStatus.OK);
     }
 
-    // Obtener un cliente por ID
+// Obtener un cliente por ID
     @GetMapping("/{id}")
     public String getClienteById(@PathVariable Long id, Model model) {
         Cliente cliente = clienteService.findById(id);
@@ -55,7 +52,7 @@ public class ClientesController {
         return "cliente-detalle";
     }
 
-    // Obtener un cliente por ID con ruta /api y @ResponseBody
+// Obtener un cliente por ID con ruta /api y @ResponseBody
     @ResponseBody
     @Transactional
     @GetMapping("/{id}/api")
@@ -67,7 +64,7 @@ public class ClientesController {
         return new ResponseEntity<>(cliente, HttpStatus.OK);
     }
 
-    // Crear un nuevo cliente comprobando email, devolviendo mensaje por JSON
+// Crear un nuevo cliente comprobando email, devolviendo mensaje por JSON
     @PostMapping(path = "/api", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createCliente(@Valid @RequestBody Cliente cliente) {
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -80,7 +77,7 @@ public class ClientesController {
         }
     }
 
-    // Actualizar un cliente existente
+// Actualizar un cliente existente
     @PutMapping("/api/{id}")
     public ResponseEntity<?> updateCliente(@PathVariable Long id, @Valid @RequestBody Cliente updatedCliente) {
         System.out.println("Actualizando cliente con ID: " + id); // Agregar esta línea
@@ -101,17 +98,16 @@ public class ClientesController {
         return new ResponseEntity<>(savedCliente, HttpStatus.OK);
     }
     
-    // Eliminar un cliente por ID
+// Eliminar un cliente por ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCliente(@PathVariable Long id) {
         clienteService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    //Habilitar registro errores detallados en las respuestas de error:
+//Habilitar registro errores detallados en las respuestas de error:
     @ControllerAdvice
-public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
-
+    public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = { Exception.class })
     protected ResponseEntity<Object> handleConflict(Exception ex, WebRequest request) {
         String bodyOfResponse = "Error interno del servidor: " + ex.getMessage();
