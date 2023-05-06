@@ -10,27 +10,29 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 
-@Table(name = "users")
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "uuid", updatable = false, nullable = false)
-    private UUID uuid;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+        name = "UUID",
+        strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Type(type="org.hibernate.type.UUIDBinaryType")
+    @Column(name = "id", columnDefinition = "BINARY(16)", updatable = false, nullable = false, unique = true)
+    private UUID id;
 
     @Column(name = "name")
     private String userName;
@@ -90,34 +92,32 @@ public class User {
 
     //Constructors
     public User() {
-        this.uuid = UUID.randomUUID();
-    }    
-
-    public User(Long id, UUID uuid, String userName, String userSurname, String userDni, LocalDate userBirthDate,
-            @Email String emailUser, String userPassword, int userPhone, String userAddress, String userCity,
-            String userCountry, int userPostalCode, String userRole, double userWeigth, double userHeight,
-            boolean userConsent, LocalDateTime userDateConsent, boolean userActive, LocalDateTime userCreatedAt) {
-        this.id = id;
-        this.uuid = UUID.randomUUID();
-        this.userName = userName;
-        this.userSurname = userSurname;
-        this.userDni = userDni;
-        this.userBirthDate = userBirthDate;
-        this.emailUser = emailUser;
-        this.userPassword = userPassword;
-        this.userPhone = userPhone;
-        this.userAddress = userAddress;
-        this.userCity = userCity;
-        this.userCountry = userCountry;
-        this.userPostalCode = userPostalCode;
-        this.userRole = userRole;
-        this.userWeigth = userWeigth;
-        this.userHeight = userHeight;
-        this.userConsent = userConsent;
-        this.userDateConsent = userDateConsent;
-        this.userActive = userActive;
-        this.userCreatedAt = userCreatedAt;
     }
+
+    public User(UUID id, String userName, String userSurname, String userDni, LocalDate userBirthDate,
+    @Email String emailUser, String userPassword, int userPhone, String userAddress, String userCity,
+    String userCountry, int userPostalCode, String userRole, double userWeigth, double userHeight,
+    boolean userConsent, LocalDateTime userDateConsent, boolean userActive, LocalDateTime userCreatedAt) {
+    this.id = id;
+    this.userName = userName;
+    this.userSurname = userSurname;
+    this.userDni = userDni;
+    this.userBirthDate = userBirthDate;
+    this.emailUser = emailUser;
+    this.userPassword = userPassword;
+    this.userPhone = userPhone;
+    this.userAddress = userAddress;
+    this.userCity = userCity;
+    this.userCountry = userCountry;
+    this.userPostalCode = userPostalCode;
+    this.userRole = userRole;
+    this.userWeigth = userWeigth;
+    this.userHeight = userHeight;
+    this.userConsent = userConsent;
+    this.userDateConsent = userDateConsent;
+    this.userActive = userActive;
+    this.userCreatedAt = userCreatedAt;
+}
 
     //methods
     public boolean checkPassword(String rawPassword) {
@@ -144,11 +144,11 @@ public class User {
         this.userPassword = passwordEncoder.encode(password);
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -307,5 +307,6 @@ public class User {
                 + ", userDateConsent=" + userDateConsent + ", userActive=" + userActive + ", userCreatedAt="
                 + userCreatedAt + "]";
     }
+
    
 }

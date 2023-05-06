@@ -11,9 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 import java.util.UUID;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller //se utiliza para construir aplicaciones web y devuelve vistas.
@@ -23,6 +23,15 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+//metodo dar formato fechas para Modal
+    public String formatLocalDateTime(LocalDateTime dateTime) {
+        if (dateTime == null) {
+            return "";
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        return dateTime.format(formatter);
+    }
 
 // Crear un nuevo user (POST)
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -36,7 +45,7 @@ public class UserController {
 
 // Actualizar un user existente (PUT)
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@PathVariable UUID id, @RequestBody User user) {
     User updatedUser = userService.update(id, user);
     return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 }
@@ -50,39 +59,34 @@ public class UserController {
 
 // Obtener un user por ID (GET)
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<User> getUserById(@PathVariable UUID id) {
         User user = userService.findById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-// Obtener un user por UUID (GET)
-    @GetMapping("/events/details/{uuid}")
-    public ResponseEntity<User> getUserByUUID(@PathVariable UUID uuid) {
-        Optional<User> user = userService.findByUuid(uuid);
-        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
 //Obtener user para editar en html
     @GetMapping("/detalle/{id}")
-    public String verUserDetalle(@PathVariable Long id, Model model) {
+    public String verUserDetalle(@PathVariable UUID id, Model model) {
         User user = userService.findById(id);
         model.addAttribute("user", user);
+        model.addAttribute("userDateConsentFormatted", formatLocalDateTime(user.getUserDateConsent()));
+        model.addAttribute("userCreatedAtFormatted", formatLocalDateTime(user.getUserCreatedAt()));
         return "/views/Users/user-detail";
-    } 
+    }
 
-    // Eliminar un User por ID (DELETE)
+// Eliminar un User por ID (DELETE)
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
         userService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    // Creando la interfaz web
+// Creando la interfaz web
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
+//obtener listado de usuarios
     @GetMapping("/listado-users")
     public String listarUsers(Model model) {
         List<User> users = userService.findAll();

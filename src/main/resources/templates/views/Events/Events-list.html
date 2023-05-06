@@ -19,7 +19,7 @@
             <td th:text="${evento.hour}" th:data-hour="${evento.hour}"></td>
             <td th:text="${evento.locationUrl}" th:data-locationUrl="${evento.locationUrl}"></td>
             <td>
-                <a th:href="@{/events/edit/{id}(id=${evento.id})}">Editar</a>
+                <a th:href="@{/events/edit/{id}(id=${evento.id})}" class="btn btn-warning">Editar</a>
         </tr>
         </tbody>
     </table>

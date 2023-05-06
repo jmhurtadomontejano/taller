@@ -9,6 +9,6 @@ import com.springweb.taller.Modelo.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByuserName(String userName);
-    Optional<User> findByUuid(UUID uuid);
+    Optional<User> findById(UUID uuid);
     
 }

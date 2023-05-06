@@ -9,7 +9,7 @@
     <div class="container">
         <h1>Editar Evento</h1>
         <form action="/events/update-post" method="post" th:object="${evento}">
-            <input type="hidden" name="id" th:value="${evento.id}" />
+            <input class="col-12" type="text" name="id" id="userId" th:value="${evento.id}" readonly />
             <div class="form-group">
                 <label for="name">Nombre:</label>
                 <input type="text" id="name" name="name" th:value="${evento.name}" class="form-control" />

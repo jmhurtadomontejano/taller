@@ -63,7 +63,6 @@
           <tr th:each="user : ${users}">
             <td th:text="${user.id}"></td>
             <td th:text="${user.userName}"></td>
-            <td th:text="${user.userName}"></td>
             <td th:text="${user.userSurname}"></td>
             <td th:text="${user.userDni}"></td>
             <td th:text="${user.userBirthDate}"></td>
@@ -81,7 +80,8 @@
             <td class="d-none d-md-table-cell" th:text="${user.userDateConsent}"></td>
             <td class="d-none d-md-table-cell" th:text="${user.userActive}"></td>
             <td class="d-none d-md-table-cell" th:text="${user.userCreatedAt}"></td>
-          <td><button><a th:href="@{/users/detalle/{id}(id=${user.id})}" class="btn btn-warning">Editar</a></button></td></tr>
+          <td><a th:href="@{/users/detalle/{id}(id=${user.id})}" class="btn btn-warning">Editar</a></td>
+        </tr>
         </tbody>
       </table>
     </div>
@@ -93,33 +93,40 @@
 
       
   </body>
-  <script>
-    $(document).ready(function () {
-     // Agregar usuario
-$("form").on("submit", function (event) {
-    event.preventDefault();
-
-    var formData = new FormData($(this)[0]);
-    $.ajax({
+  <script>$(document).ready(function () {
+    // Agregar usuario
+    $("form").on("submit", function (event) {
+      event.preventDefault();
+  
+      var formData = new FormData($(this)[0]);
+      $.ajax({
         url: "/users",
         type: "POST",
         data: formData,
         processData: false,
         contentType: false,
         success: function (response) {
-            $("#addedUserId").text(response.id);
-            $("#addedUserName").text(response.userName);
-            $("#addedUserEmail").text(response.emailUser);
-
-            $("#addUserModal").modal("hide");
-            $("#infoModal").modal("show");
-        },
+        setTimeout(function() {
+          addUserToTable(response);
+        }, 2000);
+        $("#addUserModal").modal("hide");
+      },
         error: function (xhr, status, error) {
-            console.log("Error: " + error);
+          console.log("Error: " + error);
         },
+      });
     });
-});
 
+    // Agregar usuario a la tabla
+      function addUserToTable(user) {
+      const newRow = `<tr>
+        <td>${user.id}</td>
+        <td>${user.userName}</td>
+        ...
+        <td><button><a href="/users/detalle/${user.id}" class="btn btn-warning">Editar</a></button></td>
+      </tr>`;
+      $("table tbody").append(newRow);
+    }
 
         // Recargar la página cuando se cierre la ventana modal #infoModal
       $("#infoModal").on("hidden.bs.modal", function () {

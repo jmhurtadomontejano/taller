@@ -63,12 +63,12 @@ public class EventsController {
     }
 
 // Editar un evento por ID (GET)
-@GetMapping("/edit/{id}")
-public String showEditForm(@PathVariable("id") String id, Model model) {
-    Events event = eventsService.findByUuidString(id).orElseThrow(() -> new ResourceNotFoundException("Evento no encontrado con el ID: " + id));
-    model.addAttribute("evento", event);
-    return "/views/Events/edit-event";
-}
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable("id") String id, Model model) {
+        Events event = eventsService.findByUuidString(id).orElseThrow(() -> new ResourceNotFoundException("Evento no encontrado con el ID: " + id));
+        model.addAttribute("evento", event);
+        return "/views/Events/edit-event";
+    }
 
 // Método para listar eventos
     @GetMapping("/listado-eventos")

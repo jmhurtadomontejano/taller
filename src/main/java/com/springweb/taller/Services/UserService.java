@@ -23,7 +23,7 @@ public class UserService {
     }
 
     // Encontrar un usuario por ID
-    public User findById(Long id) {
+    public User findById(UUID id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             return user.get();
@@ -45,7 +45,7 @@ public class UserService {
     }
 
     // Actualizar un usuario existente
-    public User update(Long id, User userDetails) {
+    public User update(UUID id, User userDetails) {
         User user = findById(id);
         user.setUserName(userDetails.getUserName());
         user.setUserSurname(userDetails.getUserSurname());
@@ -70,14 +70,9 @@ public class UserService {
     }
 
     // Eliminar un usuario por ID
-    public void delete(Long id) {
+    public void delete(UUID id) {
         User user = findById(id);
         userRepository.delete(user);
-    }
-
-     // Encontrar un usuario por UUID
-     public Optional<User> findByUuid(UUID uuid) {
-        return userRepository.findByUuid(uuid);
     }
 
 }

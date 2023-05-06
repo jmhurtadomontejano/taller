@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8" />
-</head>
+    <head th:replace="fragments/common-head :: common-head">
 <body>
     <!-- Ventana modal de edicion -->
     <div class="modal fade" id="editarUserModal" tabindex="-1" aria-labelledby="editarUserModalLabel" aria-hidden="true">
@@ -18,6 +16,7 @@
                 <div class="row">
                     <div class="col-md-6 col-12 mb-3"><label for="userName" class="form-label">Nombre</label><input type="text" class="form-control" id="userName" th:value="${user.userName}"></div>
                     <div class="col-md-6 col-12 mb-3"><label for="userSurname" class="form-label">Apellidos</label><input type="text" class="form-control" id="userSurname" th:value="${user.userSurname}"></div>
+                    <div class="col-md-6 col-12 mb-3"><label for="userDni" class="form-label">DNI</label><input type="text" class="form-control" id="userDni" th:value="${user.userDni}"></div>
                     <div class="col-md-6 col-12 mb-3"><label for="emailUser" class="form-label">Email</label><input type="text" class="form-control" id="emailUser" th:value="${user.emailUser}"></div>
                     <div class="col-md-6 col-12 mb-3"><label for="userBirthDate" class="form-label">Fecha de nacimiento</label><input type="date" class="form-control" id="userBirthDate" th:value="${user.userBirthDate}"></div>
                     <div class="col-md-6 col-12 mb-3"><label for="userPassword" class="form-label">Contraseña</label><input type="password" class="form-control" id="userPassword" th:value="${user.userPassword}"></div>
@@ -36,10 +35,10 @@
                       </div>                      
                     <div class="col-md-6 col-12 mb-3"><label for="userWeigth" class="form-label">Peso</label><input type="number" class="form-control" id="userWeigth" th:value="${user.userWeigth}"></div>
                     <div class="col-md-6 col-12 mb-3"><label for="userHeight" class="form-label">Altura</label><input type="number" class="form-control" id="userHeight" th:value="${user.userHeight}"></div>
-                    <div class="col-md-6 col-12 mb-3"><label for="userConsent" class="form-label">Consentimiento</label><input type="checkbox" class="form-control" id="userConsent" th:value="${user.userConsent}"></div>
-                    <div class="col-md-6 col-12 mb-3"><label for="userDateConsent" class="form-label">Fecha de consentimiento</label><input type="datetime-local" class="form-control" id="userDateConsent" th:value="${user.userDateConsent}" readonly></div>
+                    <div class="col-md-6 col-12 mb-3"><label for="userConsent" class="form-label">Consentimiento</label><input type="checkbox" class="form-control" id="userConsent" th:checked="${user.userConsent}"></div>
+                    <div class="col-md-6 col-12 mb-3"><label for="userDateConsent" class="form-label">Fecha de consentimiento</label><input type="datetime-local" class="form-control" id="userDateConsent" th:value="${userDateConsentFormatted}" readonly></div>
                     <div class="col-md-6 col-12 mb-3"><label for="userActive" class="form-label">Activo</label><input type="text" class="form-control" id="userActive" th:value="${user.userActive}"></div>
-                    <div class="col-md-6 col-12 mb-3"><label for="userCreatedAt" class="form-label">Fecha de creación</label><input type="datetime-local" class="form-control" id="userCreatedAt" th:value="${user.userCreatedAt}" readonly></div>
+                    <div class="col-md-6 col-12 mb-3"><label for="userCreatedAt" class="form-label">Fecha de creación</label><input type="datetime-local" class="form-control" id="userCreatedAt" th:value="${userCreatedAtFormatted}" readonly></div>
                 </div>
               </form>
             </div>
