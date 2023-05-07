@@ -160,6 +160,12 @@
 				<artifactId>jakarta.persistence-api</artifactId>
 				<version>3.0.0</version>
 			</dependency>
+			<!-- Sanitizar codigo bibliotecas OWASP Sanitizer-->
+			<dependency>
+			<groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+			<artifactId>owasp-java-html-sanitizer</artifactId>
+			<version>20220608.1</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	
@@ -190,5 +196,17 @@
 			
 		</plugins>
 	</build>
+
+<repositories>
+    <repository>
+        <id>central</id>
+        <name>Maven Repository Switchboard</name>
+        <layout>default</layout>
+        <url>https://repo.maven.apache.org/maven2</url>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </repository>
+</repositories>
 
 </project>
