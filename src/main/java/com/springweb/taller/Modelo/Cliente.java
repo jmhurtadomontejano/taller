@@ -5,11 +5,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "clientes")
@@ -54,8 +52,6 @@ public class Cliente {
     @Column(name = "fecha_consentimiento")
     private Date fecha_consentimiento;
 
-    @OneToMany(mappedBy = "cliente")
-    private List<Bicicleta> bicicletas = new ArrayList<>();
 
     public Cliente() {
     }
@@ -75,7 +71,6 @@ public class Cliente {
         this.peso = peso;
         this.consentimiento = consentimiento;
         this.fecha_consentimiento = fecha_consentimiento;
-        this.bicicletas = bicicletas;
     }
 
     public Long getId() {
@@ -174,13 +169,6 @@ public class Cliente {
         this.fecha_consentimiento = fecha_consentimiento;
     }
 
-    public List<Bicicleta> getBicicletas() {
-        return bicicletas;
-    }
-
-    public void setBicicletas(List<Bicicleta> bicicletas) {
-        this.bicicletas = bicicletas;
-    }
 
  
     

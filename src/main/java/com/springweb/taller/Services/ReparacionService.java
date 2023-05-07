@@ -34,12 +34,12 @@ public class ReparacionService {
 
     public Reparacion update(Long id, Reparacion reparacion) {
         Reparacion existingReparacion = findById(id);
-        existingReparacion.setCliente(reparacion.getCliente());
+        existingReparacion.setUser(reparacion.getUser());
         existingReparacion.setBicicleta(reparacion.getBicicleta());
-        existingReparacion.setFechaEntrada(reparacion.getFechaEntrada());
+        existingReparacion.setFecha(reparacion.getFecha());
         existingReparacion.setFechaSalida(reparacion.getFechaSalida());
         existingReparacion.setDescripcion(reparacion.getDescripcion());
-        existingReparacion.setCosto(reparacion.getCosto());
+        existingReparacion.setImporte(reparacion.getImporte());
         return reparacionRepository.save(existingReparacion);
     }
 

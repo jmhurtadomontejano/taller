@@ -50,7 +50,7 @@ public class BicicletaService {
         bicicleta.setModelo(bicicletaDetails.getModelo());
         bicicleta.setMarca(bicicletaDetails.getMarca());
         bicicleta.setId(bicicletaDetails.getId());
-        bicicleta.setCliente(bicicletaDetails.getCliente());
+        bicicleta.setReparaciones(bicicletaDetails.getReparaciones());
 
         return bicicletaRepository.save(bicicleta);
     }

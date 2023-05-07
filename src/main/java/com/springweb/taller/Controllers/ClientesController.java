@@ -7,7 +7,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.springweb.taller.Modelo.Cliente;
 import com.springweb.taller.Services.ClienteService;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -59,7 +58,6 @@ public class ClientesController {
     public ResponseEntity<Cliente> getClienteByIdApi(@PathVariable Long id) {
         System.out.println("Buscando cliente con ID: " + id); // Agregar esta línea
         Cliente cliente = clienteService.findById(id);
-        Hibernate.initialize(cliente.getBicicletas());
 
         return new ResponseEntity<>(cliente, HttpStatus.OK);
     }

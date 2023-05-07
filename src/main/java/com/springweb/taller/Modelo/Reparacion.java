@@ -10,13 +10,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.math.BigDecimal;
+import org.springframework.format.annotation.DateTimeFormat;
 
-
-@Table(name = "reparaciones")
 @Entity
+@Table(name = "reparaciones")
 public class Reparacion {
 
     @Id
@@ -25,52 +24,53 @@ public class Reparacion {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
-
-    @ManyToOne
-    @JoinColumn(name = "bicicleta_id")
+    @JoinColumn(name = "id_bicicleta", nullable = false)
     private Bicicleta bicicleta;
 
+    @ManyToOne
+    @JoinColumn(name = "id_user", nullable = false)
+    private User user;
+
     @Column(name = "fecha_entrada")
-    private LocalDateTime fechaEntrada;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fecha;
 
     @Column(name = "fecha_salida")
-    private LocalDateTime fechaSalida;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fechaSalida;
+
+    @Column(name = "concepto")
+    private String concepto;
 
     @Column(name = "descripcion")
     private String descripcion;
 
-    @Column(name = "costo")
-    private Double costo;
+    @Column(name = "importe")
+    private BigDecimal importe;
 
+    //constructores
     public Reparacion() {
     }
 
-    public Reparacion(Cliente cliente, Bicicleta bicicleta, LocalDateTime fechaEntrada, LocalDateTime fechaSalida,
-            String descripcion, Double costo) {
-        this.cliente = cliente;
+    public Reparacion(Long id, Bicicleta bicicleta, User user, LocalDate fechaEntrada, LocalDate fechaSalida, String concepto,
+            String descripcion, BigDecimal importe) {
+        this.id = id;
         this.bicicleta = bicicleta;
-        this.fechaEntrada = fechaEntrada;
+        this.user = user;
+        this.fecha = fechaEntrada;
         this.fechaSalida = fechaSalida;
+        this.concepto = concepto;
         this.descripcion = descripcion;
-        this.costo = costo;
+        this.importe = importe;
     }
 
+    // Getters y setters para todos los campos
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
     }
 
     public Bicicleta getBicicleta() {
@@ -81,20 +81,36 @@ public class Reparacion {
         this.bicicleta = bicicleta;
     }
 
-    public LocalDateTime getFechaEntrada() {
-        return fechaEntrada;
+    public User getUser() {
+        return user;
     }
 
-    public void setFechaEntrada(LocalDateTime fechaEntrada) {
-        this.fechaEntrada = fechaEntrada;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public LocalDateTime getFechaSalida() {
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public LocalDate getFechaSalida() {
         return fechaSalida;
     }
 
-    public void setFechaSalida(LocalDateTime fechaSalida) {
+    public void setFechaSalida(LocalDate fechaSalida) {
         this.fechaSalida = fechaSalida;
+    }
+
+    public String getConcepto() {
+        return concepto;
+    }
+
+    public void setConcepto(String concepto) {
+        this.concepto = concepto;
     }
 
     public String getDescripcion() {
@@ -105,30 +121,12 @@ public class Reparacion {
         this.descripcion = descripcion;
     }
 
-    public Double getCosto() {
-        return costo;
+    public BigDecimal getImporte() {
+        return importe;
     }
 
-    public void setCosto(Double costo) {
-        this.costo = costo;
+    public void setImporte(BigDecimal importe) {
+        this.importe = importe;
     }
-
-    public Reparacion save(Reparacion existingReparacion) {
-        //creamos el metodo para guardar la reparacion
-        return null;
-    }
-
-    public void delete(Reparacion existingReparacion) {
-    }
-
-    public List<Reparacion> findAll() {
-        return null;
-    }
-
-    public Optional<Reparacion> findById(Long id2) {
-        return null;
-    }
-
-
     
 }

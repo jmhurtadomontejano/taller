@@ -12,8 +12,7 @@ import com.springweb.taller.Services.ReparacionService;
 import javax.validation.Valid;
 import java.util.List;
 
-@Controller //se utiliza para construir aplicaciones web y devuelve vistas.
-//@RestController // es una versión especializada de @Controller que se utiliza para construir servicios RESTful y devuelve directamente objetos JSON. incompatible con @Controller
+@Controller 
 @RequestMapping("/api/reparaciones")
 public class ReparacionController {
 

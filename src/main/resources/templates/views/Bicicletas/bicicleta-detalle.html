@@ -26,10 +26,6 @@
                     <th>Modelo</th>
                     <td th:text="${bicicleta.modelo}"></td>
                 </tr>
-                <tr>
-                    <th>Cliente</th>
-                    <td th:text="${bicicleta.cliente != null ? bicicleta.cliente.nombre : 'Sin cliente'}"></td>
-                </tr>
             </table>
             <button type="button" class="btn btn-danger" onclick="mostrarModalEliminar()">Eliminar</button>
             <a href="/bicicletas/listado-bicicletas" class="btn btn-primary">Volver al listado</a>

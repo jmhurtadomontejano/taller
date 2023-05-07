@@ -1,13 +1,16 @@
 package com.springweb.taller.Modelo;
 
 import javax.persistence.Id;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Table(name = "bicicletas")
@@ -25,20 +28,27 @@ public class Bicicleta {
     @Column(name = "modelo")
     private String modelo;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-                         CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
+    @OneToMany(mappedBy = "bicicleta", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reparacion> reparaciones = new ArrayList<>();  
 
-    public Bicicleta() {
-    }
 
+    //constructores
     public Bicicleta(String marca, String modelo) {
         this.marca = marca;
         this.modelo = modelo;
     }
 
+    public Bicicleta() {
+    }
+
     // Getters y setters
+
+    public Bicicleta(Long id, String marca, String modelo, List<Reparacion> reparaciones) {
+        this.id = id;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.reparaciones = reparaciones;
+    }
 
     public Long getId() {
         return id;
@@ -64,12 +74,12 @@ public class Bicicleta {
         this.modelo = modelo;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public List<Reparacion> getReparaciones() {
+        return reparaciones;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setReparaciones(List<Reparacion> reparaciones) {
+        this.reparaciones = reparaciones;
     }
 
     // toString
@@ -82,4 +92,6 @@ public class Bicicleta {
                 ", modelo='" + modelo + '\'' +
                 '}';
     }
+
+   
 }

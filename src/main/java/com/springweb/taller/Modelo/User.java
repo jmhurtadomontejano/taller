@@ -1,12 +1,16 @@
 package com.springweb.taller.Modelo;
 
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,15 +28,15 @@ import org.springframework.stereotype.Component;
 @Table(name = "users")
 public class User {
 
-    @Id
-    @GeneratedValue(generator = "UUID")
+    @Id // Indica que este campo es la clave primaria de la entidad (en este caso, la clase User)
+    @GeneratedValue(generator = "UUID") // Indica que el valor de este campo se generará automáticamente utilizando el generador "UUID"
     @GenericGenerator(
-        name = "UUID",
-        strategy = "org.hibernate.id.UUIDGenerator"
+        name = "UUID", // Define el nombre del generador genérico, que se utilizará en la anotación @GeneratedValue
+        strategy = "org.hibernate.id.UUIDGenerator" // Define la estrategia de generación de UUIDs que se utilizará (en este caso, la estrategia de generación de UUID de Hibernate)
     )
-    @Type(type="org.hibernate.type.UUIDBinaryType")
-    @Column(name = "id", columnDefinition = "BINARY(16)", updatable = false, nullable = false, unique = true)
-    private UUID id;
+    @Type(type="org.hibernate.type.UUIDBinaryType") // Especifica el tipo de mapeo de Hibernate para este campo (en este caso, un tipo binario de UUID)
+    @Column(name = "id", columnDefinition = "BINARY(16)", updatable = false, nullable = false, unique = true) // Proporciona información adicional sobre cómo mapear este campo a una columna de la base de datos
+    private UUID id; // Declara la variable 'id' de tipo UUID (Universally Unique Identifier)    
 
     @Column(name = "name")
     private String userName;
@@ -89,6 +93,9 @@ public class User {
 
     @Column(name = "created_at")
     private LocalDateTime userCreatedAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+private List<Reparacion> reparaciones = new ArrayList<>();
 
     //Constructors
     public User() {
