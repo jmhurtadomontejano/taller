@@ -6,35 +6,131 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import com.springweb.taller.Modelo.Bicicleta;
 import com.springweb.taller.Modelo.Reparacion;
+import com.springweb.taller.Modelo.User;
+import com.springweb.taller.Repositorios.ReparacionRepository;
+import com.springweb.taller.Repositorios.UserRepository;
+import com.springweb.taller.Services.BicicletaService;
 import com.springweb.taller.Services.ReparacionService;
+import com.springweb.taller.Services.UserService;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import javax.validation.Valid;
-import java.util.List;
 
-@Controller 
-@RequestMapping("/api/reparaciones")
+@Controller
+@RequestMapping("/repairs")
 public class ReparacionController {
 
     @Autowired
     private ReparacionService reparacionService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ReparacionRepository reparacionRepository;
+
+    @Autowired
+    private BicicletaService bicicletaService;
+
+    @PostMapping("/reparaciones")
+    public String createReparacion(@ModelAttribute Reparacion reparacion) {
+        reparacionService.save(reparacion);
+        return "redirect:/repairs/listado-repairs";
+    }
+    
+//cargar editar reparacion
+    @GetMapping("/edit/{id}")
+    public String showEditReparacionForm(@PathVariable("id") Long id, Model model) {
+        try {
+            Reparacion reparacion = reparacionService.findById(id);
+            List<Bicicleta> bicicletas = bicicletaService.findAll();
+            List<User> users = userService.findAll();
+
+            model.addAttribute("reparacion", reparacion);
+            model.addAttribute("bicicletas", bicicletas);
+            model.addAttribute("users", users);
+
+            return "views/Repairs/repair-edit";
+        } catch (RuntimeException e) {
+            return "error"; // Mostrar una página de error personalizada si la reparación no se encuentra
+        }
+    }
+
+//añadir reparacion
+    @PostMapping("/repairs/reparaciones")
+    public String createReparacion(@ModelAttribute Reparacion reparacion, BindingResult result) {
+        if (result.hasErrors()) {
+            return "error";
+        }
+        
+        UUID userId = reparacion.getUser().getId();
+        Optional<User> optionalUser = userRepository.findById(userId);
+        
+        if (!optionalUser.isPresent()) {
+            return "error";
+        }
+        
+        User user = optionalUser.get();
+        reparacion.setUser(user);
+        reparacionRepository.save(reparacion);
+        return "success";
+    }
+
+//editar reparacion
+    @PostMapping("/update-post")
+    public String updateReparacion(@ModelAttribute("reparacion") Reparacion reparacion, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            // Manejar errores de validación aquí
+            return "views/Repairs/repair-edit";
+        }
+
+        reparacionService.save(reparacion);
+
+        return "redirect:/repairs/listado-repairs"; // Redirige al usuario a la lista de reparaciones después de guardar los cambios
+    }
+
+
     @GetMapping
-    public ResponseEntity<List<Reparacion>> getAllReparaciones() {
+    public String showRepairs(Model model) {
         List<Reparacion> reparaciones = reparacionService.findAll();
-        return new ResponseEntity<>(reparaciones, HttpStatus.OK);
+        model.addAttribute("reparaciones", reparaciones);
+        return "repairs";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Reparacion> getReparacionById(@PathVariable Long id) {
-        Reparacion reparacion = reparacionService.findById(id);
-        return new ResponseEntity<>(reparacion, HttpStatus.OK);
+    @GetMapping("/listado-repairs")
+    public String listadoReparaciones(Model model) {
+        List<Reparacion> reparaciones = reparacionService.findAll();
+        List<User> users = userService.findAll();
+        List<Bicicleta> bicicletas = bicicletaService.findAll();
+        model.addAttribute("reparaciones", reparaciones);
+        model.addAttribute("users", users);
+        model.addAttribute("bicicletas", bicicletas);
+        return "/views/Repairs/listado-repairs";
     }
 
-    @PostMapping
-    public ResponseEntity<Reparacion> createReparacion(@Valid @RequestBody Reparacion reparacion) {
-        Reparacion newReparacion = reparacionService.save(reparacion);
-        return new ResponseEntity<>(newReparacion, HttpStatus.CREATED);
+    @GetMapping("/repair-add")
+    public String addReparacion(Model model) {
+        Reparacion reparacion = new Reparacion();
+        List<Bicicleta> bicicletas = bicicletaService.findAll();
+        List<User> users = userService.findAll();
+
+        model.addAttribute("reparacion", reparacion);
+        model.addAttribute("bicicletas", bicicletas);
+        model.addAttribute("users", users);
+
+        return "views/Repairs/repair-add";
     }
 
     @PutMapping("/{id}")
@@ -43,14 +139,10 @@ public class ReparacionController {
         return new ResponseEntity<>(updatedReparacion, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteReparacion(@PathVariable Long id) {
+    @PostMapping("/delete/{id}")
+    public String deleteReparacion(@PathVariable Long id) {
         reparacionService.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return "redirect:/repairs/listado-repairs";
     }
+    
 }
-
-
-
-
-

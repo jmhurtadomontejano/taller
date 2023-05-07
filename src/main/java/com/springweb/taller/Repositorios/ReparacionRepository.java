@@ -5,4 +5,5 @@ import com.springweb.taller.Modelo.Reparacion;
 
 
 public interface ReparacionRepository extends JpaRepository<Reparacion, Long> {
+    
 }

@@ -36,15 +36,21 @@
                         </a>
                     </li>
                     <!-- Elemento de navegación individual (Clientes) -->
-                    <li class="nav-item">
+                    <li class="nav-item" hidden>
                         <a class="nav-link" href="http://localhost:8081/clientes">
                             <i class="bi bi-people-fill"></i> Clientes
                         </a>
                     </li>
-                  <!-- Elemento de navegación individual (Users) -->
+                    <!-- Elemento de navegación individual (Users) -->
                     <li class="nav-item">
                         <a class="nav-link" href="http://localhost:8081/users/listado-users">
                             <i class="bi bi-people-fill"></i> Usuarios
+                        </a>
+                    </li>
+                    <!-- Elemento de navegación Reparaciones -->
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/repairs/listado-repairs}">
+                            <i class="bi bi-steam"></i> Reparaciones
                         </a>
                     </li>
                     <!-- Elemento de navegación Eventos -->
@@ -52,7 +58,7 @@
                         <a class="nav-link" href="http://localhost:8081/events/listado-eventos">
                             <i class="bi bi-calendar-event"></i> Eventos
                         </a>
-                    </li>                    
+                    </li>                                      
                     <!-- Elemento de navegación individual (Contacto) -->
                     <li class="nav-item">
                         <a class="nav-link" href="#">

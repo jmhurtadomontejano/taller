@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/common-head :: common-head">
+    </head>
+<body>
+    <h1>Reparaciones de Bicicletas</h1>
+    <div th:replace="fragments/navbar :: navbar"></div>
+    <div class="container">
+        <a th:href="@{/repairs/repair-add}" class="btn btn-primary">Añadir Reparación</a>
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="userFilter">Buscar por Usuario</label>
+                    <select class="form-control" id="userFilter" name="userFilter">
+                        <option value="" selected>Seleccione un usuario</option>
+                        <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.userName}"></option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="bikeFilter">Buscar por Bicicleta</label>
+                    <select class="form-control" id="bikeFilter" name="bikeFilter">
+                        <option value="" selected>Seleccione una bicicleta</option>
+                        <option th:each="bike : ${bicicletas}" th:value="${bike.id}" th:text="${bike.marca} + ' ' + ${bike.modelo}"></option>
+                    </select>
+                </div>
+            </div>
+        </form>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Bicicleta</th>
+                    <th>Fecha de entrada</th>
+                    <th>Fecha de salida</th>
+                    <th>Concepto</th>
+                    <th>Descripción</th>
+                    <th>Estado</th>
+                    <th>Importe</th>
+                    <th>IVA</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="reparacion : ${reparaciones}">
+                    <td th:text="${reparacion.id}"></td>
+                    <td th:text="${reparacion.user.userName} + ' ' + ${reparacion.user.userSurname}"></td>
+                    <td th:text="${reparacion.bicicleta.marca} + ' ' + ${reparacion.bicicleta.modelo}"></td>
+                    <td th:text="${reparacion.fecha}"></td>
+                    <td th:text="${reparacion.fechaSalida}"></td>
+                    <td th:text="${reparacion.concepto}"></td>
+                    <td th:text="${reparacion.descripcion}"></td>
+                    <td th:text="${reparacion.estado}"></td>
+                    <td th:text="${reparacion.importe}"></td>
+                    <td th:text="${reparacion.iva}"></td>
+                    <td th:text="${reparacion.total}"></td>
+                     <!-- Columna para el botón Editar -->
+                    <td>
+                        <a th:href="@{'/repairs/edit/' + ${reparacion.id}}" class="btn btn-primary">Editar</a>
+                    </td>
+                    <!-- Columna para el botón Eliminar -->
+                    <td>
+                        <form th:action="@{'/repairs/delete/' + ${reparacion.id}}" method="post">
+                            <input type="hidden" name="_method" value="delete" />
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#userFilter').change(function () {
+                filterReparaciones();
+            });
+
+            $('#bikeFilter').change(function () {
+                filterReparaciones();
+            });
+
+            function filterReparaciones() {
+                var userFilter = $('#userFilter').val();
+                var bikeFilter = $('#bikeFilter').val();
+                var url = '/reparaciones/listado-repairs';
+
+                if (userFilter !== '' || bikeFilter !== '') {
+                    url += '?';
+
+                    if (userFilter !== '') {
+                        url += 'userFilter=' + userFilter;
+                    }
+
+                    if (bikeFilter !== '') {
+                        if (userFilter !== '') {
+                            url += '&';
+                        }
+                        url += 'bikeFilter=' + bikeFilter;
+                    }
+                }
+
+                window.location.href = url;
+            }
+        });
+    </script>
+</body>
+</html>

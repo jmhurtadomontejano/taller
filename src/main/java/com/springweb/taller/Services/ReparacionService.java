@@ -26,7 +26,7 @@ public class ReparacionService {
         } else {
             throw new RuntimeException("Reparación no encontrada con el ID: " + id);
         }
-    }
+    }    
 
     public Reparacion save(Reparacion reparacion) {
         return reparacionRepository.save(reparacion);

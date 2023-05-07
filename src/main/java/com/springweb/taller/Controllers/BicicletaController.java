@@ -48,7 +48,8 @@ public class BicicletaController {
         model.addAttribute("bicicleta", bicicleta);
         return "/views/Bicicletas/bicicleta-detalle";
     }
-    
+
+// Crear una nueva bicicleta (POST)
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 public ResponseEntity<Bicicleta> createBicicleta(@ModelAttribute Bicicleta bicicleta) {
     Bicicleta newBicicleta = bicicletaService.save(bicicleta);
