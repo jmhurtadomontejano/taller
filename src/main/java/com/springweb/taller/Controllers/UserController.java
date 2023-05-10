@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +37,14 @@ public class UserController {
 // Crear un nuevo user (POST)
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<User> createUser(@ModelAttribute User user) {
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    String encodedPassword = passwordEncoder.encode(user.getUserPassword());
+    user.setUserPassword(encodedPassword);
+    
     LocalDateTime currentDateTime = LocalDateTime.now();
     user.setUserDateConsent(currentDateTime);
     user.setUserCreatedAt(currentDateTime);
+    
     User newUser = userService.save(user);
     return new ResponseEntity<>(newUser, HttpStatus.CREATED);
 }
@@ -46,6 +52,10 @@ public class UserController {
 // Actualizar un user existente (PUT)
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable UUID id, @RequestBody User user) {
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    String encodedPassword = passwordEncoder.encode(user.getUserPassword());
+    user.setUserPassword(encodedPassword);
+
     User updatedUser = userService.update(id, user);
     return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 }

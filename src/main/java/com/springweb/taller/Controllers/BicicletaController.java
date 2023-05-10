@@ -3,6 +3,8 @@ package com.springweb.taller.Controllers;
 import com.springweb.taller.Modelo.Bicicleta;
 import com.springweb.taller.Services.BicicletaService;
 
+import org.owasp.html.PolicyFactory;
+import org.owasp.html.Sanitizers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +21,8 @@ public class BicicletaController {
 
     @Autowired
     private BicicletaService bicicletaService;
+
+    private static final PolicyFactory POLICY_FACTORY = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
 
 // Obtener todas las bicicletas (GET)
     @GetMapping
@@ -51,14 +55,20 @@ public class BicicletaController {
 
 // Crear una nueva bicicleta (POST)
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-public ResponseEntity<Bicicleta> createBicicleta(@ModelAttribute Bicicleta bicicleta) {
-    Bicicleta newBicicleta = bicicletaService.save(bicicleta);
-    return new ResponseEntity<>(newBicicleta, HttpStatus.CREATED);
-}  
+    public ResponseEntity<Bicicleta> createBicicleta(@ModelAttribute Bicicleta bicicleta) {
+        bicicleta.setMarca(POLICY_FACTORY.sanitize(bicicleta.getMarca()));
+        bicicleta.setModelo(POLICY_FACTORY.sanitize(bicicleta.getModelo()));
+
+        Bicicleta newBicicleta = bicicletaService.save(bicicleta);
+        return new ResponseEntity<>(newBicicleta, HttpStatus.CREATED);
+    }  
 
 // Actualizar una bicicleta existente (PUT)
     @PutMapping("/{id}")
     public ResponseEntity<Bicicleta> updateBicicleta(@PathVariable Long id, @RequestBody Bicicleta bicicleta) {
+        bicicleta.setMarca(POLICY_FACTORY.sanitize(bicicleta.getMarca()));
+        bicicleta.setModelo(POLICY_FACTORY.sanitize(bicicleta.getModelo()));
+
         Bicicleta updatedBicicleta = bicicletaService.update(id, bicicleta);
         return new ResponseEntity<>(updatedBicicleta, HttpStatus.OK);
     }

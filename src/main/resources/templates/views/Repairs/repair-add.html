@@ -16,7 +16,7 @@
             <select class="form-control" th:field="*{bicicleta}" id="bicicleta">
                 <option th:each="bicicleta : ${bicicletas}"
                         th:value="${bicicleta.id}"
-                        th:text="${bicicleta.marca + ' - ' + bicicleta.modelo}">
+                        th:text="${bicicleta.id + ' - ' + bicicleta.marca + ' - ' + bicicleta.modelo}">
                     </option>
             </select>
         </div>

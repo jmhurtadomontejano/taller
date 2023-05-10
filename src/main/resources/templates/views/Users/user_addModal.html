@@ -34,6 +34,10 @@
                         <div class="col-6 col-md-6 col-sm-6 mb-3"><label for="userDni">Nº DNI</label><input type="text" class="form-control" id="userDni" name="userDni" th:field="*{userDni}" /></div>
                         <div class="col-6 col-md-4 col-sm-6 mb-3"><label for="userBirthDate">Fecha nacimiento</label><input type="date" class="form-control" id="userBirthDate" name="userBirthDate" th:field="*{userBirthDate}" /></div>
                         <div class="col-md-4 col-sm-6 mb-3"><label for="userPassword">Contraseña</label><input type="password" class="form-control" id="userPassword" name="userPassword" th:field="*{userPassword}" /></div>
+                        <div class="col-md-4 col-sm-6 mb-3">
+                          <label for="confirmPassword">Confirmar Contraseña</label>
+                          <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required />
+                        </div>                        
                         <div class="col-6 col-md-4 col-sm-6 mb-3"><label for="userPhone">Teléfono</label><input type="number" class="form-control" id="userPhone" name="userPhone" th:field="*{userPhone}" /></div>
                         <div class="col-6 col-md-4 col-sm-6 mb-3"><label for="userPostalCode">Código Postal</label><input type="number" class="form-control" id="userPostalCode" name="userPostalCode" th:field="*{userPostalCode}" /></div>
                         <div class="col-md-8 mb-6"><label for="userAddress">Dirección</label><input type="text" class="form-control" id="userAddress" name="userAddress" th:field="*{userAddress}" /></div>
@@ -87,12 +91,14 @@
       </div>
     </div>
 
-        <script>
+  <script>
+//Script validar email
             function validateEmail(email) {
                 const regex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
                 return regex.test(email);
             }
     
+//Script para validar el DNI
             function validateDni(dni) {
                 const regex = /^\d{8}[a-zA-Z]$/;
                 const letters = "TRWAGMYFPDXBNJZSQVHLCKE";
@@ -106,10 +112,41 @@
                 return false;
             }
     
+//Script para validar el teléfono
             function validatePhoneNumber(phoneNumber) {
                 const phoneRegex = /^\d{9}$/;
                 return phoneRegex.test(phoneNumber);
             }
+
+//Script para validar la contraseña
+function validatePassword() {
+    const password = document.getElementById("userPassword");
+    const confirmPassword = document.getElementById("confirmPassword");
+
+    if (password.value === confirmPassword.value) {
+        confirmPassword.classList.add("is-valid");
+        confirmPassword.classList.remove("is-invalid");
+        password.classList.add("is-valid");
+        password.classList.remove("is-invalid");
+    } else {
+        confirmPassword.classList.add("is-invalid");
+        confirmPassword.classList.remove("is-valid");
+        password.classList.add("is-invalid");
+        password.classList.remove("is-valid");
+    }
+}
+
+//Script para comprobar los input de contraseña
+      document.getElementById("userPassword").addEventListener("input", function () {
+          validatePassword();
+          enableSaveButton();
+      });
+
+      document.getElementById("confirmPassword").addEventListener("input", function () {
+          validatePassword();
+          enableSaveButton();
+      });
+
     
             function getCurrentDateTime() {
                 const now = new Date();
@@ -120,23 +157,6 @@
                 const minutes = ("0" + now.getMinutes()).slice(-2);
                 const seconds = ("0" + now.getSeconds()).slice(-2);
                 return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
-            }
-    
-            function enableSaveButton() {
-                const email = document.getElementById("emailUser");
-                const dni = document.getElementById("userDni");
-                const phone = document.getElementById("userPhone");
-                const saveButton = document.getElementById("saveButton");
-    
-                if (
-                    email.classList.contains("is-valid") &&
-                    dni.classList.contains("is-valid") &&
-                    phone.classList.contains("is-valid")
-                ) {
-                    saveButton.disabled = false;
-                } else {
-                    saveButton.disabled = true;
-                }
             }
     
             document.addEventListener("DOMContentLoaded", function () {
@@ -158,7 +178,8 @@
     
                 enableSaveButton();
             });
-    
+  
+  // Script para validar la caja del input DNI
             document.getElementById("userDni").addEventListener("input", function (event) {
                 const dni = event.target.value;
     
@@ -173,6 +194,7 @@
                 enableSaveButton();
             });
     
+// Script para validar la caja del input teléfono
             document.getElementById("userPhone").addEventListener("input", function (event) {
                 const phoneNumber = event.target.value;
     
@@ -186,6 +208,27 @@
 
             enableSaveButton();
         });
-    </script>
+
+  //Script para habilitar el botón de guardar si se cumplen condiciones
+  function enableSaveButton() {
+            const email = document.getElementById("emailUser");
+            const dni = document.getElementById("userDni");
+            const phone = document.getElementById("userPhone");
+            const confirmPassword = document.getElementById("confirmPassword");
+            const saveButton = document.getElementById("saveButton");
+
+            if (
+                email.classList.contains("is-valid") &&
+                dni.classList.contains("is-valid") &&
+                phone.classList.contains("is-valid") &&
+                confirmPassword.classList.contains("is-valid")
+            ) {
+                saveButton.disabled = false;
+            } else {
+                saveButton.disabled = true;
+            }
+        }
+
+  </script>
 </body>
 </html>

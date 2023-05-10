@@ -1,5 +1,7 @@
 package com.springweb.taller.config;
-/*
+
+import org.owasp.html.HtmlPolicyBuilder;
+import org.owasp.html.PolicyFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,4 +14,4 @@ public class SanitizerConfig {
             .allowElements("p", "b", "i", "u", "strong", "em") // Permite algunos elementos HTML básicos
             .toFactory();
     }
-} */
+} 

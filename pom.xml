@@ -142,6 +142,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+<!-- Sanitizar codigo bibliotecas OWASP Sanitizer-->
+			<dependency>
+				<groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+				<artifactId>owasp-java-html-sanitizer</artifactId>
+				<version>20220608.1</version>
+			</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -159,12 +165,6 @@
 				<groupId>jakarta.persistence</groupId>
 				<artifactId>jakarta.persistence-api</artifactId>
 				<version>3.0.0</version>
-			</dependency>
-			<!-- Sanitizar codigo bibliotecas OWASP Sanitizer-->
-			<dependency>
-			<groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
-			<artifactId>owasp-java-html-sanitizer</artifactId>
-			<version>20220608.1</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
