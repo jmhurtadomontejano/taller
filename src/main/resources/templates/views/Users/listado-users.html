@@ -67,7 +67,7 @@
             <td th:text="${user.userDni}"></td>
             <td th:text="${user.userBirthDate}"></td>
             <td th:text="${user.emailUser}"></td>
-            <td th:text="${user.userPassword}"></td>
+            <td style="word-wrap: break-word; max-width: 130px;" th:text="${user.userPassword}"></td>
             <td th:text="${user.userPhone}"></td>
             <td th:text="${user.userAddress}"></td>
             <td th:text="${user.userCity}"></td>
@@ -79,8 +79,9 @@
             <td th:text="${user.userConsent}"></td>
             <td class="d-none d-md-table-cell" th:text="${user.userDateConsent}"></td>
             <td class="d-none d-md-table-cell" th:text="${user.userActive}"></td>
-            <td class="d-none d-md-table-cell" th:text="${user.userCreatedAt}"></td>
-          <td><a th:href="@{/users/detalle/{id}(id=${user.id})}" class="btn btn-warning">Editar</a></td>
+            <td class="d-none d-md-table-cell" th:text="${user.userCreatedAt}"></td>      
+            <td><a th:href="@{/users/detalle/{id}(id=${user.id})}" class="btn btn-warning">Editar</a></td>
+          <td><a th:href="@{/userSecurityProfile/{userId}(userId=${user.id})}" class="btn btn-info">Editar Seguridad</a></td>
         </tr>
         </tbody>
       </table>

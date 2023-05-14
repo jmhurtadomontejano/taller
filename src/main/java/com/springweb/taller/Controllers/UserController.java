@@ -1,6 +1,8 @@
 package com.springweb.taller.Controllers;
 
 import com.springweb.taller.Modelo.User;
+import com.springweb.taller.Modelo.UserSecurityProfile;
+import com.springweb.taller.Services.UserSecurityProfileService;
 import com.springweb.taller.Services.UserService;
 
 import org.owasp.html.PolicyFactory;
@@ -27,6 +29,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserSecurityProfileService userSecurityProfileService;
+
+
 // Instancia a Sanitizador de HTML import org.owasp.html.PolicyFactory; import org.owasp.html.Sanitizers;
     private static final PolicyFactory POLICY_FACTORY = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
 
@@ -40,8 +46,8 @@ public class UserController {
     }
 
 // Crear un nuevo user (POST)
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<User> createUser(@ModelAttribute User user) {
+@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+public ResponseEntity<User> createUser(@ModelAttribute User user) {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     String encodedPassword = passwordEncoder.encode(user.getUserPassword());
     user.setUserPassword(encodedPassword);
@@ -54,15 +60,22 @@ public class UserController {
     user.setUserName(POLICY_FACTORY.sanitize(user.getUserName()));
     user.setUserSurname(POLICY_FACTORY.sanitize(user.getUserSurname()));
     user.setUserDni(POLICY_FACTORY.sanitize(user.getUserDni()));
-    user.setEmailUser(POLICY_FACTORY.sanitize(user.getEmailUser()));
+    user.setEmailUser(user.getEmailUser());
     user.setUserAddress(POLICY_FACTORY.sanitize(user.getUserAddress()));
     user.setUserCity(POLICY_FACTORY.sanitize(user.getUserCity()));
     user.setUserCountry(POLICY_FACTORY.sanitize(user.getUserCountry()));
     user.setUserGender(POLICY_FACTORY.sanitize(user.getUserGender()));
     
     User newUser = userService.save(user);
+
+    // Create UserSecurityProfile for the new User
+    UserSecurityProfile newUserSecurityProfile = new UserSecurityProfile();
+    newUserSecurityProfile.setUser(newUser);
+    userSecurityProfileService.saveUserSecurityProfile(newUserSecurityProfile);
+
     return new ResponseEntity<>(newUser, HttpStatus.CREATED);
 }
+
 
 // Actualizar un user existente (PUT)
     @PutMapping("/{id}")
@@ -75,7 +88,7 @@ public class UserController {
    user.setUserName(POLICY_FACTORY.sanitize(user.getUserName()));
    user.setUserSurname(POLICY_FACTORY.sanitize(user.getUserSurname()));
    user.setUserDni(POLICY_FACTORY.sanitize(user.getUserDni()));
-   user.setEmailUser(POLICY_FACTORY.sanitize(user.getEmailUser()));
+   user.setEmailUser(user.getEmailUser());
    user.setUserAddress(POLICY_FACTORY.sanitize(user.getUserAddress()));
    user.setUserCity(POLICY_FACTORY.sanitize(user.getUserCity()));
    user.setUserCountry(POLICY_FACTORY.sanitize(user.getUserCountry()));

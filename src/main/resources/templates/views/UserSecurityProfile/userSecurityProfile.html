@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+  <head th:replace="fragments/common-head :: common-head">
+  </head>
+  <body>
+    <h1>User Security Profile <span th:text="${nombre}"></span>!</h1>
+    <!-- Fragmento de la barra de navegación -->
+    <div th:replace="fragments/navbar :: navbar"></div>
+<body>
+<h1>User Security Profile</h1>
+
+<div class="container">
+  <div class="card">
+      <div class="card-body">
+          <h5 class="card-title">User Security Profile</h5>
+          <p class="card-text">
+              <strong>ID:</strong> <span th:text="${userSecurityProfile.id}"></span><br>
+              <strong>User ID:</strong> <span th:text="${userSecurityProfile.user.id}"></span><br>
+              <strong>Security Question:</strong> <span th:text="${userSecurityProfile.securityQuestion}"></span><br>
+              <strong>Security Answer:</strong> <span th:text="${userSecurityProfile.securityAnswer}"></span><br>
+              <strong>Two Factor Authentication Enabled:</strong> <span th:text="${userSecurityProfile.twoFactorAuthEnabled}"></span><br>
+              <strong>Failed Login Attempts:</strong> <span th:text="${userSecurityProfile.failedLoginAttempts}"></span><br>
+              <strong>Account Locked:</strong> <span th:text="${userSecurityProfile.accountLocked}"></span><br>
+              <strong>Account Locked Until:</strong> <span th:text="${userSecurityProfile.accountLockedUntil}"></span><br>
+              <strong>Password Reset Token:</strong> <span th:text="${userSecurityProfile.passwordResetToken}"></span><br>
+              <strong>Password Reset Token Expiry:</strong> <span th:text="${userSecurityProfile.passwordResetTokenExpiry}"></span><br>
+              <strong>Email Verification Token:</strong> <span th:text="${userSecurityProfile.emailVerificationToken}"></span><br>
+              <strong>Email Verified:</strong> <span th:text="${userSecurityProfile.emailVerified}"></span><br>
+              <strong>Phone Verification Token:</strong> <span th:text="${userSecurityProfile.phoneVerificationToken}"></span><br>
+              <strong>Phone Verified:</strong> <span th:text="${userSecurityProfile.phoneVerified}"></span><br>
+          </p>
+      </div>
+  </div>
+</div>
+
+
+</body>
+</html>

@@ -1,7 +1,9 @@
 package com.springweb.taller.Modelo;
 
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -38,6 +40,9 @@ public class User {
     @Column(name = "id", columnDefinition = "BINARY(16)", updatable = false, nullable = false, unique = true) // Proporciona información adicional sobre cómo mapear este campo a una columna de la base de datos
     private UUID id; // Declara la variable 'id' de tipo UUID (Universally Unique Identifier)    
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserSecurityProfile userSecurityProfile;
+
     @Column(name = "name")
     private String userName;
 
@@ -58,6 +63,9 @@ public class User {
     @Column(name = "password")
     private String userPassword;
 
+    @Column(name = "role")
+    private String userRole;
+
     @Column(name = "phone")
     private int userPhone;
 
@@ -73,7 +81,7 @@ public class User {
     @Column(name = "postal_code")
     private int userPostalCode;
 
-    @Column(name = "role")
+    @Column(name = "gender")
     private String userGender;
 
     @Column(name = "weigth")
@@ -94,43 +102,54 @@ public class User {
     @Column(name = "created_at")
     private LocalDateTime userCreatedAt;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-private List<Reparacion> reparaciones = new ArrayList<>();
+@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reparacion> reparaciones = new ArrayList<>();
 
     //Constructors
     public User() {
     }
 
     public User(UUID id, String userName, String userSurname, String userDni, LocalDate userBirthDate,
-    @Email String emailUser, String userPassword, int userPhone, String userAddress, String userCity,
-    String userCountry, int userPostalCode, String userRole, double userWeigth, double userHeight,
-    boolean userConsent, LocalDateTime userDateConsent, boolean userActive, LocalDateTime userCreatedAt) {
-    this.id = id;
-    this.userName = userName;
-    this.userSurname = userSurname;
-    this.userDni = userDni;
-    this.userBirthDate = userBirthDate;
-    this.emailUser = emailUser;
-    this.userPassword = userPassword;
-    this.userPhone = userPhone;
-    this.userAddress = userAddress;
-    this.userCity = userCity;
-    this.userCountry = userCountry;
-    this.userPostalCode = userPostalCode;
-    this.userGender = userRole;
-    this.userWeigth = userWeigth;
-    this.userHeight = userHeight;
-    this.userConsent = userConsent;
-    this.userDateConsent = userDateConsent;
-    this.userActive = userActive;
-    this.userCreatedAt = userCreatedAt;
-}
+            @Email String emailUser, String userPassword, String userRole, int userPhone, String userAddress,
+            String userCity, String userCountry, int userPostalCode, String userGender, double userWeigth,
+            double userHeight, boolean userConsent, LocalDateTime userDateConsent, boolean userActive,
+            LocalDateTime userCreatedAt, List<Reparacion> reparaciones, UserSecurityProfile userSecurityProfile) {
+        this.id = id;
+        this.userName = userName;
+        this.userSurname = userSurname;
+        this.userDni = userDni;
+        this.userBirthDate = userBirthDate;
+        this.emailUser = emailUser;
+        this.userPassword = userPassword;
+        this.userRole = userRole;
+        this.userPhone = userPhone;
+        this.userAddress = userAddress;
+        this.userCity = userCity;
+        this.userCountry = userCountry;
+        this.userPostalCode = userPostalCode;
+        this.userGender = userGender;
+        this.userWeigth = userWeigth;
+        this.userHeight = userHeight;
+        this.userConsent = userConsent;
+        this.userDateConsent = userDateConsent;
+        this.userActive = userActive;
+        this.userCreatedAt = userCreatedAt;
+        this.reparaciones = reparaciones;
+        this.userSecurityProfile = userSecurityProfile;
+    }
+
 
     //methods
     public boolean checkPassword(String rawPassword) {
+        if (rawPassword == null) {
+            System.out.println("checkPassword llamado con rawPassword nulo");
+            // Imprime la pila de llamadas para ayudar a identificar desde dónde se llamó a este método.
+            Thread.dumpStack();
+        }
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(rawPassword, this.userPassword);
     }
+    
 
     @Component
     public class StringToLocalDateTimeConverter implements Converter<String, LocalDateTime> {
@@ -205,6 +224,14 @@ private List<Reparacion> reparaciones = new ArrayList<>();
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 
     public int getUserPhone() {
@@ -303,17 +330,36 @@ private List<Reparacion> reparaciones = new ArrayList<>();
         this.userCreatedAt = userCreatedAt;
     }
 
-  // toString 
+    public List<Reparacion> getReparaciones() {
+        return reparaciones;
+    }
+
+    public void setReparaciones(List<Reparacion> reparaciones) {
+        this.reparaciones = reparaciones;
+    }
+
+    public UserSecurityProfile getUserSecurityProfile() {
+        return userSecurityProfile;
+    }
+
+    public void setUserSecurityProfile(UserSecurityProfile userSecurityProfile) {
+        this.userSecurityProfile = userSecurityProfile;
+    }
+
     @Override
     public String toString() {
         return "User [id=" + id + ", userName=" + userName + ", userSurname=" + userSurname + ", userDni=" + userDni
                 + ", userBirthDate=" + userBirthDate + ", emailUser=" + emailUser + ", userPassword=" + userPassword
-                + ", userPhone=" + userPhone + ", userAddress=" + userAddress + ", userCity=" + userCity
-                + ", userCountry=" + userCountry + ", userPostalCode=" + userPostalCode + ", userGender=" + userGender
-                + ", userWeigth=" + userWeigth + ", userHeight=" + userHeight + ", userConsent=" + userConsent
-                + ", userDateConsent=" + userDateConsent + ", userActive=" + userActive + ", userCreatedAt="
-                + userCreatedAt + "]";
+                + ", userRole=" + userRole + ", userPhone=" + userPhone + ", userAddress=" + userAddress + ", userCity="
+                + userCity + ", userCountry=" + userCountry + ", userPostalCode=" + userPostalCode + ", userGender="
+                + userGender + ", userWeigth=" + userWeigth + ", userHeight=" + userHeight + ", userConsent="
+                + userConsent + ", userDateConsent=" + userDateConsent + ", userActive=" + userActive
+                + ", userCreatedAt=" + userCreatedAt + ", reparaciones=" + reparaciones + ", userSecurityProfile="
+                + userSecurityProfile + "]";
     }
+
+  
+    
 
    
 }
