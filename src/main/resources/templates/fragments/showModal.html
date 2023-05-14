@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common-head :: common-head">
+</head>
+<body>
+    <div th:fragment="showModal (mensajeModal, mostrarModal, tipoModal)">
+        <!-- Código del modal -->
+        <div class="modal" tabindex="-1" role="dialog" id="miModal">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header" style="background-color: var(--primary-color); color: var(--light-color);">
+                  <h5 class="modal-title">Título del Modal</h5>
+                  <button type="button" class="close" style="color: var(--light-color);" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" style="background-color: var(--background-color); color: var(--dark-color);">
+                  <p th:text="${mensajeModal}">Mensaje del modal</p>
+                </div>
+                <div class="modal-footer" style="background-color: var(--secondary-color);">
+                  <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          
+        <!-- Script para mostrar el modal automáticamente -->
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            $(document).ready(function() {
+                var showModal = /*[[${mostrarModal}]]*/ false;
+                var mensajeModal = /*[[${mensajeModal}]]*/ null;
+                var tipoModal = /*[[${tipoModal}]]*/ 'info';
+
+                if (showModal && mensajeModal) {
+                    $('#miModal').modal('show');
+
+                    if (tipoModal === 'error') {
+                        // Cambiar el estilo del modal para errores
+                        $('#miModal .modal-dialog').addClass('modal-danger');
+                    } else if (tipoModal === 'success') {
+                        // Cambiar el estilo del modal para éxitos
+                        $('#miModal .modal-dialog').addClass('modal-success');
+                    }
+                }
+            });
+            /*]]>*/
+        </script>
+    </div>
+</body>
+</html>

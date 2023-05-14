@@ -1,5 +1,7 @@
 package com.springweb.taller.Controllers;
 
+import org.owasp.html.PolicyFactory;
+import org.owasp.html.Sanitizers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,8 +46,16 @@ public class ReparacionController {
     @Autowired
     private BicicletaService bicicletaService;
 
+// Instancia a Sanitizador de HTML import org.owasp.html.PolicyFactory; import org.owasp.html.Sanitizers;
+private static final PolicyFactory POLICY_FACTORY = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
+
     @PostMapping("/reparaciones")
     public String createReparacion(@ModelAttribute Reparacion reparacion) {
+        // Sanitizar los campos relevantes
+        reparacion.setConcepto(POLICY_FACTORY.sanitize(reparacion.getConcepto()));
+        reparacion.setDescripcion(POLICY_FACTORY.sanitize(reparacion.getDescripcion()));
+        reparacion.setEstado(POLICY_FACTORY.sanitize(reparacion.getEstado()));
+        
         reparacionService.save(reparacion);
         return "redirect:/repairs/listado-repairs";
     }
@@ -69,24 +79,30 @@ public class ReparacionController {
     }
 
 //añadir reparacion
-    @PostMapping("/repairs/reparaciones")
-    public String createReparacion(@ModelAttribute Reparacion reparacion, BindingResult result) {
-        if (result.hasErrors()) {
-            return "error";
-        }
-        
-        UUID userId = reparacion.getUser().getId();
-        Optional<User> optionalUser = userRepository.findById(userId);
-        
-        if (!optionalUser.isPresent()) {
-            return "error";
-        }
-        
-        User user = optionalUser.get();
-        reparacion.setUser(user);
-        reparacionRepository.save(reparacion);
-        return "success";
+   @PostMapping("/repairs/reparaciones")
+public String createReparacion(@ModelAttribute Reparacion reparacion, BindingResult result) {
+    if (result.hasErrors()) {
+        return "error";
     }
+    
+    UUID userId = reparacion.getUser().getId();
+    Optional<User> optionalUser = userRepository.findById(userId);
+    
+    if (!optionalUser.isPresent()) {
+        return "error";
+    }
+    
+    User user = optionalUser.get();
+    reparacion.setUser(user);
+
+    // Sanitizar los campos relevantes
+    reparacion.setConcepto(POLICY_FACTORY.sanitize(reparacion.getConcepto()));
+    reparacion.setDescripcion(POLICY_FACTORY.sanitize(reparacion.getDescripcion()));
+    reparacion.setEstado(POLICY_FACTORY.sanitize(reparacion.getEstado()));
+
+    reparacionRepository.save(reparacion);
+    return "success";
+}
 
 //editar reparacion
     @PostMapping("/update-post")
@@ -95,9 +111,14 @@ public class ReparacionController {
             // Manejar errores de validación aquí
             return "views/Repairs/repair-edit";
         }
-
+    
+        // Sanitizar los campos relevantes
+        reparacion.setConcepto(POLICY_FACTORY.sanitize(reparacion.getConcepto()));
+        reparacion.setDescripcion(POLICY_FACTORY.sanitize(reparacion.getDescripcion()));
+        reparacion.setEstado(POLICY_FACTORY.sanitize(reparacion.getEstado()));
+    
         reparacionService.save(reparacion);
-
+    
         return "redirect:/repairs/listado-repairs"; // Redirige al usuario a la lista de reparaciones después de guardar los cambios
     }
 
@@ -135,6 +156,11 @@ public class ReparacionController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Reparacion> updateReparacion(@PathVariable Long id, @Valid @RequestBody Reparacion reparacion) {
+        // Sanitizar los campos relevantes
+        reparacion.setConcepto(POLICY_FACTORY.sanitize(reparacion.getConcepto()));
+        reparacion.setDescripcion(POLICY_FACTORY.sanitize(reparacion.getDescripcion()));
+        reparacion.setEstado(POLICY_FACTORY.sanitize(reparacion.getEstado()));
+    
         Reparacion updatedReparacion = reparacionService.update(id, reparacion);
         return new ResponseEntity<>(updatedReparacion, HttpStatus.OK);
     }

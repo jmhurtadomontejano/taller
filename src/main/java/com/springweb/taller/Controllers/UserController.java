@@ -3,6 +3,8 @@ package com.springweb.taller.Controllers;
 import com.springweb.taller.Modelo.User;
 import com.springweb.taller.Services.UserService;
 
+import org.owasp.html.PolicyFactory;
+import org.owasp.html.Sanitizers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,6 +27,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+// Instancia a Sanitizador de HTML import org.owasp.html.PolicyFactory; import org.owasp.html.Sanitizers;
+    private static final PolicyFactory POLICY_FACTORY = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
+
 //metodo dar formato fechas para Modal
     public String formatLocalDateTime(LocalDateTime dateTime) {
         if (dateTime == null) {
@@ -44,6 +49,16 @@ public class UserController {
     LocalDateTime currentDateTime = LocalDateTime.now();
     user.setUserDateConsent(currentDateTime);
     user.setUserCreatedAt(currentDateTime);
+
+    // Sanitize input fields
+    user.setUserName(POLICY_FACTORY.sanitize(user.getUserName()));
+    user.setUserSurname(POLICY_FACTORY.sanitize(user.getUserSurname()));
+    user.setUserDni(POLICY_FACTORY.sanitize(user.getUserDni()));
+    user.setEmailUser(POLICY_FACTORY.sanitize(user.getEmailUser()));
+    user.setUserAddress(POLICY_FACTORY.sanitize(user.getUserAddress()));
+    user.setUserCity(POLICY_FACTORY.sanitize(user.getUserCity()));
+    user.setUserCountry(POLICY_FACTORY.sanitize(user.getUserCountry()));
+    user.setUserGender(POLICY_FACTORY.sanitize(user.getUserGender()));
     
     User newUser = userService.save(user);
     return new ResponseEntity<>(newUser, HttpStatus.CREATED);
@@ -56,6 +71,16 @@ public class UserController {
     String encodedPassword = passwordEncoder.encode(user.getUserPassword());
     user.setUserPassword(encodedPassword);
 
+   // Sanitize input fields
+   user.setUserName(POLICY_FACTORY.sanitize(user.getUserName()));
+   user.setUserSurname(POLICY_FACTORY.sanitize(user.getUserSurname()));
+   user.setUserDni(POLICY_FACTORY.sanitize(user.getUserDni()));
+   user.setEmailUser(POLICY_FACTORY.sanitize(user.getEmailUser()));
+   user.setUserAddress(POLICY_FACTORY.sanitize(user.getUserAddress()));
+   user.setUserCity(POLICY_FACTORY.sanitize(user.getUserCity()));
+   user.setUserCountry(POLICY_FACTORY.sanitize(user.getUserCountry()));
+   user.setUserGender(POLICY_FACTORY.sanitize(user.getUserGender()));
+    
     User updatedUser = userService.update(id, user);
     return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 }

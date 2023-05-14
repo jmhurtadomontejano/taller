@@ -74,7 +74,7 @@ public class User {
     private int userPostalCode;
 
     @Column(name = "role")
-    private String userRole;
+    private String userGender;
 
     @Column(name = "weigth")
     private double userWeigth;
@@ -117,7 +117,7 @@ private List<Reparacion> reparaciones = new ArrayList<>();
     this.userCity = userCity;
     this.userCountry = userCountry;
     this.userPostalCode = userPostalCode;
-    this.userRole = userRole;
+    this.userGender = userRole;
     this.userWeigth = userWeigth;
     this.userHeight = userHeight;
     this.userConsent = userConsent;
@@ -247,12 +247,12 @@ private List<Reparacion> reparaciones = new ArrayList<>();
         this.userPostalCode = userPostalCode;
     }
 
-    public String getUserRole() {
-        return userRole;
+    public String getUserGender() {
+        return userGender;
     }
 
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
+    public void setUserGender(String userGender) {
+        this.userGender = userGender;
     }
 
     public double getUserWeigth() {
@@ -309,7 +309,7 @@ private List<Reparacion> reparaciones = new ArrayList<>();
         return "User [id=" + id + ", userName=" + userName + ", userSurname=" + userSurname + ", userDni=" + userDni
                 + ", userBirthDate=" + userBirthDate + ", emailUser=" + emailUser + ", userPassword=" + userPassword
                 + ", userPhone=" + userPhone + ", userAddress=" + userAddress + ", userCity=" + userCity
-                + ", userCountry=" + userCountry + ", userPostalCode=" + userPostalCode + ", userRole=" + userRole
+                + ", userCountry=" + userCountry + ", userPostalCode=" + userPostalCode + ", userGender=" + userGender
                 + ", userWeigth=" + userWeigth + ", userHeight=" + userHeight + ", userConsent=" + userConsent
                 + ", userDateConsent=" + userDateConsent + ", userActive=" + userActive + ", userCreatedAt="
                 + userCreatedAt + "]";

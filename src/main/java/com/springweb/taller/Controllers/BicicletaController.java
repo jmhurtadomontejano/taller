@@ -22,6 +22,7 @@ public class BicicletaController {
     @Autowired
     private BicicletaService bicicletaService;
 
+// Instancia a Sanitizador de HTML import org.owasp.html.PolicyFactory; import org.owasp.html.Sanitizers;
     private static final PolicyFactory POLICY_FACTORY = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
 
 // Obtener todas las bicicletas (GET)

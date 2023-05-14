@@ -5,7 +5,8 @@ import java.util.UUID;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalTime;
 
-
+import org.owasp.html.PolicyFactory;
+import org.owasp.html.Sanitizers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,24 +29,49 @@ public class EventsController {
     @Autowired
     private EventsService eventsService;
 
+// Instancia a Sanitizador de HTML import org.owasp.html.PolicyFactory; import org.owasp.html.Sanitizers;
+private static final PolicyFactory POLICY_FACTORY = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
+
+
+//Convertir hora
+    private LocalTime convertToLocalTime(String hourString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        return LocalTime.parse(hourString, formatter);
+    }
+
 // Guardar un nuevo evento
     @PostMapping("/create")
     public String createEvent(@ModelAttribute("newEvento") Events event) {
         String hourString = event.getHour().toString();
-        event.setHour(convertToLocalTime(hourString));       
-// Crea un nuevo registro
+        event.setHour(convertToLocalTime(hourString));
+        event.setName(POLICY_FACTORY.sanitize(event.getName()));
+        event.setLocationUrl(POLICY_FACTORY.sanitize(event.getLocationUrl()));
+        // Agregar más campos si es necesario
+
+        // Crea un nuevo registro
         eventsService.save(event);
         return "redirect:/events/listado-eventos";
     }
-    
+
 // Actualizar evento (POST)
     @PostMapping("/update-post")
     public String updateEvent(@ModelAttribute("evento") Events event) {
         String hourString = event.getHour().toString();
         event.setHour(convertToLocalTime(hourString));
+        event.setName(POLICY_FACTORY.sanitize(event.getName()));
+        event.setLocationUrl(POLICY_FACTORY.sanitize(event.getLocationUrl()));
+        // Agregar más campos si es necesario
 
         eventsService.save(event);
         return "redirect:/events/listado-eventos";
+    }
+
+// Editar un evento por ID (GET)
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable("id") String id, Model model) {
+        Events event = eventsService.findByUuidString(id).orElseThrow(() -> new ResourceNotFoundException("Evento no encontrado con el ID: " + id));
+        model.addAttribute("evento", event);
+        return "/views/Events/edit-event";
     }
     
 // Obtener todos los eventos (GET)
@@ -60,14 +86,6 @@ public class EventsController {
     public ResponseEntity<Events> getEventById(@PathVariable UUID id) {
         Events evento = eventsService.findById(id);
         return new ResponseEntity<>(evento, HttpStatus.OK);
-    }
-
-// Editar un evento por ID (GET)
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable("id") String id, Model model) {
-        Events event = eventsService.findByUuidString(id).orElseThrow(() -> new ResourceNotFoundException("Evento no encontrado con el ID: " + id));
-        model.addAttribute("evento", event);
-        return "/views/Events/edit-event";
     }
 
 // Método para listar eventos
@@ -88,9 +106,5 @@ public class EventsController {
         return "/views/Events/event-details";
     }
 
-//Convertir hora
-    private LocalTime convertToLocalTime(String hourString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        return LocalTime.parse(hourString, formatter);
-    }
+
 }

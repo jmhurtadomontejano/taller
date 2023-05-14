@@ -64,7 +64,7 @@
                 </tr>
                 <tr>
                     <th>Rol</th>
-                    <td th:text="${user.userRole}"></td>
+                    <td th:text="${user.userGender}"></td>
                 </tr>
                 <tr>
                     <th>Peso</th>
@@ -145,7 +145,7 @@
     const userCity = document.getElementById('userCity').value;
     const userCountry = document.getElementById('userCountry').value;
     const userPostalCode = document.getElementById('userPostalCode').value;
-    const userRole = document.getElementById('userRole').value; 
+    const userGender = document.getElementById('userGender').value; 
     const userWeigth = document.getElementById('userWeigth').value;
     const userHeight = document.getElementById('userHeight').value;
     const userConsent = document.getElementById('userConsent').checked;
@@ -167,7 +167,7 @@
     userCity: userCity,
     userCountry: userCountry,
     userPostalCode: userPostalCode,
-    userRole: userRole,
+    userGender: userGender,
     userWeigth: userWeigth,
     userHeight: userHeight,
     userConsent: userConsent,

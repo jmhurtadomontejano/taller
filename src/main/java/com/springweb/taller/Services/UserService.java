@@ -58,7 +58,7 @@ public class UserService {
         user.setUserCity(userDetails.getUserCity());
         user.setUserCountry(userDetails.getUserCountry());
         user.setUserPostalCode(userDetails.getUserPostalCode());
-        user.setUserRole(userDetails.getUserRole());
+        user.setUserGender(userDetails.getUserGender());
         user.setUserWeigth(userDetails.getUserWeigth());
         user.setUserHeight(userDetails.getUserHeight());
         user.setUserConsent(userDetails.isUserConsent());

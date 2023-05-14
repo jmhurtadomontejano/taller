@@ -7,6 +7,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.springweb.taller.Modelo.Cliente;
 import com.springweb.taller.Services.ClienteService;
 
+import org.owasp.html.PolicyFactory;
+import org.owasp.html.Sanitizers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +29,10 @@ public class ClientesController {
 
     @Autowired
     private ClienteService clienteService;
+
+// Instancia a Sanitizador de HTML import org.owasp.html.PolicyFactory; import org.owasp.html.Sanitizers;
+private static final PolicyFactory POLICY_FACTORY = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
+
 
 // Obtener todos los clientes
     @GetMapping
@@ -63,38 +69,43 @@ public class ClientesController {
     }
 
 // Crear un nuevo cliente comprobando email, devolviendo mensaje por JSON
-    @PostMapping(path = "/api", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createCliente(@Valid @RequestBody Cliente cliente) {
-        HttpHeaders responseHeaders = new HttpHeaders();
-        if (clienteService.existsByEmail(cliente.getEmail())) {
-            responseHeaders.set("X-Error-Message", "Ya existe un cliente con el correo electrónico proporcionado.");
-            return new ResponseEntity<>(null, responseHeaders, HttpStatus.CONFLICT);
-        } else {
-            Cliente newCliente = clienteService.save(cliente);
-            return new ResponseEntity<>(newCliente, responseHeaders, HttpStatus.CREATED);
-        }
+@PostMapping(path = "/api", consumes = MediaType.APPLICATION_JSON_VALUE)
+public ResponseEntity<?> createCliente(@Valid @RequestBody Cliente cliente) {
+    HttpHeaders responseHeaders = new HttpHeaders();
+    if (clienteService.existsByEmail(cliente.getEmail())) {
+        responseHeaders.set("X-Error-Message", "Ya existe un cliente con el correo electrónico proporcionado.");
+        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CONFLICT);
+    } else {
+        cliente.setNombre(POLICY_FACTORY.sanitize(cliente.getNombre()));
+        cliente.setApellidos(POLICY_FACTORY.sanitize(cliente.getApellidos()));
+        cliente.setEmail(POLICY_FACTORY.sanitize(cliente.getEmail()));
+        cliente.setTelefono((cliente.getTelefono()));
+
+        Cliente newCliente = clienteService.save(cliente);
+        return new ResponseEntity<>(newCliente, responseHeaders, HttpStatus.CREATED);
     }
+}
 
 // Actualizar un cliente existente
-    @PutMapping("/api/{id}")
-    public ResponseEntity<?> updateCliente(@PathVariable Long id, @Valid @RequestBody Cliente updatedCliente) {
-        System.out.println("Actualizando cliente con ID: " + id); // Agregar esta línea
-        Cliente currentCliente = clienteService.findById(id);
-        if (currentCliente == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        currentCliente.setNombre(updatedCliente.getNombre());
-        currentCliente.setApellidos(updatedCliente.getApellidos());
-        currentCliente.setEmail(updatedCliente.getEmail());
-        currentCliente.setTelefono(updatedCliente.getTelefono());
-        
-        Cliente savedCliente = clienteService.save(currentCliente);
-        
-        if (savedCliente == null) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return new ResponseEntity<>(savedCliente, HttpStatus.OK);
+@PutMapping("/api/{id}")
+public ResponseEntity<?> updateCliente(@PathVariable Long id, @Valid @RequestBody Cliente updatedCliente) {
+    System.out.println("Actualizando cliente con ID: " + id); // Agregar esta línea
+    Cliente currentCliente = clienteService.findById(id);
+    if (currentCliente == null) {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    currentCliente.setNombre(POLICY_FACTORY.sanitize(updatedCliente.getNombre()));
+    currentCliente.setApellidos(POLICY_FACTORY.sanitize(updatedCliente.getApellidos()));
+    currentCliente.setEmail(POLICY_FACTORY.sanitize(updatedCliente.getEmail()));
+    currentCliente.setTelefono((updatedCliente.getTelefono()));
+    
+    Cliente savedCliente = clienteService.save(currentCliente);
+    
+    if (savedCliente == null) {
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    return new ResponseEntity<>(savedCliente, HttpStatus.OK);
+}
     
 // Eliminar un cliente por ID
     @DeleteMapping("/{id}")
