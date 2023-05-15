@@ -28,14 +28,15 @@
                         </div>
                         <div class="col-md-6 col-sm-6 mb-3"><label for="userSurname">Apellidos</label><input type="text" class="form-control" id="userSurname" name="userSurname" th:field="*{userSurname}" /></div>
                         <div class="col-md-6 col-sm-6 mb-3">
-                          <label for="emailUser">Email</label>
-                          <input type="text" class="form-control" id="emailUser" name="emailUser" th:field="*{emailUser}" required />
+                          <label for="userPhoto">Foto</label>
+                          <input type="file" class="form-control" id="userPhoto" name="userPhoto" required />
+                        </div>
+                        <div class="col-md-6 col-sm-6 mb-3"><label for="emailUser">Email</label><input type="text" class="form-control" id="emailUser" name="emailUser" th:field="*{emailUser}" required />
                         </div>
                         <div class="col-6 col-md-6 col-sm-6 mb-3"><label for="userDni">Nº DNI</label><input type="text" class="form-control" id="userDni" name="userDni" th:field="*{userDni}" /></div>
                         <div class="col-6 col-md-4 col-sm-6 mb-3"><label for="userBirthDate">Fecha nacimiento</label><input type="date" class="form-control" id="userBirthDate" name="userBirthDate" th:field="*{userBirthDate}" /></div>
                         <div class="col-md-4 col-sm-6 mb-3"><label for="userPassword">Contraseña</label><input type="password" class="form-control" id="userPassword" name="userPassword" th:field="*{userPassword}" /></div>
-                        <div class="col-md-4 col-sm-6 mb-3">
-                          <label for="confirmPassword">Confirmar Contraseña</label>
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="confirmPassword">Confirmar Contraseña</label>
                           <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required />
                         </div>                        
                         <div class="col-6 col-md-4 col-sm-6 mb-3"><label for="userPhone">Teléfono</label><input type="number" class="form-control" id="userPhone" name="userPhone" th:field="*{userPhone}" /></div>

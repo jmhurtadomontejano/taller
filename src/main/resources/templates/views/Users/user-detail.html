@@ -27,6 +27,17 @@
                     <td th:text="${user.userSurname}"></td>
                 </tr>
                 <tr>
+                    <th>Foto</th>
+                    <td>
+                        <img th:if="${user.userPhoto != null}" 
+                             th:src="@{'/images/users/' + ${user.userPhoto}}" 
+                             width="100" height="100" alt="User Photo"/>
+                        <img th:unless="${user.userPhoto != null}" 
+                            src="/images/default-user-photo.jpg" 
+                            width="100" height="100" alt="Default User Photo"/>
+                    </td>
+                </tr>
+                <tr>
                     <th>DNI</th>
                     <td th:text="${user.userDni}"></td>
                 </tr>

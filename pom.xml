@@ -148,6 +148,12 @@
 				<artifactId>owasp-java-html-sanitizer</artifactId>
 				<version>20220608.1</version>
 			</dependency>
+<!-- Comprimir imagenes con thumbnailator-->
+			<dependency>
+				<groupId>net.coobird</groupId>
+				<artifactId>thumbnailator</artifactId>
+				<version>0.4.13</version> 
+			</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

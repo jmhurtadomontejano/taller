@@ -1,7 +1,6 @@
 package com.springweb.taller.Modelo;
 
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -40,7 +39,7 @@ public class User {
     @Column(name = "id", columnDefinition = "BINARY(16)", updatable = false, nullable = false, unique = true) // Proporciona información adicional sobre cómo mapear este campo a una columna de la base de datos
     private UUID id; // Declara la variable 'id' de tipo UUID (Universally Unique Identifier)    
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private UserSecurityProfile userSecurityProfile;
 
     @Column(name = "name")
@@ -51,6 +50,9 @@ public class User {
 
     @Column(name = "dni")
     private String userDni;
+
+    @Column(name = "user_photo")
+    private String userPhoto;
 
     @Column(name = "birth_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -105,42 +107,8 @@ public class User {
 @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reparacion> reparaciones = new ArrayList<>();
 
-    //Constructors
-    public User() {
-    }
-
-    public User(UUID id, String userName, String userSurname, String userDni, LocalDate userBirthDate,
-            @Email String emailUser, String userPassword, String userRole, int userPhone, String userAddress,
-            String userCity, String userCountry, int userPostalCode, String userGender, double userWeigth,
-            double userHeight, boolean userConsent, LocalDateTime userDateConsent, boolean userActive,
-            LocalDateTime userCreatedAt, List<Reparacion> reparaciones, UserSecurityProfile userSecurityProfile) {
-        this.id = id;
-        this.userName = userName;
-        this.userSurname = userSurname;
-        this.userDni = userDni;
-        this.userBirthDate = userBirthDate;
-        this.emailUser = emailUser;
-        this.userPassword = userPassword;
-        this.userRole = userRole;
-        this.userPhone = userPhone;
-        this.userAddress = userAddress;
-        this.userCity = userCity;
-        this.userCountry = userCountry;
-        this.userPostalCode = userPostalCode;
-        this.userGender = userGender;
-        this.userWeigth = userWeigth;
-        this.userHeight = userHeight;
-        this.userConsent = userConsent;
-        this.userDateConsent = userDateConsent;
-        this.userActive = userActive;
-        this.userCreatedAt = userCreatedAt;
-        this.reparaciones = reparaciones;
-        this.userSecurityProfile = userSecurityProfile;
-    }
-
-
-    //methods
-    public boolean checkPassword(String rawPassword) {
+     //own methods
+     public boolean checkPassword(String rawPassword) {
         if (rawPassword == null) {
             System.out.println("checkPassword llamado con rawPassword nulo");
             // Imprime la pila de llamadas para ayudar a identificar desde dónde se llamó a este método.
@@ -163,11 +131,44 @@ public class User {
         }
     }
     
-
-    // Getters y setters
+    // SetBCryptPassword
     public void setPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         this.userPassword = passwordEncoder.encode(password);
+    }
+
+    //Constructors
+    public User() {
+    }
+
+    public User(UUID id, UserSecurityProfile userSecurityProfile, String userName, String userSurname, String userDni,
+            String userPhoto, LocalDate userBirthDate, @Email String emailUser, String userPassword, String userRole,
+            int userPhone, String userAddress, String userCity, String userCountry, int userPostalCode,
+            String userGender, double userWeigth, double userHeight, boolean userConsent, LocalDateTime userDateConsent,
+            boolean userActive, LocalDateTime userCreatedAt, List<Reparacion> reparaciones) {
+        this.id = id;
+        this.userSecurityProfile = userSecurityProfile;
+        this.userName = userName;
+        this.userSurname = userSurname;
+        this.userDni = userDni;
+        this.userPhoto = userPhoto;
+        this.userBirthDate = userBirthDate;
+        this.emailUser = emailUser;
+        this.userPassword = userPassword;
+        this.userRole = userRole;
+        this.userPhone = userPhone;
+        this.userAddress = userAddress;
+        this.userCity = userCity;
+        this.userCountry = userCountry;
+        this.userPostalCode = userPostalCode;
+        this.userGender = userGender;
+        this.userWeigth = userWeigth;
+        this.userHeight = userHeight;
+        this.userConsent = userConsent;
+        this.userDateConsent = userDateConsent;
+        this.userActive = userActive;
+        this.userCreatedAt = userCreatedAt;
+        this.reparaciones = reparaciones;
     }
 
     public UUID getId() {
@@ -176,6 +177,14 @@ public class User {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public UserSecurityProfile getUserSecurityProfile() {
+        return userSecurityProfile;
+    }
+
+    public void setUserSecurityProfile(UserSecurityProfile userSecurityProfile) {
+        this.userSecurityProfile = userSecurityProfile;
     }
 
     public String getUserName() {
@@ -200,6 +209,14 @@ public class User {
 
     public void setUserDni(String userDni) {
         this.userDni = userDni;
+    }
+
+    public String getUserPhoto() {
+        return userPhoto;
+    }
+
+    public void setUserPhoto(String userPhoto) {
+        this.userPhoto = userPhoto;
     }
 
     public LocalDate getUserBirthDate() {
@@ -338,28 +355,20 @@ public class User {
         this.reparaciones = reparaciones;
     }
 
-    public UserSecurityProfile getUserSecurityProfile() {
-        return userSecurityProfile;
-    }
-
-    public void setUserSecurityProfile(UserSecurityProfile userSecurityProfile) {
-        this.userSecurityProfile = userSecurityProfile;
-    }
-
     @Override
     public String toString() {
-        return "User [id=" + id + ", userName=" + userName + ", userSurname=" + userSurname + ", userDni=" + userDni
+        return "User [id=" + id + ", userSecurityProfile=" + userSecurityProfile + ", userName=" + userName
+                + ", userSurname=" + userSurname + ", userDni=" + userDni + ", userPhoto=" + userPhoto
                 + ", userBirthDate=" + userBirthDate + ", emailUser=" + emailUser + ", userPassword=" + userPassword
                 + ", userRole=" + userRole + ", userPhone=" + userPhone + ", userAddress=" + userAddress + ", userCity="
                 + userCity + ", userCountry=" + userCountry + ", userPostalCode=" + userPostalCode + ", userGender="
                 + userGender + ", userWeigth=" + userWeigth + ", userHeight=" + userHeight + ", userConsent="
                 + userConsent + ", userDateConsent=" + userDateConsent + ", userActive=" + userActive
-                + ", userCreatedAt=" + userCreatedAt + ", reparaciones=" + reparaciones + ", userSecurityProfile="
-                + userSecurityProfile + "]";
+                + ", userCreatedAt=" + userCreatedAt + ", reparaciones=" + reparaciones + "]";
     }
 
-  
-    
+    //ToString
+
 
    
 }
