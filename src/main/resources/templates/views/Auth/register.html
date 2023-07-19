@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="fragments/common-head :: common-head">
+  </head>
+<body>
+    <h1>Registro de Usuarios <span th:text="${nombre}"></span>!</h1>
+    <div th:replace="fragments/navbar :: navbar"></div>
+    <div class="container">
+      <a href="#" class="btn btn-primary my-3" data-toggle="modal" data-target="#addUserModal">Agregar Usuario</a>
+      <a href="/users/register" class="btn btn-primary my-3">Ir a Registro de Usuario</a>
+      <button type="button" class="btn btn-primary my-3" onclick="location.href='/hello'">volver a Home<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 3.293l5.5 5.5a.5.5 0 0 1-.707.707L8 4.707 2.707 10.5a.5.5 0 1 1-.707-.707L8 3.293z"/><path fill-rule="evenodd" d="M7.5 10.5V14h1v-3.5a.5.5 0 0 1 1 0V14h1v-3.5a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2V14h1v-3.5a.5.5 0 0 1 1 0z"/></svg></button>
+</div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <h2>Agregar usuario</h2>
+            <form action="#" th:action="@{/users}" th:object="${user}" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 mb-3 form-floating">
+                            <input type="text" class="form-control" id="userNam" name="userName" th:field="*{userName}" placeholder="Nombre" required />
+                            <label for="userName">Nombre</label>
+                        </div>
+                        <div class="col-md-6 col-sm-6 mb-3 form-floating">
+                            <input type="text" class="form-control" id="userSurname" name="userSurname" th:field="*{userSurname}" placeholder="Apellidos" />
+                            <label for="userSurname">Apellidos</label>
+                        </div>
+                        <div class="col-md-6 col-sm-6 mb-3 form-floating">
+                            <input type="file" class="form-control" id="userPhoto" name="userPhoto" placeholder="Photo" required />
+                            <label for="userPhoto">Foto</label>
+                        </div>
+                        <div class="col-6 col-md-6 col-sm-6 mb-3 form-floating">
+                            <input type="date" class="form-control" id="userBirthDate" name="userBirthDate" th:field="*{userBirthDate}" placeholder="userBirthDate"/>
+                            <label for="userBirthDate">Fecha nacimiento</label>
+                        </div>  
+                        <div class="col-6 col-md-6 col-sm-6 mb-3 form-floating">
+                            <input type="text" class="form-control" id="userDni" name="userDni" th:field="*{userDni}" placeholder="Nº DNI" />
+                            <label for="userDni">Nº DNI</label>
+                            <div class="input-group-append input-group-text">
+                                <i class="bi bi-person-badge-fill" id="dniIcon"></i>
+                                <small id="dniHelp" class="form-text text-muted">Por favor, introduce un número de DNI válido.</small>
+                            </div>
+                        </div>  
+                        <div class="col-md-6 col-sm-6 mb-3 form-floating">
+                            <input type="email" class="form-control" id="emailUser" name="emailUser" th:field="*{emailUser}" placeholder="Email" required />
+                            <label for="emailUser">Email</label>
+                            <div class="input-group-append input-group-text">
+                                <i class="bi bi-envelope-fill" id="emailIcon"></i>
+                                <small id="emailHelp" class="form-text text-muted"> Por favor, introduce una dirección de correo electrónico válida.</small>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-sm-6 mb-3 form-floating">
+                            <input type="password" class="form-control" id="userPassword" name="userPassword" th:field="*{userPassword}" placeholder="userPassword"/>
+                            <label for="userPassword">Contraseña</label>
+                            <small id="passwordHelp" class="form-text text-muted">Por favor, introduce una contraseña.</small>
+                        </div>
+                        <div class="col-md-4 col-sm-6 mb-3 form-floating">
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="confirmPassword" required />
+                            <label for="confirmPassword">Confirmar Contraseña</label>
+                            <small id="confirmPasswordHelp" class="form-text text-muted">Por favor, confirma tu contraseña.</small>
+                        </div>                    
+                        <div class="col-6 col-md-4 col-sm-6 mb-3 form-floating">
+                            <input type="text" class="form-control" id="userPhone" name="userPhone" th:field="*{userPhone}" placeholder="userPhone" />
+                            <label for="userPhone">Teléfono</label>
+                            <small id="phoneHelp" class="form-text text-muted">Por favor, introduce un número de teléfono válido.</small>
+                        </div>
+                        <div class="col-6 col-md-4 col-sm-6 mb-3 form-floating">
+                            <input type="number" class="form-control" id="userPostalCode" name="userPostalCode" th:field="*{userPostalCode}" placeholder="userPostalCode"/>
+                            <label for="userPostalCode">Código Postal</label>
+                        </div>
+                        <div class="col-md-8 mb-6 form-floating">
+                            <input type="text" class="form-control" id="userAddress" name="userAddress" th:field="*{userAddress}" placeholder="userAddress"/>
+                            <label for="userAddress">Dirección</label>
+                        </div>
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="userCity">Ciudad</label><input type="text" class="form-control" id="userCity" name="userCity" th:field="*{userCity}" /></div>
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="userCountry">País</label><input type="text" class="form-control" id="userCountry" name="userCountry" th:field="*{userCountry}" /></div>
+                        <div class="col-md-4 col-sm-6 mb-3 form-floating">
+                        <select class="form-control" id="userGender" name="userGender" th:field="*{userGender}">
+                            <option value="Hombre">Hombre</option>
+                            <option value="Mujer">Mujer</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                        <label for="userGender" class="form-label">Género</label>
+                        </div>              
+                        <div class="col-6 col-md-4 col-sm-6 mb-3"><label for="userWeigth">Peso</label><input type="number" step="any" class="form-control" id="userWeigth" name="userWeigth" th:field="*{userWeigth}" /></div>
+                        <div class="col-6 col-md-4 col-sm-6 mb-3"><label for="userHeight">Altura</label><input type="number" step="any" class="form-control" id="userHeight" name="userHeight" th:field="*{userHeight}" /></div>
+                        <div class="col-md-4 col-sm-6 mb-3"><label for="userConsent">Consentimiento LOPD</label><input type="checkbox" class="form-check" id="userConsent" name="userConsent" th:field="*{userConsent}" /></div>
+                        <div class="col-6 col-md-6 mb-3"><label for="userDateConsent" class="form-label">Fecha de consentimiento</label><input type="datetime-local" class="form-control" id="userDateConsent" th:value="${user.userDateConsent}" readonly></div>
+                        <div class="col-md-4 col-sm-6 mb-3" hidden><label for="userActive">userActive</label><input type="checkbox" class="form-check" id="userActive" name="userActive" th:field="*{userActive}" /></div>
+                        <div class="col-6 col-md-6 mb-3"><label for="userCreatedAt" class="form-label">Fecha de creación</label><input type="datetime-local" class="form-control" id="userCreatedAt" th:value="${user.userCreatedAt}" readonly></div>
+                    </div>
+            <div class="modal-footer">
+            <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+            >
+                Cancelar
+            </button>
+            <button type="submit" class="btn btn-success" id="saveButton" disabled>Guardar</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+//Script validar email
+function validateEmail(email) {
+                const regex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+                return regex.test(email);
+            }
+    
+//Script para validar el DNI
+            function validateDni(dni) {
+                const regex = /^\d{8}[a-zA-Z]$/;
+                const letters = "TRWAGMYFPDXBNJZSQVHLCKE";
+    
+                if (regex.test(dni)) {
+                    const number = parseInt(dni.slice(0, 8), 10);
+                    const letter = dni.slice(-1).toUpperCase();
+                    return letters[number % 23] === letter;
+                }
+    
+                return false;
+            }
+    
+//Script para validar el teléfono
+            function validatePhoneNumber(phoneNumber) {
+                const phoneRegex = /^\d{9}$/;
+                return phoneRegex.test(phoneNumber);
+            }
+
+//Script para validar la contraseña
+function validatePassword() {
+    const password = document.getElementById("userPassword");
+    const confirmPassword = document.getElementById("confirmPassword");
+    const passwordHelp = document.getElementById("passwordHelp");
+    const confirmPasswordHelp = document.getElementById("confirmPasswordHelp");
+
+    if (password.value === confirmPassword.value) {
+        confirmPassword.classList.add("is-valid");
+        confirmPassword.classList.remove("is-invalid");
+        password.classList.add("is-valid");
+        password.classList.remove("is-invalid");
+        passwordHelp.textContent = "Las contraseñas coinciden.";
+        confirmPasswordHelp.textContent = "Las contraseñas coinciden.";
+    } else {
+        confirmPassword.classList.add("is-invalid");
+        confirmPassword.classList.remove("is-valid");
+        password.classList.add("is-invalid");
+        password.classList.remove("is-valid");
+        passwordHelp.textContent = "Las contraseñas no coinciden.";
+        confirmPasswordHelp.textContent = "Las contraseñas no coinciden.";
+    }
+}
+
+//Script para comprobar los input de contraseña
+      document.getElementById("userPassword").addEventListener("input", function () {
+          validatePassword();
+          enableSaveButton();
+      });
+
+      document.getElementById("confirmPassword").addEventListener("input", function () {
+          validatePassword();
+          enableSaveButton();
+      });
+
+    
+            function getCurrentDateTime() {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = ("0" + (now.getMonth() + 1)).slice(-2);
+                const day = ("0" + now.getDate()).slice(-2);
+                const hours = ("0" + now.getHours()).slice(-2);
+                const minutes = ("0" + now.getMinutes()).slice(-2);
+                const seconds = ("0" + now.getSeconds()).slice(-2);
+                return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+            }
+    
+            document.addEventListener("DOMContentLoaded", function () {
+                const currentDateTime = getCurrentDateTime();
+                document.getElementById("userDateConsent").value = currentDateTime;
+                document.getElementById("userCreatedAt").value = currentDateTime;
+            });
+    
+        // Script para validar la caja del input Email
+        document.getElementById("emailUser").addEventListener("input", function (event) {
+            const email = event.target.value;
+            const emailIcon = document.getElementById("emailIcon");
+
+            if (validateEmail(email)) {
+                event.target.classList.add("is-valid");
+                event.target.classList.remove("is-invalid");
+                emailIcon.classList.remove('bi-envelope', 'text-danger');
+                emailIcon.classList.add('bi-check-circle-fill', 'text-success');
+            } else {
+                event.target.classList.add("is-invalid");
+                event.target.classList.remove("is-valid");
+                emailIcon.classList.remove('bi-check-circle-fill', 'text-success');
+                emailIcon.classList.add('bi-envelope', 'text-danger');
+            }
+
+            enableSaveButton();
+        });
+  
+        // Script para validar la caja del input DNI
+        document.getElementById("userDni").addEventListener("input", function (event) {
+            const dni = event.target.value;
+            const dniIcon = document.getElementById("dniIcon");
+
+            if (validateDni(dni)) {
+                event.target.classList.add("is-valid");
+                event.target.classList.remove("is-invalid");
+                dniIcon.classList.remove('bi-person-badge-fill', 'text-danger');
+                dniIcon.classList.add('bi-person-badge-fill', 'text-success');
+            } else {
+                event.target.classList.add("is-invalid");
+                event.target.classList.remove("is-valid");
+                dniIcon.classList.remove('bi-person-badge-fill', 'text-success');
+                dniIcon.classList.add('bi-person-badge-fill', 'text-danger');
+            }
+
+            enableSaveButton();
+        });
+    
+// Script para validar la caja del input teléfono
+            document.getElementById("userPhone").addEventListener("input", function (event) {
+                const phoneNumber = event.target.value;
+    
+                if (validatePhoneNumber(phoneNumber)) {
+                    event.target.classList.add("is-valid");
+                    event.target.classList.remove("is-invalid");
+                } else {
+                    event.target.classList.add("is-invalid");
+                                    event.target.classList.remove("is-valid");
+            }
+
+            enableSaveButton();
+        });
+
+  //Script para habilitar el botón de guardar si se cumplen condiciones
+  function enableSaveButton() {
+            const email = document.getElementById("emailUser");
+            const dni = document.getElementById("userDni");
+            const phone = document.getElementById("userPhone");
+            const confirmPassword = document.getElementById("confirmPassword");
+            const saveButton = document.getElementById("saveButton");
+
+            if (
+                email.classList.contains("is-valid") &&
+                dni.classList.contains("is-valid") &&
+                phone.classList.contains("is-valid") &&
+                confirmPassword.classList.contains("is-valid")
+            ) {
+                saveButton.disabled = false;
+            } else {
+                saveButton.disabled = true;
+            }
+        }
+
+  </script>
+</body>
+</html>

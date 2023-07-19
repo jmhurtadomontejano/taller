@@ -5,7 +5,7 @@
     --success-color: #28a745;
     --danger-color: #dc3545;
     --light-color: #f8f9fa;
-    --dark-color: #343a40;
+    --dark-color: #488bce;
   }
   
 /*NAVBAR*/
@@ -39,4 +39,29 @@
   .custom-modal {
     border: 2px solid var(--primary-color);
     background-color: var(--background-color);
+
+    /*barra de desplazamiento para páginas muy largas*/
+    .scrollable-table {
+      max-height: 500px;
+      overflow-y: auto;
+      display: block;
+    }
+    
+    .scrollable-div {
+      height: 100px; 
+      overflow: scroll;
+    }
+
+/*Register*/
+    .input-icon-container {
+      position: relative;
+    }
+
+    .input-icon-container .icon {
+      position: absolute;
+      right: 10px;
+      top: calc(50% - 0.5em);
+    }
+
+
 }

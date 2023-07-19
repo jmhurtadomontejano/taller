@@ -39,8 +39,9 @@ public class User {
     @Column(name = "id", columnDefinition = "BINARY(16)", updatable = false, nullable = false, unique = true) // Proporciona información adicional sobre cómo mapear este campo a una columna de la base de datos
     private UUID id; // Declara la variable 'id' de tipo UUID (Universally Unique Identifier)    
 
-@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserSecurityProfile userSecurityProfile;
+    
 
     @Column(name = "name")
     private String userName;

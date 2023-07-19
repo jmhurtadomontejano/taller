@@ -4,6 +4,10 @@ import com.springweb.taller.Modelo.User;
 import com.springweb.taller.Modelo.UserSecurityProfile;
 import com.springweb.taller.Services.UserSecurityProfileService;
 import com.springweb.taller.Services.UserService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.util.UriComponentsBuilder;
+
+
 
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -14,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -46,6 +51,8 @@ public class UserController {
     @Autowired
     private UserSecurityProfileService userSecurityProfileService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 // Instancia a Sanitizador de HTML import org.owasp.html.PolicyFactory; import org.owasp.html.Sanitizers;
     private static final PolicyFactory POLICY_FACTORY = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
@@ -57,12 +64,12 @@ public class UserController {
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         return dateTime.format(formatter);
-    }
+    }    
 
 // Crear un nuevo user (POST)
 @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-public ResponseEntity<User> createUser(@ModelAttribute User user, BindingResult bindingResult, @RequestParam("userPhoto") MultipartFile userPhoto) {
-    if (bindingResult.hasErrors()) {
+public ResponseEntity<Void> createUser(@ModelAttribute User user, BindingResult bindingResult, @RequestParam("userPhoto") MultipartFile userPhoto, UriComponentsBuilder ucb) {
+     if (bindingResult.hasErrors()) {
         // handle errors here, for example return an error response
     }
 
@@ -140,9 +147,20 @@ if (!userPhoto.isEmpty()) {
     newUserSecurityProfile.setUser(newUser);
     userSecurityProfileService.saveUserSecurityProfile(newUserSecurityProfile);
 
-    return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    // Crear y configurar los encabezados de redirección.
+    HttpHeaders headers = new HttpHeaders();
+    headers.setLocation(ucb.path("/hello").build().toUri());
+
+    // Devolver la respuesta con estado 303 (See Other) y los encabezados de redirección.
+    return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
 }
 
+//Registrar un nuevo user (GET)    
+@GetMapping("/register")
+public String registerUser(Model model) {
+    model.addAttribute("user", new User());
+    return "/views/Auth/register";
+}
 
 // Actualizar un user existente (PUT)
     @PutMapping("/{id}")
